@@ -1,5 +1,5 @@
 <!DOCTYPE html><html lang="hi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Apana India</title><link rel="stylesheet" href="style.css"></head><body>
-<header><h1>🇮🇳 APANA INDIA</h1></header>
+<header><h1>🇮🇳 APANA INDIA</h1><p style="font-size:11px;color:#333">रोजगार भी, मजदूरों को न्याय भी</p></header>
 <div class="tk"><span id="tk">लोड हो रहा है...</span></div>
 <nav>
 <button onclick="go('home')" class="active" id="n-home">🏠 होम</button>
@@ -16,10 +16,19 @@
 <button onclick="go('help')" id="n-help">📞 सहायता</button>
 </nav>
 <div class="w">
+
+<!-- होम -->
 <div id="p-home">
 <div class="c"><h2>स्वागत है 🙏</h2><p style="font-size:12px">Apana India — मजदूरों की आवाज।</p>
 <div class="sts"><div class="st"><h4 id="sa">0</h4><p>विज्ञापन</p></div><div class="st"><h4 id="sc">0</h4><p>शिकायतें</p></div><div class="st"><h4 id="sco">0</h4><p>कंपनियाँ</p></div></div></div>
+
+<div class="c"><h2>📢 ताज़ा सार्वजनिक शिकायतें</h2>
+<p style="font-size:11px;color:#666;margin-bottom:8px">ये शिकायतें एडमिन द्वारा जाँचने के बाद प्रकाशित की गई हैं।</p>
+<div id="publicComplaints"></div>
+</div>
+
 <div class="c"><h2>🔥 ट्रेंडिंग खबरें</h2><div id="ht"></div></div>
+
 <div class="c"><h2>सेवाएँ</h2><div class="g">
 <div class="sb" onclick="go('news')"><b>📰</b>खबरें</div>
 <div class="sb" onclick="go('jobs')"><b>💼</b>नौकरी</div>
@@ -28,6 +37,8 @@
 <div class="sb" onclick="go('laws')"><b>📜</b>नए कानून</div>
 <div class="sb" onclick="go('post')"><b>➕</b>विज्ञापन</div>
 </div></div></div>
+
+<!-- न्यूज़ -->
 <div id="p-news" class="h"><div class="c"><h2>📰 ताजा समाचार</h2>
 <input id="ns" placeholder="🔍 खबर खोजें..." oninput="rnews()" style="margin-bottom:8px">
 <div class="tb">
@@ -41,33 +52,121 @@
 <button class="tt" onclick="sw('up',this)">🟠 यूपी</button>
 <button class="tt" onclick="sw('sonbhadra',this)">📍 सोनभद्र</button>
 </div><div id="nl"></div></div></div>
+
+<!-- नौकरी -->
 <div id="p-jobs" class="h"><div class="c"><h2>💼 नौकरी</h2><div id="jl"></div></div></div>
+
+<!-- कंपनियाँ -->
 <div id="p-comp" class="h"><div class="c"><h2>🏢 कंपनियाँ</h2><input id="cs" placeholder="🔍 कंपनी खोजें..." oninput="rcomp()" style="margin-bottom:8px"><div id="cl"></div></div></div>
+
+<!-- शिकायत -->
 <div id="p-shikayat" class="h"><div class="c"><h2>📢 शिकायत दर्ज करें</h2>
+<p style="font-size:11px;color:#666;margin-bottom:8px">⚠️ झूठी शिकायत पर कार्रवाई हो सकती है। एडमिन जाँच के बाद ही सार्वजनिक होगी।</p>
 <form onsubmit="subc(event)">
 <label>कंपनी का नाम *</label><input id="cn" required>
 <label>कंपनी का पता *</label><input id="ca" required>
 <label>आपका नाम *</label><input id="wn" required>
-<label>प्रकार *</label><select id="ct" required><option value="">--चुनें--</option><option>कम भुगतान</option><option>समय पर भुगतान नहीं</option><option>नियुक्ति पत्र नहीं</option><option>PF/ESIC नहीं</option><option>अन्य</option></select>
-<label>विवरण *</label><textarea id="cd" required></textarea>
-<button class="btn">दर्ज करें ✅</button>
-<div class="sm" id="sm1">✅ शिकायत दर्ज हो गई!</div>
+<label>मोबाइल (10 अंक) *</label><input id="wp" required maxlength="10" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+<label>प्रकार *</label><select id="ct" required><option value="">--चुनें--</option><option>कम भुगतान</option><option>समय पर भुगतान नहीं</option><option>नियुक्ति पत्र नहीं</option><option>PF/ESIC नहीं</option><option>ओवरटाइम का पैसा नहीं</option><option>असुरक्षित काम</option><option>अन्य</option></select>
+<label>विवरण *</label><textarea id="cd" required placeholder="क्या हुआ, कब हुआ, कैसे हुआ..."></textarea>
+<label>सबूत का विवरण (वैकल्पिक)</label><textarea id="cp" placeholder="WhatsApp चैट, बैंक स्टेटमेंट, फोटो, गवाह..."></textarea>
+<button class="btn">शिकायत दर्ज करें ✅</button>
+<div class="sm" id="sm1">✅ शिकायत दर्ज! एडमिन जाँच के बाद होम पेज पर दिखेगी।</div>
 </form></div></div>
+
+<!-- मेरी शिकायतें -->
 <div id="p-mycomp" class="h"><div class="c"><h2>📑 मेरी शिकायतें</h2><div id="mcl"></div></div></div>
-<div id="p-laws" class="h"><div class="c"><h2>📜 नए श्रम कानून</h2>
-<div class="lc"><h3>1. नियुक्ति पत्र अनिवार्य</h3><ul><li>हर मजदूर को लिखित पत्र मिलेगा।</li><li>3 महीने के अंदर।</li></ul></div>
-<div class="lc"><h3>2. न्यूनतम मजदूरी</h3><ul><li>सभी को समान न्यूनतम मजदूरी।</li></ul></div>
-<div class="lc"><h3>3. ओवरटाइम डबल</h3><ul><li>ओवरटाइम 2x मिलेगा।</li><li>सहमति जरूरी।</li></ul></div>
-<div class="lc"><h3>4. काम के घंटे</h3><ul><li>8 घंटे/दिन, 48/सप्ताह।</li></ul></div>
-<div class="lc"><h3>5. PF, ESIC, ग्रेच्युटी</h3><ul><li>ESIC: ₹21,000 तक।</li><li>ग्रेच्युटी: 1 साल पर।</li><li>गिग वर्कर्स को भी PF।</li></ul></div>
-<div class="lc"><h3>6. महिला अधिकार</h3><ul><li>रात की शिफ्ट में काम।</li><li>समान काम समान वेतन।</li></ul></div>
-<div class="lc"><h3>7. शिकायत समिति</h3><ul><li>20+ श्रमिकों पर 10 सदस्यीय।</li></ul></div>
-<div class="lc"><h3>8. छंटनी</h3><ul><li>300 से कम पर अनुमति नहीं।</li></ul></div>
-<div class="lc"><h3>9. अन्य</h3><ul><li>हड़ताल: 60 दिन नोटिस।</li><li>गिग वर्कर्स को सुरक्षा।</li></ul></div>
-<div style="background:#e6f9e6;border-left:4px solid #0a7a0a;padding:9px;border-radius:5px;margin-top:8px"><p style="font-size:11px;color:#0a7a0a"><b>💡 हेल्पलाइन: 1800-11-4000</b></p></div>
+
+<!-- कानून -->
+<div id="p-laws" class="h"><div class="c"><h2>📜 नए श्रम कानून (Labour Codes 2025)</h2>
+<p style="font-size:12px;margin-bottom:10px;color:#555">21 नवंबर, 2025 से भारत में 4 नई श्रम संहिताएँ लागू हुई हैं। इन्होंने 29 पुराने कानूनों की जगह ली है। नीचे सभी 9 बड़े बदलाव विस्तार से दिए गए हैं:</p>
+
+<div class="lc"><h3>1️⃣ नियुक्ति पत्र अनिवार्य (Appointment Letter)</h3>
+<ul>
+<li>हर कंपनी और ठेकेदार को <b>हर मजदूर को लिखित नियुक्ति पत्र</b> देना अनिवार्य है।</li>
+<li>जिन कर्मचारियों के पास पहले से नियुक्ति पत्र नहीं है, उन्हें <b>3 महीने के अंदर</b> देना होगा।</li>
+<li>नियुक्ति पत्र में काम की जानकारी, मजदूरी, काम के घंटे, छुट्टी, और अन्य शर्तें लिखी होंगी।</li>
+<li>पत्र के बिना काम कराना कंपनी के लिए दंडनीय अपराध होगा।</li>
+<li>इससे मजदूर को कानूनी सुरक्षा मिलेगी और किसी भी विवाद में सबूत काम आएगा।</li>
+</ul></div>
+
+<div class="lc"><h3>2️⃣ न्यूनतम मजदूरी (Universal Minimum Wage)</h3>
+<ul>
+<li>अब <b>सभी श्रमिकों</b> को समान न्यूनतम मजदूरी का अधिकार मिलेगा।</li>
+<li>राज्य और केंद्र सरकार मिलकर न्यूनतम मजदूरी तय करेंगे।</li>
+<li>कोई भी कंपनी न्यूनतम मजदूरी से कम पर काम नहीं करा सकती।</li>
+<li>असंगठित क्षेत्र के मजदूरों को भी यह अधिकार मिलेगा।</li>
+</ul></div>
+
+<div class="lc"><h3>3️⃣ ओवरटाइम का पैसा डबल (2x Overtime Pay)</h3>
+<ul>
+<li>ओवरटाइम का भुगतान अब <b>सामान्य मजदूरी से दोगुना (2 गुना)</b> होगा।</li>
+<li>पहले यह 1.5 गुना या 2 गुना था (अलग-अलग राज्यों में)।</li>
+<li>ओवरटाइम के लिए मजदूर की <b>लिखित सहमति</b> जरूरी होगी।</li>
+<li>मजदूर को मजबूर नहीं किया जा सकता ओवरटाइम के लिए।</li>
+</ul></div>
+
+<div class="lc"><h3>4️⃣ काम के घंटे तय (Fixed Working Hours)</h3>
+<ul>
+<li>एक दिन में <b>अधिकतम 8 घंटे</b> काम।</li>
+<li>एक हफ्ते में <b>अधिकतम 48 घंटे</b> काम।</li>
+<li>इससे ज्यादा काम कराने पर ओवरटाइम का पैसा देना जरूरी।</li>
+<li>काम के बीच आराम का समय भी तय किया गया है।</li>
+</ul></div>
+
+<div class="lc"><h3>5️⃣ PF, ESIC और ग्रेच्युटी (Social Security)</h3>
+<ul>
+<li><b>ESIC का दायरा बढ़ा:</b> अब ₹21,000 तक मासिक वेतन पाने वाले सभी श्रमिक ESIC में आएंगे।</li>
+<li><b>ग्रेच्युटी:</b> अस्थायी (Fixed-term) कर्मचारियों को भी सिर्फ <b>1 साल</b> पूरा होने पर ग्रेच्युटी मिलेगी। पहले 5 साल जरूरी थे।</li>
+<li><b>PF:</b> असंगठित और गिग वर्कर्स को भी PF और बीमा का लाभ मिलेगा।</li>
+<li>सभी श्रमिकों को सामाजिक सुरक्षा का लाभ मिलेगा — बीमा, पेंशन, मातृत्व लाभ।</li>
+</ul></div>
+
+<div class="lc"><h3>6️⃣ महिला श्रमिकों के अधिकार (Women Workers Rights)</h3>
+<ul>
+<li>महिलाएं अब <b>रात की शिफ्ट</b> में भी काम कर सकेंगी (सुरक्षा उपायों के साथ)।</li>
+<li>महिलाओं की भर्ती में <b>लिंग के आधार पर भेदभाव नहीं</b> होगा।</li>
+<li>महिलाओं को भी <b>समान काम के लिए समान वेतन</b> मिलेगा।</li>
+<li>मातृत्व लाभ में बढ़ोतरी — 26 हफ्ते का पेड लीव।</li>
+</ul></div>
+
+<div class="lc"><h3>7️⃣ शिकायत निवारण समिति (Grievance Committee)</h3>
+<ul>
+<li>20 या ज्यादा श्रमिकों वाले प्रतिष्ठानों में <b>10 सदस्यीय शिकायत समिति</b> बनानी होगी।</li>
+<li>समिति में <b>आधे सदस्य मजदूर</b> होंगे।</li>
+<li>महिलाओं का प्रतिनिधित्व भी अनिवार्य होगा।</li>
+<li>मजदूर अपनी शिकायत सीधे इस समिति में दर्ज करा सकेगा।</li>
+</ul></div>
+
+<div class="lc"><h3>8️⃣ छंटनी और बंदी (Lay-off & Closure)</h3>
+<ul>
+<li><b>300 से कम</b> श्रमिकों वाली इकाई में छंटनी या बंदी के लिए सरकारी अनुमति की जरूरत नहीं होगी। (पहले यह सीमा 100 थी)</li>
+<li>छंटनी की स्थिति में श्रमिकों के लिए <b>पुनः कौशल निधि (Reskilling Fund)</b> बनाई जाएगी।</li>
+<li>छंटनी किए गए श्रमिकों को 15 दिन का वेतन और मुआवजा मिलेगा।</li>
+</ul></div>
+
+<div class="lc"><h3>9️⃣ अन्य महत्वपूर्ण प्रावधान</h3>
+<ul>
+<li><b>हड़ताल:</b> 50% से ज्यादा मजदूरों का एक साथ सामूहिक अवकाश लेना हड़ताल माना जाएगा।</li>
+<li>हड़ताल के लिए <b>60 दिन पहले</b> नोटिस देना होगा।</li>
+<li><b>गिग वर्कर्स</b> (Ola, Uber, Swiggy, Zomato वाले) को भी सामाजिक सुरक्षा का दायरा मिलेगा।</li>
+<li>श्रमिकों को सालाना <b>सालाना स्वास्थ्य जाँच</b> का अधिकार।</li>
+<li>बाल श्रम पर सख्ती — 14 साल से कम बच्चों से काम नहीं कराया जा सकता।</li>
+<li>काम के दौरान दुर्घटना होने पर मुआवजा जल्दी मिलेगा।</li>
+</ul></div>
+
+<div style="background:#e6f9e6;border-left:4px solid #0a7a0a;padding:10px;border-radius:5px;margin-top:10px">
+<p style="font-size:12px;color:#0a7a0a"><b>💡 सहायता:</b> श्रम विभाग हेल्पलाइन <b>1800-11-4000</b> (टोल फ्री) — किसी भी शिकायत या जानकारी के लिए कॉल करें।</p>
+</div>
 </div></div>
+
+<!-- कंपनी खोज -->
 <div id="p-search" class="h"><div class="c"><h2>🔍 कंपनी खोजें</h2><input id="sq" placeholder="कंपनी का नाम..." oninput="scomp()"><div id="sr" style="margin-top:8px"><p style="color:#888;font-size:12px">कंपनी का नाम लिखें...</p></div></div></div>
+
+<!-- अलर्ट -->
 <div id="p-alert" class="h"><div class="c"><h2>⚠️ मजदूर अलर्ट</h2><div class="ab ag">🟢 हरी रेटिंग — सुरक्षित</div><div class="ab ay">🟡 पीली रेटिंग — सावधान</div><div class="ab ar">🔴 लाल अलर्ट — काम न करें</div><div id="al" style="margin-top:8px"></div></div></div>
+
+<!-- विज्ञापन -->
 <div id="p-post" class="h"><div class="c"><h2>➕ विज्ञापन डालें</h2>
 <form onsubmit="suba(event)">
 <label>शीर्षक *</label><input id="at" required>
@@ -77,12 +176,23 @@
 <button class="btn">प्रकाशित करें ✅</button>
 <div class="sm" id="sm2">✅ विज्ञापन जमा हो गया!</div>
 </form></div></div>
-<div id="p-admin" class="h"><div class="c"><h2>⚙️ एडमिन</h2>
+
+<!-- एडमिन -->
+<div id="p-admin" class="h"><div class="c"><h2>⚙️ एडमिन पैनल</h2>
 <div id="alb"><p style="font-size:11px;color:#666">पासवर्ड (डेमो: <b>admin123</b>)</p><input id="apw" type="password" placeholder="पासवर्ड"><button class="btn" onclick="alog()">लॉगिन</button></div>
-<div id="apn" class="h"><h3 style="color:#FF9933;margin-top:8px">सभी शिकायतें</h3><div id="acompl"></div></div>
+<div id="apn" class="h">
+<h3 style="color:#d40000;margin-top:10px">⏳ नई शिकायतें (स्वीकृति बाकी)</h3>
+<div id="acomplPending"></div>
+<h3 style="color:#0a7a0a;margin-top:12px">✅ स्वीकृत शिकायतें</h3>
+<div id="acomplApproved"></div>
+<h3 style="color:#666;margin-top:12px">❌ रद्द की गई</h3>
+<div id="acomplRejected"></div>
+</div>
 </div></div>
+
+<!-- सहायता -->
 <div id="p-help" class="h"><div class="c"><h2>📞 सहायता</h2><p style="font-size:12px">📧 help@apanaindia.in</p><p style="font-size:12px">श्रम हेल्पलाइन: <b>1800-11-4000</b></p></div></div>
 </div>
-<footer>© 2025 <b>APANA INDIA</b> 🇮🇳</footer>
+<footer>© 2025 <b>APANA INDIA</b> — रोजगार भी, मजदूरों को न्याय भी 🇮🇳</footer>
 <script src="script.js"></script>
 </body></html>
