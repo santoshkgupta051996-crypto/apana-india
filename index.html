@@ -7,23 +7,41 @@
 <style>
   * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', Tahoma, sans-serif; }
   body { background:#f4f6f8; color:#222; line-height:1.6; }
-  header { background:linear-gradient(135deg,#FF9933 0%,#ffffff 50%,#138808 100%); padding:20px 15px; text-align:center; color:#111; box-shadow:0 4px 12px rgba(0,0,0,0.15); position:relative; border-bottom:4px solid #000080; }
-  header h1 { font-size:28px; font-weight:800; color:#000080; letter-spacing:1px; }
+
+  /* हेडर */
+  header { background:linear-gradient(135deg,#FF9933 0%,#ffffff 50%,#138808 100%); padding:18px 15px; text-align:center; color:#111; box-shadow:0 4px 12px rgba(0,0,0,0.15); position:relative; border-bottom:4px solid #000080; }
+  header h1 { font-size:26px; font-weight:800; color:#000080; letter-spacing:1px; }
   header h1 span { color:#FF9933; }
-  header p { font-size:14px; margin-top:6px; color:#333; font-weight:600; }
-  header .tag { font-size:12px; color:#555; margin-top:4px; font-style:italic; }
-  .lang-btn { position:absolute; top:12px; right:12px; background:#000080; color:#fff; border:none; padding:6px 12px; border-radius:6px; font-size:12px; font-weight:700; cursor:pointer; }
+  header p { font-size:13px; margin-top:4px; color:#333; font-weight:600; }
+  header .tag { font-size:11px; color:#555; margin-top:3px; font-style:italic; }
+  .lang-btn { position:absolute; top:10px; right:10px; background:#000080; color:#fff; border:none; padding:5px 10px; border-radius:6px; font-size:11px; font-weight:700; cursor:pointer; }
+
+  /* ब्रेकिंग न्यूज़ टिकर */
+  .breaking-bar { background:linear-gradient(90deg,#d40000,#ff3333); color:#fff; padding:10px 12px; display:flex; align-items:center; gap:10px; overflow:hidden; }
+  .breaking-label { background:#fff; color:#d40000; padding:3px 10px; border-radius:4px; font-size:11px; font-weight:800; white-space:nowrap; animation:pulse 1.5s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.6;} }
+  .breaking-scroll { flex:1; overflow:hidden; white-space:nowrap; }
+  .breaking-scroll span { display:inline-block; padding-left:100%; animation:marquee 25s linear infinite; font-size:13px; font-weight:600; }
+  @keyframes marquee { 0%{transform:translateX(0);} 100%{transform:translateX(-100%);} }
+
+  /* नेविगेशन */
   nav { background:#000080; display:flex; padding:8px; overflow-x:auto; gap:4px; position:sticky; top:0; z-index:50; box-shadow:0 2px 8px rgba(0,0,0,0.2); scrollbar-width:none; }
   nav::-webkit-scrollbar { display:none; }
   nav button { background:none; border:none; color:#fff; font-size:13px; font-weight:600; padding:8px 14px; border-radius:8px; cursor:pointer; white-space:nowrap; transition:0.2s; }
   nav button:hover, nav button.active { background:#FF9933; color:#000; }
+
+  /* कंटेनर */
   .container { max-width:1000px; margin:18px auto; padding:0 12px; }
   .card { background:#fff; border-radius:14px; padding:20px; margin-bottom:18px; box-shadow:0 2px 10px rgba(0,0,0,0.06); border-top:4px solid #FF9933; }
   .card h2 { color:#000080; font-size:20px; margin-bottom:14px; border-bottom:3px solid #138808; padding-bottom:8px; }
+
+  /* सर्विस ग्रिड */
   .services { display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:12px; margin-top:10px; }
   .service-btn { background:linear-gradient(135deg,#fff5ee,#ffffff); border:2px solid #ffd9c2; border-radius:12px; padding:16px 10px; text-align:center; cursor:pointer; transition:0.25s; font-weight:600; font-size:13px; color:#333; }
   .service-btn:hover { transform:translateY(-3px); border-color:#FF9933; box-shadow:0 6px 15px rgba(255,153,51,0.25); }
   .service-btn .icon { font-size:28px; display:block; margin-bottom:6px; }
+
+  /* फॉर्म */
   label { display:block; margin-top:12px; font-weight:600; font-size:14px; color:#333; }
   input, select, textarea { width:100%; padding:10px 12px; margin-top:5px; border:1.5px solid #ddd; border-radius:8px; font-size:14px; background:#fafafa; transition:0.2s; font-family:inherit; }
   input:focus, select:focus, textarea:focus { outline:none; border-color:#FF9933; background:#fff; box-shadow:0 0 0 3px rgba(255,153,51,0.15); }
@@ -32,50 +50,88 @@
   .btn:hover { transform:scale(1.03); }
   .btn-blue { background:linear-gradient(135deg,#000080,#4169E1); }
   .btn-red { background:linear-gradient(135deg,#d40000,#ff4040); }
+
+  /* बैज */
   .badge { display:inline-block; padding:4px 12px; border-radius:20px; font-size:11px; font-weight:700; }
   .green { background:#d4f8d4; color:#0a7a0a; }
   .yellow { background:#fff3cd; color:#8a6d00; }
   .red { background:#ffd6d6; color:#b30000; }
+  .orange { background:#ffe4d6; color:#FF6600; }
+
+  /* कंपनी कार्ड */
   .company { border-left:5px solid #138808; padding:12px 15px; background:#f9fdf9; border-radius:8px; margin-bottom:12px; }
   .company.red-border { border-left-color:#d40000; background:#fff5f5; }
   .company.yellow-border { border-left-color:#e6a700; background:#fffbf0; }
   .company h3 { font-size:16px; margin-bottom:4px; color:#000080; }
   .company p { font-size:13px; color:#555; }
+
+  /* स्टैट्स */
   .stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(110px,1fr)); gap:10px; margin-top:12px; }
   .stat { background:#fff; text-align:center; padding:14px 8px; border-radius:10px; box-shadow:0 2px 6px rgba(0,0,0,0.06); border-top:3px solid #FF9933; }
   .stat h4 { color:#FF9933; font-size:22px; }
   .stat p { font-size:12px; color:#666; font-weight:600; }
+
+  /* अलर्ट बॉक्स */
   .alert-box { padding:12px 15px; border-radius:8px; margin-bottom:10px; font-size:13px; }
   .alert-green { background:#e6f9e6; border-left:5px solid #0a7a0a; }
   .alert-yellow { background:#fff8e1; border-left:5px solid #e6a700; }
   .alert-red { background:#ffe6e6; border-left:5px solid #d40000; }
+
+  /* न्यूज़ टैब */
   .news-tabs { display:flex; gap:6px; margin-bottom:14px; flex-wrap:wrap; border-bottom:2px solid #eee; padding-bottom:10px; }
-  .news-tab { padding:8px 14px; border-radius:20px; cursor:pointer; font-size:13px; font-weight:600; background:#f4f4f4; color:#555; border:none; transition:0.2s; }
+  .news-tab { padding:8px 14px; border-radius:20px; cursor:pointer; font-size:12px; font-weight:600; background:#f4f4f4; color:#555; border:none; transition:0.2s; }
   .news-tab.active { background:#FF9933; color:#fff; }
-  .news-item { display:flex; gap:12px; padding:12px; border-bottom:1px solid #eee; cursor:pointer; transition:0.2s; border-radius:8px; }
-  .news-img { width:100px; height:75px; flex-shrink:0; background:linear-gradient(135deg,#ffd9c2,#ffeede); border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:30px; }
-  .news-content h3 { font-size:15px; color:#222; margin-bottom:4px; line-height:1.4; }
+  .news-tab.trending.active { background:#d40000; }
+  .news-tab.hartal.active { background:#8a6d00; }
+
+  /* न्यूज़ कार्ड */
+  .news-item { display:flex; gap:12px; padding:14px; border-bottom:1px solid #eee; cursor:pointer; transition:0.2s; border-radius:10px; }
+  .news-item:hover { background:#fff8f4; }
+  .news-item.trending { background:linear-gradient(135deg,#fff5f5,#fff); border-left:4px solid #d40000; }
+  .news-item.hartal { background:linear-gradient(135deg,#fffbf0,#fff); border-left:4px solid #e6a700; }
+  .news-img { width:100px; height:75px; flex-shrink:0; background:linear-gradient(135deg,#ffd9c2,#ffeede); border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:32px; }
+  .news-content { flex:1; }
+  .news-content h3 { font-size:15px; color:#222; margin-bottom:5px; line-height:1.4; }
+  .news-content h3 .news-badge { display:inline-block; padding:2px 8px; border-radius:10px; font-size:9px; font-weight:800; margin-right:4px; vertical-align:middle; }
   .news-content p { font-size:13px; color:#666; margin-bottom:6px; }
-  .news-meta { font-size:11px; color:#999; display:flex; gap:10px; flex-wrap:wrap; }
+  .news-meta { font-size:11px; color:#999; display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+  .news-meta .source { color:#FF9933; font-weight:700; }
+
+  /* विज्ञापन */
   .item { border-left:5px solid #138808; padding:12px 15px; background:#f9fdf9; border-radius:8px; margin-bottom:12px; }
   .item h3 { font-size:16px; margin-bottom:6px; color:#000080; }
   .item p { font-size:13px; color:#555; margin:2px 0; }
   .item .price { color:#138808; font-weight:700; font-size:15px; }
   .item a { color:#138808; font-weight:700; text-decoration:none; }
+
+  /* नए कानून कार्ड */
+  .law-card { background:#fff8f4; border:2px solid #ffd9c2; border-radius:12px; padding:16px; margin-bottom:14px; }
+  .law-card h3 { color:#FF9933; font-size:17px; margin-bottom:8px; }
+  .law-card ul { list-style:none; padding:0; }
+  .law-card li { padding:6px 0 6px 24px; position:relative; font-size:14px; border-bottom:1px dashed #eee; }
+  .law-card li:last-child { border-bottom:none; }
+  .law-card li:before { content:"✅"; position:absolute; left:0; }
+  .law-card .highlight { background:#fff3cd; padding:2px 6px; border-radius:4px; font-weight:700; color:#8a6d00; }
+
+  /* फुटर */
   footer { text-align:center; padding:22px 15px; font-size:13px; color:#fff; background:#000080; margin-top:30px; border-top:5px solid #FF9933; }
   footer b { color:#FF9933; }
   footer .tag { display:block; margin-top:6px; color:#FF9933; font-weight:700; }
+
   .hidden { display:none !important; }
   .success-msg { background:#d4f8d4; color:#0a7a0a; padding:12px; border-radius:8px; margin-top:12px; font-size:14px; display:none; font-weight:600; border-left:4px solid #0a7a0a; }
+
   @media (max-width:500px) {
     header h1 { font-size:22px; }
-    .news-img { width:80px; height:65px; font-size:24px; }
+    .news-img { width:80px; height:65px; font-size:26px; }
     .news-content h3 { font-size:14px; }
+    .news-content p { font-size:12px; }
   }
 </style>
 </head>
 <body>
 
+<!-- हेडर -->
 <header>
   <button class="lang-btn" onclick="alert('अंग्रेज़ी संस्करण जल्द आएगा!')">EN / हिं</button>
   <h1>🇮🇳 APANA <span>INDIA</span></h1>
@@ -83,259 +139,258 @@
   <div class="tag">हर भारतवासी का अपना ऑनलाइन बाजार</div>
 </header>
 
+<!-- ब्रेकिंग न्यूज़ टिकर -->
+<div class="breaking-bar">
+  <span class="breaking-label">🔴 ब्रेकिंग</span>
+  <div class="breaking-scroll">
+    <span id="tickerText">लोड हो रहा है...</span>
+  </div>
+</div>
+
+<!-- नेविगेशन -->
 <nav>
   <button onclick="showPage('home')" class="active" id="nav-home">🏠 होम</button>
   <button onclick="showPage('news')" id="nav-news">📰 न्यूज़</button>
   <button onclick="showPage('jobs')" id="nav-jobs">💼 नौकरी</button>
+  <button onclick="showPage('companies')" id="nav-companies">🏢 कंपनियाँ</button>
   <button onclick="showPage('complaint')" id="nav-complaint">📢 शिकायत</button>
-  <button onclick="showPage('search')" id="nav-search">🔍 कंपनी</button>
+  <button onclick="showPage('mycomplaints')" id="nav-mycomplaints">📑 मेरी शिकायतें</button>
+  <button onclick="showPage('labourlaws')" id="nav-labourlaws">📜 नए कानून</button>
+  <button onclick="showPage('search')" id="nav-search">🔍 कंपनी खोज</button>
   <button onclick="showPage('alert')" id="nav-alert">⚠️ अलर्ट</button>
-  <button onclick="showPage('property')" id="nav-property">🏠 जमीन/मकान</button>
-  <button onclick="showPage('vehicle')" id="nav-vehicle">🚗 वाहन</button>
   <button onclick="showPage('post')" id="nav-post">➕ विज्ञापन</button>
+  <button onclick="showPage('admin')" id="nav-admin">⚙️ एडमिन</button>
   <button onclick="showPage('help')" id="nav-help">📞 सहायता</button>
 </nav>
 
 <div class="container">
-  <div id="page-home">
-    <div class="card">
-      <h2>स्वागत है 🙏</h2>
-      <p>Apana India एक डिजिटल प्लेटफॉर्म है जहाँ मजदूर, नौकरी तलाशने वाले युवा, कंपनियाँ, ठेकेदार, दुकानदार, किसान और व्यापारी सब एक साथ जुड़ते हैं।</p>
-      <div class="stats">
-        <div class="stat"><h4 id="stat-ads">0</h4><p>विज्ञापन</p></div>
-        <div class="stat"><h4 id="stat-complaints">0</h4><p>शिकायतें</p></div>
-        <div class="stat"><h4 id="stat-companies">0</h4><p>कंपनियाँ</p></div>
-      </div>
-    </div>
-    <div class="card">
-      <h2>हमारी सेवाएँ</h2>
-      <div class="services">
-        <div class="service-btn" onclick="showPage('jobs')"><span class="icon">💼</span>नौकरी खोजें</div>
-        <div class="service-btn" onclick="showPage('complaint')"><span class="icon">📢</span>मजदूर शिकायत</div>
-        <div class="service-btn" onclick="showPage('news')"><span class="icon">📰</span>ताजा खबरें</div>
-        <div class="service-btn" onclick="showPage('search')"><span class="icon">🔍</span>कंपनी खोजें</div>
-        <div class="service-btn" onclick="showPage('alert')"><span class="icon">⚠️</span>अलर्ट देखें</div>
-        <div class="service-btn" onclick="showPage('post')"><span class="icon">➕</span>विज्ञापन डालें</div>
-      </div>
+
+<!-- ========== होम ========== -->
+<div id="page-home">
+  <div class="card">
+    <h2>स्वागत है 🙏</h2>
+    <p>Apana India एक डिजिटल प्लेटफॉर्म है जहाँ मजदूर, नौकरी तलाशने वाले युवा, कंपनियाँ, ठेकेदार, दुकानदार, किसान और व्यापारी सब एक साथ जुड़ते हैं।</p>
+    <div class="stats">
+      <div class="stat"><h4 id="stat-ads">0</h4><p>विज्ञापन</p></div>
+      <div class="stat"><h4 id="stat-complaints">0</h4><p>शिकायतें</p></div>
+      <div class="stat"><h4 id="stat-companies">0</h4><p>कंपनियाँ</p></div>
     </div>
   </div>
 
-  <div id="page-news" class="hidden">
-    <div class="card">
-      <h2>📰 ताजा समाचार</h2>
-      <div class="news-tabs">
-        <button class="news-tab active" onclick="switchNews('national', this)">🇮🇳 राष्ट्रीय</button>
-        <button class="news-tab" onclick="switchNews('up', this)">🟠 उत्तर प्रदेश</button>
-        <button class="news-tab" onclick="switchNews('sonbhadra', this)">📍 सोनभद्र</button>
-      </div>
-      <div id="newsList"></div>
-    </div>
+  <div class="card">
+    <h2>🔥 ट्रेंडिंग खबरें</h2>
+    <div id="homeTrending"></div>
   </div>
 
-  <div id="page-jobs" class="hidden">
-    <div class="card">
-      <h2>💼 नौकरी के अवसर</h2>
-      <div id="jobsList"></div>
-    </div>
-  </div>
-
-  <div id="page-complaint" class="hidden">
-    <div class="card">
-      <h2>📢 शिकायत दर्ज करें</h2>
-      <form onsubmit="submitComplaint(event)">
-        <label>कंपनी का नाम *</label>
-        <input type="text" id="cName" required placeholder="जैसे: ABC Constructions">
-        <label>कंपनी का पता *</label>
-        <input type="text" id="cAddress" required placeholder="जैसे: सूरत, गुजरात">
-        <label>आपका नाम *</label>
-        <input type="text" id="mName" required>
-        <label>शिकायत का प्रकार *</label>
-        <select id="cType" required>
-          <option value="">-- चुनें --</option>
-          <option>कम भुगतान</option>
-          <option>समय पर भुगतान नहीं</option>
-          <option>असुरक्षित काम</option>
-        </select>
-        <label>पूरा विवरण *</label>
-        <textarea id="cDetail" required></textarea>
-        <button type="submit" class="btn">शिकायत दर्ज करें ✅</button>
-        <div class="success-msg" id="successMsg">✅ शिकायत दर्ज हो गई!</div>
-      </form>
-    </div>
-  </div>
-
-  <div id="page-search" class="hidden">
-    <div class="card">
-      <h2>🔍 कंपनी खोजें</h2>
-      <input type="text" id="searchInput" placeholder="कंपनी का नाम लिखें..." oninput="searchCompany()">
-      <div id="searchResults" style="margin-top:15px;"><p style="color:#888;">कंपनी का नाम लिखें...</p></div>
-    </div>
-  </div>
-
-  <div id="page-alert" class="hidden">
-    <div class="card">
-      <h2>⚠️ मजदूर अलर्ट सिस्टम</h2>
-      <div class="alert-box alert-green">🟢 <b>हरी रेटिंग</b> — सुरक्षित</div>
-      <div class="alert-box alert-yellow">🟡 <b>पीली रेटिंग</b> — सावधानी बरतें</div>
-      <div class="alert-box alert-red">🔴 <b>लाल अलर्ट</b> — इनके साथ काम न करें</div>
-      <div id="alertList" style="margin-top:15px;"></div>
-    </div>
-  </div>
-
-  <div id="page-property" class="hidden">
-    <div class="card"><h2>🏠 जमीन एवं मकान</h2><div id="propertyList"></div></div>
-  </div>
-  
-  <div id="page-vehicle" class="hidden">
-    <div class="card"><h2>🚗 वाहन खरीदें-बेचें</h2><div id="vehicleList"></div></div>
-  </div>
-
-  <div id="page-post" class="hidden">
-    <div class="card">
-      <h2>➕ अपना विज्ञापन डालें</h2>
-      <form onsubmit="submitAd(event)">
-        <label>विज्ञापन शीर्षक *</label>
-        <input type="text" id="adTitle" required>
-        <label>श्रेणी *</label>
-        <select id="adCat" required>
-          <option value="">-- चुनें --</option>
-          <option value="job">नौकरी</option>
-          <option value="property">जमीन / मकान</option>
-          <option value="vehicle">वाहन</option>
-        </select>
-        <label>पूरा विवरण *</label>
-        <textarea id="adDetail" required></textarea>
-        <label>संपर्क नंबर *</label>
-        <input type="tel" id="adPhone" required pattern="[0-9]{10}">
-        <button type="submit" class="btn">विज्ञापन प्रकाशित करें ✅</button>
-        <div class="success-msg" id="adMsg">✅ विज्ञापन जमा हो गया!</div>
-      </form>
-    </div>
-  </div>
-
-  <div id="page-help" class="hidden">
-    <div class="card">
-      <h2>📞 सहायता एवं संपर्क</h2>
-      <p>📧 ईमेल: <b>help@apanaindia.in</b></p>
-      <p>📱 WhatsApp: <b>जल्द उपलब्ध</b></p>
+  <div class="card">
+    <h2>हमारी सेवाएँ</h2>
+    <div class="services">
+      <div class="service-btn" onclick="showPage('news')"><span class="icon">📰</span>ताजा खबरें</div>
+      <div class="service-btn" onclick="showPage('jobs')"><span class="icon">💼</span>नौकरी खोजें</div>
+      <div class="service-btn" onclick="showPage('companies')"><span class="icon">🏢</span>कंपनी सूची</div>
+      <div class="service-btn" onclick="showPage('complaint')"><span class="icon">📢</span>मजदूर शिकायत</div>
+      <div class="service-btn" onclick="showPage('mycomplaints')"><span class="icon">📑</span>मेरी शिकायतें</div>
+      <div class="service-btn" onclick="showPage('labourlaws')"><span class="icon">📜</span>नए कानून</div>
+      <div class="service-btn" onclick="showPage('search')"><span class="icon">🔍</span>कंपनी खोजें</div>
+      <div class="service-btn" onclick="showPage('post')"><span class="icon">➕</span>विज्ञापन डालें</div>
     </div>
   </div>
 </div>
 
-<footer>
-  © 2025 <b>APANA INDIA</b> — रोजगार भी, मजदूरों को न्याय भी 🇮🇳
-  <span class="tag">हर भारतवासी का अपना ऑनलाइन बाजार</span>
-</footer>
+<!-- ========== न्यूज़ ========== -->
+<div id="page-news" class="hidden">
+  <div class="card">
+    <h2>📰 ताजा समाचार</h2>
 
-<script>
-let companies = JSON.parse(localStorage.getItem('ai_companies')) || [
-  { name: "ABC Constructions", address: "सूरत, गुजरात", complaints: 5, rating: "red" },
-  { name: "Green Field Pvt Ltd", address: "पुणे", complaints: 0, rating: "green" }
-];
-let complaints = JSON.parse(localStorage.getItem('ai_complaints')) || [];
-let ads = JSON.parse(localStorage.getItem('ai_ads')) || [
-  { id:1, title:"ITI इलेक्ट्रिशियन चाहिए", cat:"job", detail:"2 साल अनुभव।", phone:"9876543210" },
-  { id:2, title:"2BHK फ्लैट बिक्री", cat:"property", detail:"950 sq ft।", phone:"9876500000" }
-];
+    <input type="text" id="newsSearch" placeholder="🔍 खबर खोजें..." oninput="renderNews(currentNewsCategory)" style="margin-bottom:14px;">
 
-function saveAll() {
-  localStorage.setItem('ai_ads', JSON.stringify(ads));
-  localStorage.setItem('ai_complaints', JSON.stringify(complaints));
-  localStorage.setItem('ai_companies', JSON.stringify(companies));
-}
+    <div class="news-tabs">
+      <button class="news-tab trending active" onclick="switchNews('trending', this)">🔥 ट्रेंडिंग</button>
+      <button class="news-tab" onclick="switchNews('breaking', this)">🔴 ब्रेकिंग</button>
+      <button class="news-tab hartal" onclick="switchNews('hartal', this)">⚠️ हड़ताल</button>
+      <button class="news-tab" onclick="switchNews('mazdoor', this)">👷 मजदूर समाचार</button>
+      <button class="news-tab" onclick="switchNews('company', this)">🏢 कंपनी</button>
+      <button class="news-tab" onclick="switchNews('india', this)">🇮🇳 भारत</button>
+      <button class="news-tab" onclick="switchNews('world', this)">🌍 विदेश</button>
+      <button class="news-tab" onclick="switchNews('up', this)">🟠 उत्तर प्रदेश</button>
+      <button class="news-tab" onclick="switchNews('sonbhadra', this)">📍 सोनभद्र</button>
+    </div>
 
-const newsData = {
-  national: [{ title: "देश में नई श्रम नीति लागू", desc: "मजदूरों को मिलेगा बड़ा लाभ।", icon: "📋" }],
-  up: [{ title: "उत्तर प्रदेश में 5,000 कॉन्स्टेबल भर्ती", desc: "UP पुलिस में बड़े पैमाने पर भर्ती।", icon: "👮" }],
-  sonbhadra: [{ title: "सोनभद्र में नई सड़क परियोजना", desc: "120 करोड़ की लागत से सड़क बनेगी।", icon: "🛣️" }]
-};
+    <div id="newsList"></div>
+  </div>
 
-function showPage(p) {
-  const pages = ['home','news','jobs','complaint','search','alert','property','vehicle','post','help'];
-  pages.forEach(x => {
-    const el = document.getElementById('page-'+x);
-    const nav = document.getElementById('nav-'+x);
-    if (el) el.classList.add('hidden');
-    if (nav) nav.classList.remove('active');
-  });
-  document.getElementById('page-'+p).classList.remove('hidden');
-  document.getElementById('nav-'+p).classList.add('active');
-  window.scrollTo({ top:0, behavior:'smooth' });
-  if (p === 'alert') renderAlerts();
-  if (p === 'home') updateStats();
-  if (p === 'news') renderNews('national');
-  if (p === 'jobs') renderAds('job');
-  if (p === 'property') renderAds('property');
-  if (p === 'vehicle') renderAds('vehicle');
-}
+  <div class="card" style="background:#fff8f4; border-top-color:#000080;">
+    <p style="font-size:13px; color:#555;">
+      ℹ️ <b>सूचना:</b> समाचार विभिन्न स्रोतों से एकत्र किए जाते हैं। पूरी खबर पढ़ने के लिए मूल स्रोत पर जाएँ। बिना अनुमति किसी समाचार संस्थान की पूरी खबर कॉपी नहीं की जाती।
+    </p>
+  </div>
+</div>
 
-function updateStats() {
-  document.getElementById('stat-ads').innerText = ads.length;
-  document.getElementById('stat-complaints').innerText = complaints.length;
-  document.getElementById('stat-companies').innerText = companies.length;
-}
+<!-- ========== नौकरी ========== -->
+<div id="page-jobs" class="hidden">
+  <div class="card"><h2>💼 नौकरी के अवसर</h2><div id="jobsList"></div></div>
+</div>
 
-function switchNews(cat, btn) {
-  document.querySelectorAll('.news-tab').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  renderNews(cat);
-}
+<!-- ========== कंपनियाँ ========== -->
+<div id="page-companies" class="hidden">
+  <div class="card">
+    <h2>🏢 लिस्टेड कंपनियाँ</h2>
+    <p style="font-size:13px; color:#666; margin-bottom:14px;">यहाँ उन सभी कंपनियों की सूची है जो Apana India से जुड़ी हैं। रंग के अनुसार रेटिंग देखें।</p>
+    <input type="text" id="companySearch" placeholder="🔍 कंपनी खोजें..." oninput="renderCompanies()" style="margin-bottom:14px;">
+    <div id="companiesList"></div>
+  </div>
+</div>
 
-function renderNews(cat) {
-  const list = document.getElementById('newsList');
-  const items = newsData[cat] || [];
-  list.innerHTML = items.map(item => `<div class="news-item"><div class="news-img">${item.icon}</div><div class="news-content"><h3>${item.title}</h3><p>${item.desc}</p></div></div>`).join('');
-}
+<!-- ========== शिकायत ========== -->
+<div id="page-complaint" class="hidden">
+  <div class="card">
+    <h2>📢 शिकायत दर्ज करें</h2>
+    <form onsubmit="submitComplaint(event)">
+      <label>कंपनी का नाम *</label>
+      <input type="text" id="cName" required placeholder="जैसे: ABC Constructions">
+      <label>कंपनी का पता *</label>
+      <input type="text" id="cAddress" required placeholder="जैसे: सूरत, गुजरात">
+      <label>आपका नाम *</label>
+      <input type="text" id="mName" required>
+      <label>शिकायत का प्रकार *</label>
+      <select id="cType" required>
+        <option value="">-- चुनें --</option>
+        <option>कम भुगतान</option>
+        <option>समय पर भुगतान नहीं</option>
+        <option>असुरक्षित काम</option>
+        <option>नियुक्ति पत्र नहीं मिला</option>
+        <option>PF/ESIC नहीं कट रहा</option>
+        <option>ओवरटाइम का पैसा नहीं</option>
+        <option>अन्य</option>
+      </select>
+      <label>पूरा विवरण *</label>
+      <textarea id="cDetail" required></textarea>
+      <button type="submit" class="btn">शिकायत दर्ज करें ✅</button>
+      <div class="success-msg" id="successMsg">✅ शिकायत दर्ज हो गई!</div>
+    </form>
+  </div>
+</div>
 
-function renderAds(cat) {
-  const map = { 'job':'jobsList', 'property':'propertyList', 'vehicle':'vehicleList' };
-  const box = document.getElementById(map[cat]);
-  if (!box) return;
-  let filtered = ads.filter(a => a.cat === cat);
-  box.innerHTML = filtered.length === 0 ? '<p>कोई विज्ञापन नहीं।</p>' : filtered.map(a => `<div class="item"><h3>${a.title}</h3><p>${a.detail}</p><p>📞 <a href="tel:${a.phone}">${a.phone}</a></p></div>`).join('');
-}
+<!-- ========== मेरी शिकायतें ========== -->
+<div id="page-mycomplaints" class="hidden">
+  <div class="card"><h2>📑 मेरी शिकायतें</h2><div id="myComplaintsList"></div></div>
+</div>
 
-function submitComplaint(e) {
-  e.preventDefault();
-  const cName = document.getElementById('cName').value.trim();
-  complaints.push({ company: cName, address: document.getElementById('cAddress').value.trim(), worker: document.getElementById('mName').value.trim(), type: document.getElementById('cType').value, detail: document.getElementById('cDetail').value.trim() });
-  let comp = companies.find(c => c.name.toLowerCase() === cName.toLowerCase());
-  if (comp) { comp.complaints++; if (comp.complaints >= 5) comp.rating = 'red'; else if (comp.complaints >= 2) comp.rating = 'yellow'; } 
-  else { companies.push({ name: cName, address: document.getElementById('cAddress').value.trim(), complaints: 1, rating: 'yellow' }); }
-  saveAll();
-  document.getElementById('successMsg').style.display = 'block';
-  e.target.reset();
-  setTimeout(() => document.getElementById('successMsg').style.display = 'none', 5000);
-}
+<!-- ========== नए कानून ========== -->
+<div id="page-labourlaws" class="hidden">
+  <div class="card">
+    <h2>📜 नए श्रम कानून (Labour Codes)</h2>
+    <p style="font-size:14px; margin-bottom:14px; color:#555;">21 नवंबर, 2025 से भारत में 4 नए श्रम संहिताएँ लागू हो गई हैं, जो 29 पुराने कानूनों की जगह लागू हुई हैं। इनसे मजदूरों को कई नए अधिकार मिले हैं।</p>
 
-function searchCompany() {
-  const q = document.getElementById('searchInput').value.toLowerCase().trim();
-  const box = document.getElementById('searchResults');
-  if (!q) { box.innerHTML = '<p>कंपनी का नाम लिखें...</p>'; return; }
-  const found = companies.filter(c => c.name.toLowerCase().includes(q));
-  box.innerHTML = found.length === 0 ? '<p style="color:#b30000;">कोई कंपनी नहीं मिली।</p>' : found.map(c => renderCompanyCard(c)).join('');
-}
+    <div class="law-card">
+      <h3>1. नियुक्ति पत्र अनिवार्य</h3>
+      <ul>
+        <li>हर कंपनी और ठेकेदार को <span class="highlight">हर मजदूर को लिखित नियुक्ति पत्र</span> देना अनिवार्य।</li>
+        <li>जिनके पास पहले से नहीं है, उन्हें <span class="highlight">3 महीने</span> के अंदर मिलेगा।</li>
+      </ul>
+    </div>
 
-function renderCompanyCard(c) {
-  const cls = c.rating === 'green' ? '' : (c.rating === 'yellow' ? 'yellow-border' : 'red-border');
-  const badge = c.rating === 'green' ? '<span class="badge green">🟢 सुरक्षित</span>' : c.rating === 'yellow' ? '<span class="badge yellow">🟡 सावधान</span>' : '<span class="badge red">🔴 अलर्ट</span>';
-  return `<div class="company ${cls}"><h3>${c.name} ${badge}</h3><p>📍 ${c.address}</p><p>📢 शिकायतें: <b>${c.complaints}</b></p></div>`;
-}
+    <div class="law-card">
+      <h3>2. न्यूनतम मजदूरी</h3>
+      <ul>
+        <li>अब <span class="highlight">सभी श्रमिकों</span> को समान न्यूनतम मजदूरी का अधिकार।</li>
+      </ul>
+    </div>
 
-function renderAlerts() {
-  document.getElementById('alertList').innerHTML = [...companies].sort((a,b) => b.complaints - a.complaints).map(c => renderCompanyCard(c)).join('');
-}
+    <div class="law-card">
+      <h3>3. ओवरटाइम का पैसा डबल (2x)</h3>
+      <ul>
+        <li>ओवरटाइम का भुगतान <span class="highlight">सामान्य मजदूरी से दोगुना</span> होगा।</li>
+        <li>ओवरटाइम के लिए मजदूर की <span class="highlight">सहमति</span> जरूरी।</li>
+      </ul>
+    </div>
 
-function submitAd(e) {
-  e.preventDefault();
-  ads.push({ id: Date.now(), title: document.getElementById('adTitle').value.trim(), cat: document.getElementById('adCat').value, detail: document.getElementById('adDetail').value.trim(), phone: document.getElementById('adPhone').value.trim() });
-  saveAll();
-  document.getElementById('adMsg').style.display = 'block';
-  e.target.reset();
-  setTimeout(() => document.getElementById('adMsg').style.display = 'none', 5000);
-}
+    <div class="law-card">
+      <h3>4. काम के घंटे तय</h3>
+      <ul>
+        <li><span class="highlight">8 घंटे प्रतिदिन</span>, <span class="highlight">48 घंटे प्रति सप्ताह</span> से ज्यादा नहीं।</li>
+      </ul>
+    </div>
 
-updateStats();
-</script>
-</body>
-</html>
+    <div class="law-card">
+      <h3>5. PF, ESIC और ग्रेच्युटी</h3>
+      <ul>
+        <li>ESIC का दायरा: <span class="highlight">₹21,000 तक मासिक वेतन</span> वाले श्रमिक।</li>
+        <li>अस्थायी कर्मचारियों को भी <span class="highlight">1 साल</span> पूरा होने पर ग्रेच्युटी।</li>
+        <li>PF और बीमा का लाभ अब गिग वर्कर्स को भी।</li>
+      </ul>
+    </div>
+
+    <div class="law-card">
+      <h3>6. महिला श्रमिकों के अधिकार</h3>
+      <ul>
+        <li>महिलाएं अब <span class="highlight">रात की शिफ्ट</span> में भी काम कर सकेंगी।</li>
+        <li><span class="highlight">समान काम के लिए समान वेतन</span> मिलेगा।</li>
+        <li>भर्ती में लिंग के आधार पर भेदभाव नहीं।</li>
+      </ul>
+    </div>
+
+    <div class="law-card">
+      <h3>7. शिकायत निवारण समिति</h3>
+      <ul>
+        <li>20+ श्रमिकों वाले प्रतिष्ठानों में <span class="highlight">10 सदस्यीय समिति</span>।</li>
+        <li>आधे सदस्य मजदूर, महिलाओं का प्रतिनिधित्व अनिवार्य।</li>
+      </ul>
+    </div>
+
+    <div class="law-card">
+      <h3>8. छंटनी और बंदी</h3>
+      <ul>
+        <li><span class="highlight">300 से कम</span> श्रमिकों वाली इकाई में छंटनी के लिए अनुमति नहीं।</li>
+        <li>छंटनी पर <span class="highlight">पुनः कौशल निधि</span> बनेगी।</li>
+      </ul>
+    </div>
+
+    <div class="law-card">
+      <h3>9. अन्य प्रावधान</h3>
+      <ul>
+        <li>50% से ज्यादा मजदूरों का सामूहिक अवकाश <span class="highlight">हड़ताल</span> माना जाएगा।</li>
+        <li>हड़ताल के लिए <span class="highlight">60 दिन पहले</span> नोटिस जरूरी।</li>
+        <li>गिग वर्कर्स (Ola, Uber, Swiggy, Zomato) को भी सामाजिक सुरक्षा।</li>
+      </ul>
+    </div>
+
+    <div style="background:#e6f9e6; border-left:5px solid #0a7a0a; padding:12px; border-radius:8px; margin-top:14px;">
+      <p style="font-size:13px; color:#0a7a0a;"><b>💡 सलाह:</b> अगर आपका कोई अधिकार छिन रहा है, तो तुरंत शिकायत दर्ज करें या श्रम विभाग हेल्पलाइन <b>1800-11-4000</b> पर कॉल करें।</p>
+    </div>
+  </div>
+</div>
+
+<!-- ========== कंपनी खोज ========== -->
+<div id="page-search" class="hidden">
+  <div class="card">
+    <h2>🔍 कंपनी खोजें</h2>
+    <input type="text" id="searchInput" placeholder="कंपनी का नाम लिखें..." oninput="searchCompany()">
+    <div id="searchResults" style="margin-top:15px;"><p style="color:#888;">कंपनी का नाम लिखें...</p></div>
+  </div>
+</div>
+
+<!-- ========== अलर्ट ========== -->
+<div id="page-alert" class="hidden">
+  <div class="card">
+    <h2>⚠️ मजदूर अलर्ट सिस्टम</h2>
+    <div class="alert-box alert-green">🟢 <b>हरी रेटिंग</b> — सुरक्षित</div>
+    <div class="alert-box alert-yellow">🟡 <b>पीली रेटिंग</b> — सावधानी बरतें</div>
+    <div class="alert-box alert-red">🔴 <b>लाल अलर्ट</b> — इनके साथ काम न करें</div>
+    <div id="alertList" style="margin-top:15px;"></div>
+  </div>
+</div>
+
+<!-- ========== विज्ञापन ========== -->
+<div id="page-post" class="hidden">
+  <div class="card">
+    <h2>➕ अपना विज्ञापन डालें</h2>
+    <form onsubmit="submitAd(event)">
+      <label>विज्ञापन शीर्षक *</label>
+      <input type="text" id="adTitle" required>
+      <label>श्रेणी *</label>
+      <select id="adCat" required>
+        <option value="">-- चुनें --</option>
+        <option value="job">नौकरी</option>
+        <option value="property">जमीन / मकान</option>
+        <option value=
