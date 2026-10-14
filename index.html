@@ -1,6 +1,6 @@
 <!DOCTYPE html><html lang="hi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Apana India</title><link rel="stylesheet" href="style.css"></head><body>
-<header><div class="hd"><h1>🇮🇳 APANA INDIA</h1><p>रोजगार भी, मजदूरों को न्याय भी</p></div></header>
-<div class="tk"><span class="tk-label">🔴 ब्रेकिंग</span><div class="tk-scroll"><span id="tk">लोड हो रहा है...</span></div></div>
+<header><h1>🇮🇳 APANA INDIA</h1><p>रोजगार भी, मजदूरों को न्याय भी</p></header>
+<div class="tk"><b>🔴 ब्रेकिंग</b><div><span id="tk">लोड...</span></div></div>
 <nav>
 <button onclick="go('home')" class="active" id="n-home">🏠 होम</button>
 <button onclick="go('worker')" id="n-worker">👷 मजदूर</button>
@@ -15,7 +15,6 @@
 <button onclick="go('courses')" id="n-courses">🎓 कोर्स</button>
 <button onclick="go('numbers')" id="n-numbers">☎️ नंबर</button>
 <button onclick="go('shops')" id="n-shops">🏪 दुकानें</button>
-<button onclick="go('idcard')" id="n-idcard">🆔 ID कार्ड</button>
 <button onclick="go('alert')" id="n-alert">⚠️ अलर्ट</button>
 <button onclick="go('post')" id="n-post">➕ विज्ञापन</button>
 <button onclick="go('admin')" id="n-admin">⚙️ एडमिन</button>
@@ -23,108 +22,53 @@
 </nav>
 <div class="w">
 
-<!-- होम -->
 <div id="p-home">
-<div class="hero"><h2>स्वागत है 🙏</h2><p>भारत का पहला डिजिटल प्लेटफॉर्म जहाँ मजदूर, कंपनियाँ, दुकानदार और व्यापारी एक साथ जुड़ते हैं।</p></div>
+<div class="hero"><h2>स्वागत है 🙏</h2><p>भारत का डिजिटल प्लेटफॉर्म जहाँ मजदूर, कंपनियाँ और दुकानदार एक साथ जुड़ते हैं।</p></div>
 <div class="stats"><div class="st"><h4 id="sa">0</h4><p>विज्ञापन</p></div><div class="st"><h4 id="sc">0</h4><p>शिकायतें</p></div><div class="st"><h4 id="sco">0</h4><p>कंपनियाँ</p></div><div class="st"><h4 id="sw2">0</h4><p>मजदूर</p></div></div>
-<div class="c"><h2>⚡ तेज़ पहुँच</h2><div class="g">
-<div class="sb" onclick="go('worker')"><b>👷</b>मजदूर खोजें</div>
-<div class="sb" onclick="go('wage')"><b>💵</b>मजदूरी दर</div>
+<div class="c"><h2>⚡ सेवाएँ</h2><div class="g">
+<div class="sb" onclick="go('worker')"><b>👷</b>मजदूर</div>
+<div class="sb" onclick="go('wage')"><b>💵</b>मजदूरी</div>
 <div class="sb" onclick="go('calc')"><b>💰</b>कैलकुलेटर</div>
 <div class="sb" onclick="go('news')"><b>📰</b>खबरें</div>
 <div class="sb" onclick="go('jobs')"><b>💼</b>नौकरी</div>
 <div class="sb" onclick="go('comp')"><b>🏢</b>कंपनियाँ</div>
-<div class="sb" onclick="go('laws')"><b>📜</b>नए कानून</div>
+<div class="sb" onclick="go('laws')"><b>📜</b>कानून</div>
 <div class="sb" onclick="go('courses')"><b>🎓</b>कोर्स</div>
 <div class="sb" onclick="go('numbers')"><b>☎️</b>नंबर</div>
 <div class="sb" onclick="go('shikayat')"><b>📢</b>शिकायत</div>
 <div class="sb" onclick="go('shops')"><b>🏪</b>दुकानें</div>
 <div class="sb" onclick="go('post')"><b>➕</b>विज्ञापन</div>
 </div></div>
-<div class="c"><h2>📢 सार्वजनिक शिकायतें</h2><p class="note">एडमिन जाँच के बाद प्रकाशित</p><div id="publicComplaints"></div></div>
+<div class="c"><h2>📢 सार्वजनिक शिकायतें</h2><div id="publicComplaints"></div></div>
 <div class="c"><h2>🔥 ट्रेंडिंग खबरें</h2><div id="ht"></div></div>
 </div>
 
-<!-- मजदूर -->
-<div id="p-worker" class="h">
-<div class="c"><h2>👷 मजदूर रजिस्ट्रेशन एवं खोज</h2>
-<p class="note">अपना नाम, पता, हुनर और फोटो के साथ रजिस्टर करें। कोई भी आपको ढूंढ सकेगा।</p>
-<div class="tb">
-<button class="tt active" onclick="wTab('list',this)">🔍 मजदूर खोजें</button>
-<button class="tt" onclick="wTab('reg',this)">✍️ रजिस्टर करें</button>
-</div>
-
+<div id="p-worker" class="h"><div class="c"><h2>👷 मजदूर रजिस्ट्रेशन एवं खोज</h2>
+<p class="note">अपना नाम, पता, हुनर, फोटो से रजिस्टर करें। कोई भी आपको ढूंढ सके।</p>
+<div class="tb"><button class="tt active" onclick="wTab('list',this)">🔍 खोजें</button><button class="tt" onclick="wTab('reg',this)">✍️ रजिस्टर करें</button></div>
 <div id="wListTab">
-<input id="wSearch" placeholder="🔍 जगह लिखें (जैसे: सोनभद्र, बभनी, रॉबर्ट्सगंज)..." oninput="rWorkers()">
-<p class="note" id="wCount" style="margin-top:8px">कुल मजदूर: 0</p>
+<input id="wSearch" placeholder="🔍 जगह लिखें (सोनभद्र, बभनी...)" oninput="rWorkers()">
+<p class="note" id="wCount">कुल मजदूर: 0</p>
 <div id="wList"></div>
 </div>
-
-<div id="wRegTab" class="h">
-<form onsubmit="regWorker(event)">
-<label>पूरा नाम *</label>
-<input id="wN" required placeholder="जैसे: रामू यादव">
-<label>पिता/पति का नाम</label>
-<input id="wF" placeholder="(वैकल्पिक)">
-<label>मोबाइल नंबर (10 अंक) *</label>
-<input id="wP" required maxlength="10" oninput="this.value=this.value.replace(/[^0-9]/g,'')" placeholder="9876543210">
-<label>आपका हुनर/काम *</label>
-<select id="wS" required>
-<option value="">--चुनें--</option>
-<option>मजदूर (अकुशल)</option>
-<option>राजमिस्त्री</option>
-<option>बढ़ई (कारपेंटर)</option>
-<option>सरिया फिटर</option>
-<option>वेल्डर</option>
-<option>इलेक्ट्रिशियन</option>
-<option>प्लंबर</option>
-<option>पेंटर</option>
-<option>ड्राइवर (LMV)</option>
-<option>ड्राइवर (HTV)</option>
-<option>ट्रैक्टर ड्राइवर</option>
-<option>मशीन ऑपरेटर</option>
-<option>कुक/रसोइया</option>
-<option>सिक्योरिटी गार्ड</option>
-<option>मोबाइल रिपेयर</option>
-<option>AC/फ्रिज रिपेयर</option>
-<option>सिलाई/टेलरिंग</option>
-<option>मजदूरी (MGNREGA)</option>
-<option>अन्य</option>
-</select>
-<label>अनुभव (साल)</label>
-<input id="wE" type="number" placeholder="जैसे 5">
-<label>गाँव / मोहल्ला *</label>
-<input id="wV" required placeholder="जैसे: बभनी">
-<label>ब्लॉक / तहसील *</label>
-<input id="wB" required placeholder="जैसे: बभनी ब्लॉक">
-<label>जिला *</label>
-<input id="wD" required placeholder="जैसे: सोनभद्र">
-<label>राज्य *</label>
-<select id="wSt" required>
-<option value="">--चुनें--</option>
-<option>उत्तर प्रदेश</option><option>बिहार</option><option>मध्य प्रदेश</option>
-<option>राजस्थान</option><option>महाराष्ट्र</option><option>गुजरात</option>
-<option>हरियाणा</option><option>पंजाब</option><option>दिल्ली</option>
-<option>झारखंड</option><option>छत्तीसगढ़</option><option>पश्चिम बंगाल</option>
-<option>ओडिशा</option><option>असम</option><option>तमिलनाडु</option>
-<option>कर्नाटक</option><option>केरल</option><option>तेलंगाना</option>
-<option>आंध्र प्रदेश</option><option>उत्तराखंड</option><option>हिमाचल प्रदेश</option>
-<option>अन्य</option>
-</select>
-<label>फोटो अपलोड करें</label>
-<input id="wPh" type="file" accept="image/*" onchange="previewPhoto(event)">
-<div id="wPhotoPreview" style="margin-top:8px"></div>
-<label>पूरा पता (अन्य जानकारी)</label>
-<textarea id="wA" placeholder="जैसे: नया बाजार के पास, बभनी"></textarea>
+<div id="wRegTab" class="h"><form onsubmit="regWorker(event)">
+<label>पूरा नाम *</label><input id="wN" required placeholder="जैसे: रामू यादव">
+<label>मोबाइल (10 अंक) *</label><input id="wP" required maxlength="10" oninput="this.value=this.value.replace(/[^0-9]/g,'')" placeholder="9876543210">
+<label>हुनर *</label><select id="wS" required><option value="">--चुनें--</option><option>मजदूर (अकुशल)</option><option>राजमिस्त्री</option><option>बढ़ई (कारपेंटर)</option><option>सरिया फिटर</option><option>वेल्डर</option><option>इलेक्ट्रिशियन</option><option>प्लंबर</option><option>पेंटर</option><option>ड्राइवर (LMV)</option><option>ड्राइवर (HTV)</option><option>ट्रैक्टर ड्राइवर</option><option>मशीन ऑपरेटर</option><option>कुक / रसोइया</option><option>सिक्योरिटी गार्ड</option><option>मोबाइल रिपेयर</option><option>AC / फ्रिज रिपेयर</option><option>सिलाई / टेलरिंग</option><option>मनरेगा मजदूर</option><option>अन्य</option></select>
+<label>अनुभव (साल)</label><input id="wE" type="number" placeholder="जैसे 5">
+<label>गाँव / मोहल्ला *</label><input id="wV" required placeholder="जैसे: बभनी">
+<label>ब्लॉक / तहसील *</label><input id="wB" required placeholder="जैसे: बभनी">
+<label>जिला *</label><input id="wD" required placeholder="जैसे: सोनभद्र">
+<label>राज्य *</label><input id="wSt" required value="उत्तर प्रदेश">
+<label>फोटो अपलोड करें</label><input type="file" accept="image/*" onchange="previewPhoto(event)">
+<div id="wPhotoPreview"></div>
 <button class="btn">रजिस्टर करें ✅</button>
-<div class="sm" id="sm3">✅ रजिस्ट्रेशन सफल! अब आप सूची में दिखेंगे।</div>
-</form>
-</div>
-</div>
-</div>
+<div class="sm" id="sm3">✅ रजिस्ट्रेशन सफल!</div>
+</form></div>
+</div></div>
 
-<!-- न्यूज़ -->
-<div id="p-news" class="h"><div class="c"><h2>📰 ताजा समाचार</h2><input id="ns" placeholder="🔍 खबर खोजें..." oninput="rnews()">
+<div id="p-news" class="h"><div class="c"><h2>📰 ताजा समाचार</h2>
+<input id="ns" placeholder="🔍 खबर खोजें..." oninput="rnews()">
 <div class="tb">
 <button class="tt tr active" onclick="sw('trending',this)">🔥 ट्रेंडिंग</button>
 <button class="tt" onclick="sw('breaking',this)">🔴 ब्रेकिंग</button>
@@ -137,83 +81,60 @@
 <button class="tt" onclick="sw('sonbhadra',this)">📍 सोनभद्र</button>
 </div><div id="nl"></div></div></div>
 
-<!-- नौकरी -->
 <div id="p-jobs" class="h"><div class="c"><h2>💼 नौकरी के अवसर</h2><div id="jl"></div></div></div>
 
-<!-- कंपनियाँ -->
 <div id="p-comp" class="h"><div class="c"><h2>🏢 लिस्टेड कंपनियाँ</h2><input id="cs" placeholder="🔍 कंपनी खोजें..." oninput="rcomp()"><div id="cl"></div></div></div>
 
-<!-- मजदूरी दर -->
-<div id="p-wage" class="h"><div class="c"><h2>💵 कंपनी मजदूरी दर</h2><p class="note">सरकारी अधिसूचना/रिपोर्ट्स पर आधारित</p>
+<div id="p-wage" class="h"><div class="c"><h2>💵 कंपनी मजदूरी दर</h2>
 <label>कंपनी चुनें:</label>
 <select id="wageCompany" onchange="showWageRate()">
-<option value="">--कंपनी चुनें--</option>
+<option value="">--चुनें--</option>
 <option value="ntpc">🏢 NTPC रिहंद (सोनभद्र)</option>
 <option value="reliance">🏢 Reliance Industries</option>
 <option value="mgnrega">🌾 मनरेगा (MGNREGA)</option>
 </select>
 <div id="wageRateResult"></div>
-<div id="mgnregaStateBox" class="h">
-<label>राज्य चुनें:</label>
+<div id="mgnregaStateBox" class="h"><label>राज्य चुनें:</label>
 <select id="mgnregaState" onchange="showMgnregaRate()">
-<option value="">--राज्य चुनें--</option>
-<option value="300">उत्तर प्रदेश (₹300/दिन)</option>
-<option value="300">बिहार (₹300/दिन)</option>
-<option value="300">मध्य प्रदेश (₹300/दिन)</option>
-<option value="300">राजस्थान (₹300/दिन)</option>
-<option value="317">महाराष्ट्र (₹317/दिन)</option>
-<option value="409">हरियाणा (₹409/दिन)</option>
-<option value="300">गुजरात (₹300/दिन)</option>
-<option value="300">झारखंड (₹300/दिन)</option>
-<option value="300">छत्तीसगढ़ (₹300/दिन)</option>
-<option value="401">केरल (₹401/दिन)</option>
-<option value="382">कर्नाटक (₹382/दिन)</option>
-<option value="345">तमिलनाडु (₹345/दिन)</option>
-</select>
-<div id="mgnregaResult"></div>
+<option value="">--चुनें--</option>
+<option value="300">उत्तर प्रदेश (₹300)</option>
+<option value="300">बिहार (₹300)</option>
+<option value="300">मध्य प्रदेश (₹300)</option>
+<option value="317">महाराष्ट्र (₹317)</option>
+<option value="409">हरियाणा (₹409)</option>
+<option value="401">केरल (₹401)</option>
+</select><div id="mgnregaResult"></div>
 </div></div></div>
 
-<!-- कैलकुलेटर -->
 <div id="p-calc" class="h"><div class="c"><h2>💰 मजदूरी कैलकुलेटर</h2>
 <label>स्थान/कंपनी *</label>
 <select id="calcState" onchange="calcWage()">
 <option value="">--चुनें--</option>
 <optgroup label="🏢 NTPC रिहंद">
-<option value="556">USW - अकुशल (₹556)</option>
-<option value="650">SSW - अर्ध-कुशल (₹650)</option>
-<option value="781">SW - कुशल (₹781)</option>
-<option value="918">HSW - अति कुशल (₹918)</option>
+<option value="556">USW अकुशल (₹556)</option>
+<option value="650">SSW अर्ध-कुशल (₹650)</option>
+<option value="781">SW कुशल (₹781)</option>
+<option value="918">HSW अति कुशल (₹918)</option>
 </optgroup>
 <optgroup label="🌾 मनरेगा">
 <option value="300">उत्तर प्रदेश (₹300)</option>
 <option value="317">महाराष्ट्र (₹317)</option>
-<option value="409">हरियाणा (₹409)</option>
-<option value="401">केरल (₹401)</option>
 </optgroup>
-<optgroup label="🏛️ राज्य न्यूनतम मजदूरी">
+<optgroup label="🏛️ राज्य मजदूरी">
 <option value="230">उत्तर प्रदेश (₹230)</option>
 <option value="250">बिहार (₹250)</option>
 <option value="290">मध्य प्रदेश (₹290)</option>
 <option value="350">गुजरात (₹350)</option>
 <option value="380">महाराष्ट्र (₹380)</option>
-<option value="400">हरियाणा (₹400)</option>
 <option value="640">दिल्ली (₹640)</option>
-<option value="280">राजस्थान (₹280)</option>
-<option value="320">पश्चिम बंगाल (₹320)</option>
-<option value="280">झारखंड (₹280)</option>
-<option value="380">पंजाब (₹380)</option>
-<option value="500">केरल (₹500)</option>
 </optgroup>
 </select>
-<label>कितने दिन काम किया? *</label>
-<input id="calcDays" type="number" placeholder="जैसे 26" oninput="calcWage()">
-<label>ओवरटाइम घंटे</label>
-<input id="calcOT" type="number" placeholder="जैसे 10" oninput="calcWage()">
+<label>कितने दिन काम किया? *</label><input id="calcDays" type="number" placeholder="जैसे 26" oninput="calcWage()">
+<label>ओवरटाइम घंटे</label><input id="calcOT" type="number" placeholder="जैसे 10" oninput="calcWage()">
 <div id="calcResult"></div>
 </div></div>
 
-<!-- शिकायत -->
-<div id="p-shikayat" class="h"><div class="c"><h2>📢 शिकायत दर्ज करें</h2><p class="note">⚠️ झूठी शिकायत पर कार्रवाई। एडमिन जाँच के बाद सार्वजनिक।</p>
+<div id="p-shikayat" class="h"><div class="c"><h2>📢 शिकायत दर्ज करें</h2>
 <form onsubmit="subc(event)">
 <label>कंपनी का नाम *</label><input id="cn" required>
 <label>कंपनी का पता *</label><input id="ca" required>
@@ -223,51 +144,35 @@
 <label>विवरण *</label><textarea id="cd" required></textarea>
 <label>सबूत (वैकल्पिक)</label><textarea id="cp"></textarea>
 <button class="btn">दर्ज करें ✅</button>
-<div class="sm" id="sm1">✅ शिकायत दर्ज! एडमिन जाँच के बाद दिखेगी।</div>
+<div class="sm" id="sm1">✅ शिकायत दर्ज!</div>
 </form></div></div>
 
-<!-- मेरी शिकायतें -->
 <div id="p-mycomp" class="h"><div class="c"><h2>📑 मेरी शिकायतें</h2><div id="mcl"></div></div></div>
 
-<!-- कानून -->
 <div id="p-laws" class="h"><div class="c"><h2>📜 नए श्रम कानून (2025)</h2>
-<div class="lc"><h3>1️⃣ नियुक्ति पत्र अनिवार्य</h3><ul><li>हर मजदूर को <b>लिखित नियुक्ति पत्र</b></li><li>3 महीने के अंदर</li><li>पत्र बिना काम दंडनीय</li></ul></div>
-<div class="lc"><h3>2️⃣ न्यूनतम मजदूरी</h3><ul><li><b>सभी श्रमिकों</b> को समान न्यूनतम मजदूरी</li><li>असंगठित क्षेत्र को भी अधिकार</li></ul></div>
-<div class="lc"><h3>3️⃣ ओवरटाइम डबल (2x)</h3><ul><li>ओवरटाइम का <b>2 गुना</b> भुगतान</li><li>लिखित सहमति जरूरी</li></ul></div>
-<div class="lc"><h3>4️⃣ काम के घंटे</h3><ul><li><b>8 घंटे/दिन</b>, <b>48 घंटे/हफ्ता</b></li></ul></div>
-<div class="lc"><h3>5️⃣ PF, ESIC, ग्रेच्युटी</h3><ul><li>ESIC: <b>₹21,000 तक</b></li><li>ग्रेच्युटी: <b>1 साल</b> पर</li><li>गिग वर्कर्स को भी PF</li></ul></div>
-<div class="lc"><h3>6️⃣ महिला अधिकार</h3><ul><li>रात शिफ्ट में काम</li><li><b>समान काम समान वेतन</b></li><li>26 हफ्ते मातृत्व लीव</li></ul></div>
-<div class="lc"><h3>7️⃣ शिकायत समिति</h3><ul><li>20+ श्रमिकों पर <b>10 सदस्यीय समिति</b></li><li>आधे सदस्य मजदूर</li></ul></div>
-<div class="lc"><h3>8️⃣ छंटनी</h3><ul><li><b>300 से कम</b> पर अनुमति नहीं</li><li>पुनः कौशल निधि</li></ul></div>
-<div class="lc"><h3>9️⃣ अन्य</h3><ul><li>हड़ताल: <b>60 दिन</b> नोटिस</li><li>बाल श्रम पर सख्ती</li></ul></div>
-<div class="tip"><b>💡 हेल्पलाइन:</b> 1800-11-4000 (टोल फ्री)</div>
+<div class="lc"><h3>1️⃣ नियुक्ति पत्र अनिवार्य</h3><ul><li>हर मजदूर को लिखित पत्र</li><li>3 महीने में</li></ul></div>
+<div class="lc"><h3>2️⃣ न्यूनतम मजदूरी</h3><ul><li>सभी को समान न्यूनतम मजदूरी</li></ul></div>
+<div class="lc"><h3>3️⃣ ओवरटाइम डबल (2x)</h3><ul><li>2 गुना भुगतान</li><li>सहमति जरूरी</li></ul></div>
+<div class="lc"><h3>4️⃣ काम के घंटे</h3><ul><li>8 घंटे/दिन, 48/हफ्ता</li></ul></div>
+<div class="lc"><h3>5️⃣ PF, ESIC, ग्रेच्युटी</h3><ul><li>ESIC: ₹21,000 तक</li><li>ग्रेच्युटी: 1 साल पर</li></ul></div>
+<div class="lc"><h3>6️⃣ महिला अधिकार</h3><ul><li>रात शिफ्ट, समान वेतन</li></ul></div>
+<div class="lc"><h3>7️⃣ शिकायत समिति</h3><ul><li>20+ पर 10 सदस्यीय</li></ul></div>
+<div class="lc"><h3>8️⃣ छंटनी</h3><ul><li>300 से कम पर अनुमति नहीं</li></ul></div>
+<div class="lc"><h3>9️⃣ अन्य</h3><ul><li>हड़ताल: 60 दिन नोटिस</li></ul></div>
+<div class="tip"><b>💡 हेल्पलाइन:</b> 1800-11-4000</div>
 </div></div>
 
-<!-- कोर्स -->
 <div id="p-courses" class="h"><div class="c"><h2>🎓 स्किल कोर्स</h2><div id="coursesList"></div></div></div>
 
-<!-- नंबर -->
-<div id="p-numbers" class="h"><div class="c"><h2>☎️ जरूरी हेल्पलाइन</h2><div id="numbersList"></div></div></div>
+<div id="p-numbers" class="h"><div class="c"><h2>☎️ जरूरी नंबर</h2><div id="numbersList"></div></div></div>
 
-<!-- दुकानें -->
 <div id="p-shops" class="h"><div class="c"><h2>🏪 स्थानीय दुकानें</h2><div id="shopsList"></div></div></div>
 
-<!-- ID कार्ड -->
-<div id="p-idcard" class="h"><div class="c"><h2>🆔 डिजिटल मजदूर ID कार्ड</h2>
-<div class="id-preview"><div class="id-card"><div class="id-header">🇮🇳 APANA INDIA</div><div class="id-body"><div class="id-photo">👤</div><div class="id-info"><h3 id="idName">आपका नाम</h3><p id="idSkill">हुनर: ___</p><p id="idPhone">📱 ___</p><p id="idPlace">📍 ___</p></div></div><div class="id-footer">ID: AI-2026-0001</div></div></div>
-<form onsubmit="makeID(event)">
-<label>पूरा नाम *</label><input id="idN" required oninput="document.getElementById('idName').innerText=this.value||'आपका नाम'">
-<label>हुनर *</label><input id="idS" required oninput="document.getElementById('idSkill').innerText='हुनर: '+(this.value||'___')">
-<label>मोबाइल *</label><input id="idP" required maxlength="10" oninput="this.value=this.value.replace(/[^0-9]/g,'');document.getElementById('idPhone').innerText='📱 '+(this.value||'___')">
-<label>गाँव/शहर *</label><input id="idPL" required oninput="document.getElementById('idPlace').innerText='📍 '+(this.value||'___')">
-<button class="btn">ID कार्ड बनाएं (₹99)</button>
-</form></div></div>
+<div id="p-alert" class="h"><div class="c"><h2>⚠️ मजदूर अलर्ट</h2>
+<div class="ab ag">🟢 सुरक्षित</div><div class="ab ay">🟡 सावधान</div><div class="ab ar">🔴 अलर्ट</div>
+<div id="al"></div></div></div>
 
-<!-- अलर्ट -->
-<div id="p-alert" class="h"><div class="c"><h2>⚠️ मजदूर अलर्ट</h2><div class="ab ag">🟢 हरी रेटिंग — सुरक्षित</div><div class="ab ay">🟡 पीली रेटिंग — सावधान</div><div class="ab ar">🔴 लाल अलर्ट — काम न करें</div><div id="al"></div></div></div>
-
-<!-- विज्ञापन -->
-<div id="p-post" class="h"><div class="c"><h2>➕ अपना विज्ञापन डालें</h2>
+<div id="p-post" class="h"><div class="c"><h2>➕ विज्ञापन डालें</h2>
 <form onsubmit="suba(event)">
 <label>शीर्षक *</label><input id="at" required>
 <label>श्रेणी *</label><select id="ac" required><option value="">--चुनें--</option><option value="job">नौकरी</option><option value="property">जमीन/मकान</option><option value="vehicle">वाहन</option><option value="shop">दुकान/सेवा</option></select>
@@ -279,7 +184,6 @@
 <div class="sm" id="sm2">✅ जमा हो गया!</div>
 </form></div></div>
 
-<!-- एडमिन -->
 <div id="p-admin" class="h"><div class="c"><h2>⚙️ एडमिन पैनल</h2>
 <div id="alb"><p class="note">पासवर्ड: <b>admin123</b></p><input id="apw" type="password" placeholder="पासवर्ड"><button class="btn" onclick="alog()">लॉगिन</button></div>
 <div id="apn" class="h">
@@ -288,13 +192,13 @@
 <h3 style="color:#0a7a0a;margin-top:12px">✅ स्वीकृत</h3><div id="acomplApproved"></div>
 <h3 style="color:#666;margin-top:12px">❌ रद्द</h3><div id="acomplRejected"></div>
 <h3 style="color:#000080;margin-top:12px">👷 सभी मजदूर</h3><div id="adminWorkers"></div>
-</div>
-</div></div>
+</div></div></div>
 
-<!-- सहायता -->
 <div id="p-help" class="h"><div class="c"><h2>📞 सहायता</h2><p>📧 help@apanaindia.in</p><p>श्रम हेल्पलाइन: <b>1800-11-4000</b></p></div></div>
 
 </div>
-<footer><b>© 2025 APANA INDIA</b><br>रोजगार भी, मजदूरों को न्याय भी 🇮🇳</footer>
-<script src="script.js"></script>
+<footer>© 2025 APANA INDIA 🇮🇳</footer>
+<script src="script1.js"></script>
+<script src="script2.js"></script>
+<script src="script3.js"></script>
 </body></html>
