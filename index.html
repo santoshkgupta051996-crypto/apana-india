@@ -172,10 +172,15 @@
 <label style="display:flex;align-items:center;gap:8px;margin-top:12px;background:#fff5ee;padding:8px;border-radius:6px">
 <input type="checkbox" id="calcPF" checked onchange="calcWage()" style="width:auto;margin:0">
 <span>PF (12%) और ESIC (0.75%) काटें</span>
+</label><label style="display:flex;align-items:center;gap:8px;margin-top:12px;background:#e6f9ff;padding:8px;border-radius:6px">
+<input type="checkbox" id="calcFinalDemand" onchange="calcWage()" style="width:auto;margin:0">
+<span>🔴 Final Demand (18.73% + एक महीना सैलरी)</span>
 </label>
+<label>एक महीने की सैलरी (₹)</label>
+<input id="calcMonthAmt" type="number" placeholder="जैसे 16000" oninput="calcWage()">
 <div id="calcResult"></div>
 </div></div>
-
+  
 <div id="p-shikayat" class="h"><div class="c"><h2>📢 शिकायत दर्ज करें</h2>
 <form onsubmit="subc(event)">
 <label>कंपनी का नाम *</label><input id="cn" required>
