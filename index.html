@@ -170,7 +170,11 @@
 <option value="2" selected>2x (डबल दर)</option>
 </select>
 </select>
-
+<label style="display:flex;align-items:center;gap:8px;margin-top:12px;background:#fff5ee;padding:8px;border-radius:6px">
+<input type="checkbox" id="calcPF" checked onchange="calcWage()" style="width:auto;margin:0">
+<span>PF (12%) और ESIC (0.75%) काटें</span>
+</label>
+<div id="calcResult"></div>
 <div id="calcResult"></div>
 </div></div>
   
