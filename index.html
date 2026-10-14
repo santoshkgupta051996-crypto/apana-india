@@ -164,6 +164,11 @@
 <input id="calcDays" type="number" placeholder="जैसे 26" oninput="calcWage()">
 <label>ओवरटाइम घंटे</label>
 <input id="calcOT" type="number" placeholder="जैसे 10" oninput="calcWage()">
+<label>ओवरटाइम दर</label>
+<select id="calcOTRate" onchange="calcWage()">
+<option value="1">1x (सामान्य दर)</option>
+<option value="2" selected>2x (डबल दर)</option>
+</select>
 <label style="display:flex;align-items:center;gap:8px;margin-top:12px;background:#fff5ee;padding:8px;border-radius:6px">
 <input type="checkbox" id="calcPF" checked onchange="calcWage()" style="width:auto;margin:0">
 <span>PF (12%) और ESIC (0.75%) काटें</span>
