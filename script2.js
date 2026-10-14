@@ -159,6 +159,7 @@ var manual=parseFloat(document.getElementById('calcManual').value)||0;
 var state=document.getElementById('calcState').value;
 var days=parseFloat(document.getElementById('calcDays').value)||0;
 var ot=parseFloat(document.getElementById('calcOT').value)||0;
+var otRate=parseFloat(document.getElementById('calcOTRate').value)||2;
 var applyPF=document.getElementById('calcPF').checked;
 var box=document.getElementById('calcResult');
 var daily=0,label='';
@@ -167,7 +168,7 @@ else if(state){daily=parseFloat(state);var isN=(daily==556||daily==650||daily==7
 if(!daily||!days){box.innerHTML='';return;}
 var normal=Math.round(daily*days);
 var hourly=Math.round(daily/8);
-var otAmt=Math.round(hourly*2*ot);
+var otAmt=Math.round(hourly*otRate*ot);
 var gross=normal+otAmt;
 var basic=Math.round((gross-otAmt)/1.1909);
 var nh=Math.round(basic*0.0096);
