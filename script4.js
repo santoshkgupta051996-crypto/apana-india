@@ -1,4 +1,3 @@
-/* ============ शुरुआत में सब चालू करें ============ */
 document.addEventListener('DOMContentLoaded',function(){
 sts();
 updTk();
@@ -7,7 +6,6 @@ rPublic();
 rTopSuggest();
 });
 
-/* ============ एंटर की = काम करे ============ */
 document.addEventListener('keydown',function(e){
 if(e.key==='Enter'){
 var el=document.activeElement;
