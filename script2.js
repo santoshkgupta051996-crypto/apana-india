@@ -161,43 +161,62 @@ var days=parseFloat(document.getElementById('calcDays').value)||0;
 var ot=parseFloat(document.getElementById('calcOT').value)||0;
 var otRate=parseFloat(document.getElementById('calcOTRate').value)||2;
 var applyPF=document.getElementById('calcPF').checked;
+var fdOn=document.getElementById('calcFinalDemand').checked;
+var fdMonth=parseFloat(document.getElementById('calcMonthAmt').value)||0;
 var box=document.getElementById('calcResult');
 var daily=0,label='';
 if(manual>0){daily=manual;label='✍️ आपका रेट';}
 else if(state){daily=parseFloat(state);var isN=(daily==556||daily==650||daily==781||daily==918);label=isN?'🏢 NTPC रिहंद':'न्यूनतम/मनरेगा दर';}
 if(!daily||!days){box.innerHTML='';return;}
-var normal=Math.round(daily*days);
+
+var baseWages=Math.round(daily*days);
+var nh=Math.round(baseWages*0.0096);
+var el=Math.round(baseWages*0.05);
+var bonus=Math.round(baseWages*0.0833);
+var rb=Math.round(baseWages*0.048);
+var totalAdd=nh+el+bonus+rb;
 var hourly=Math.round(daily/8);
 var otAmt=Math.round(hourly*otRate*ot);
-var gross=normal+otAmt;
-var basic=Math.round((gross-otAmt)/1.1909);
-var nh=Math.round(basic*0.0096);
-var el=Math.round(basic*0.05);
-var bonus=Math.round(basic*0.0833);
-var rb=Math.round(basic*0.048);
-var epf=applyPF?Math.round(basic*0.12):0;
-var esic=applyPF?Math.round(basic*0.0075):0;
+var gross=baseWages+totalAdd+otAmt;
+var epf=applyPF?Math.round(baseWages*0.12):0;
+var esic=applyPF?Math.round(baseWages*0.0075):0;
 var net=gross-epf-esic;
+var fdBase=baseWages+Math.round(baseWages*0.1873);
+var finalDemand=fdBase+fdMonth;
+
 var html='<div class="calc-box">';
 html+='<div style="text-align:center;font-size:12px;color:#666;margin-bottom:6px">'+label+'</div>';
-html+='<div class="row"><span>दैनिक</span><span>₹'+daily+'</span></div>';
-html+='<div class="row"><span>दिन</span><span>'+days+'</span></div>';
-html+='<div class="row"><span>सामान्य मजदूरी</span><span>₹'+normal+'</span></div>';
-if(ot>0){html+='<div class="row"><span>ओवरटाइम (2x)</span><span>₹'+otAmt+'</span></div>';}
-html+='<div class="row" style="background:#fff5ee"><span><b>कुल वेतन</b></span><span><b>₹'+gross+'</b></span></div>';
-if(applyPF){
-html+='<div style="margin-top:10px;font-size:12px;color:#888;text-align:center">— ब्रेकडाउन —</div>';
-html+='<div class="row"><span>Basic</span><span>₹'+basic+'</span></div>';
+html+='<div class="row"><span>दैनिक दर</span><span>₹'+daily+'</span></div>';
+html+='<div class="row"><span>कुल दिन</span><span>'+days+'</span></div>';
+html+='<div class="row"><span>Basic Wages</span><span>₹'+baseWages+'</span></div>';
+if(ot>0){html+='<div class="row"><span>OT ('+otRate+'x)</span><span>₹'+otAmt+'</span></div>';}
+html+='<div class="row" style="background:#fff5ee"><span><b>कुल वेतन (Gross)</b></span><span><b>₹'+gross+'</b></span></div>';
+html+='<div style="margin-top:10px;font-size:12px;color:#888;text-align:center">— जोड़ (Additions) —</div>';
 html+='<div class="row"><span>NH (0.96%)</span><span>₹'+nh+'</span></div>';
 html+='<div class="row"><span>EL (5%)</span><span>₹'+el+'</span></div>';
 html+='<div class="row"><span>बोनस (8.33%)</span><span>₹'+bonus+'</span></div>';
 html+='<div class="row"><span>RB (4.8%)</span><span>₹'+rb+'</span></div>';
+html+='<div class="row" style="background:#fff5ee"><span><b>Total Additions</b></span><span><b>₹'+totalAdd+'</b></span></div>';
+if(applyPF){
+html+='<div style="margin-top:10px;font-size:12px;color:#888;text-align:center">— कटौती —</div>';
 html+='<div class="row" style="color:#d40000"><span>PF (12%)</span><span>- ₹'+epf+'</span></div>';
 html+='<div class="row" style="color:#d40000"><span>ESIC (0.75%)</span><span>- ₹'+esic+'</span></div>';
 }
-html+='<div class="row" style="background:#e6f9e6"><span><b>हाथ में मिलेगा</b></span><span><b style="color:#138808">₹'+net+'</b></span></div>';
+html+='<div class="row" style="background:#e6f9e6"><span><b>हाथ में मिलेगा (Net)</b></span><span><b style="color:#138808">₹'+net+'</b></span></div>';
 html+='<div class="big">₹'+net+'</div>';
-html+='<a href="https://wa.me/?text='+encodeURIComponent('मजदूरी (Apana India):\nरेट: ₹'+daily+'/दिन\nदिन: '+days+'\nकुल: ₹'+gross+'\nPF: ₹'+epf+'\nESIC: ₹'+esic+'\nहाथ में: ₹'+net)+'" target="_blank" class="btn-wa">📱 WhatsApp भेजें</a>';
+
+if(fdOn){
+html+='<div style="margin-top:15px;background:#ffe6e6;border:2px solid #d40000;border-radius:8px;padding:12px">';
+html+='<h3 style="color:#d40000;text-align:center;margin-bottom:8px">🔴 FINAL DEMAND</h3>';
+html+='<div class="row"><span>Basic ('+days+'×₹'+daily+')</span><span>₹'+baseWages+'</span></div>';
+html+='<div class="row"><span>+ 18.73% भत्ते</span><span>₹'+Math.round(baseWages*0.1873)+'</span></div>';
+if(fdMonth>0){html+='<div class="row"><span>+ एक महीना सैलरी</span><span>₹'+fdMonth+'</span></div>';}
+html+='<div class="row" style="background:#fff;color:#d40000;font-size:16px"><span><b>कुल माँग</b></span><span><b>₹'+finalDemand+'</b></span></div>';
+html+='<div class="big" style="color:#d40000">₹'+finalDemand+'</div>';
+html+='</div>';
+}
+
+html+='<a href="https://wa.me/?text='+encodeURIComponent('मजदूरी (Apana India):\n\nBasic: ₹'+baseWages+'\nGross: ₹'+gross+'\nPF: ₹'+epf+'\nESIC: ₹'+esic+'\nNet: ₹'+net+(fdOn?'\n\n🔴 FINAL DEMAND: ₹'+finalDemand:''))+'" target="_blank" class="btn-wa">📱 WhatsApp भेजें</a>';
 html+='</div>';
 box.innerHTML=html;
 }
