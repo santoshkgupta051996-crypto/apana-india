@@ -162,7 +162,10 @@ var ot=parseFloat(document.getElementById('calcOT').value)||0;
 var otRate=parseFloat(document.getElementById('calcOTRate').value)||2;
 var applyPF=document.getElementById('calcPF').checked;
 var fdOn=document.getElementById('calcFinalDemand').checked;
-var fdMonth=parseFloat(document.getElementById('calcMonthAmt').value)||0;
+var noticeOn=document.getElementById('calcNotice').checked;
+var monthAmt=parseFloat(document.getElementById('calcMonthAmt').value)||0;
+var forcedOn=document.getElementById('calcForced').checked;
+var extraDays=parseFloat(document.getElementById('calcExtraDays').value)||0;
 var box=document.getElementById('calcResult');
 var daily=0,label='';
 if(manual>0){daily=manual;label='✍️ आपका रेट';}
@@ -181,8 +184,6 @@ var gross=baseWages+totalAdd+otAmt;
 var epf=applyPF?Math.round(baseWages*0.12):0;
 var esic=applyPF?Math.round(baseWages*0.0075):0;
 var net=gross-epf-esic;
-var fdBase=baseWages+Math.round(baseWages*0.1873);
-var finalDemand=fdBase+fdMonth;
 
 var html='<div class="calc-box">';
 html+='<div style="text-align:center;font-size:12px;color:#666;margin-bottom:6px">'+label+'</div>';
@@ -206,17 +207,33 @@ html+='<div class="row" style="background:#e6f9e6"><span><b>हाथ में 
 html+='<div class="big">₹'+net+'</div>';
 
 if(fdOn){
+var pct18=Math.round(baseWages*0.1873);
+var fdTotal=baseWages+pct18;
 html+='<div style="margin-top:15px;background:#ffe6e6;border:2px solid #d40000;border-radius:8px;padding:12px">';
 html+='<h3 style="color:#d40000;text-align:center;margin-bottom:8px">🔴 FINAL DEMAND</h3>';
-html+='<div class="row"><span>Basic ('+days+'×₹'+daily+')</span><span>₹'+baseWages+'</span></div>';
-html+='<div class="row"><span>+ 18.73% भत्ते</span><span>₹'+Math.round(baseWages*0.1873)+'</span></div>';
-if(fdMonth>0){html+='<div class="row"><span>+ एक महीना सैलरी</span><span>₹'+fdMonth+'</span></div>';}
-html+='<div class="row" style="background:#fff;color:#d40000;font-size:16px"><span><b>कुल माँग</b></span><span><b>₹'+finalDemand+'</b></span></div>';
-html+='<div class="big" style="color:#d40000">₹'+finalDemand+'</div>';
+html+='<div class="row"><span>Basic ('+days+' × ₹'+daily+')</span><span>₹'+baseWages+'</span></div>';
+html+='<div class="row"><span>+ 18.73% भत्ते</span><span>₹'+pct18+'</span></div>';
+html+='<div class="row" style="background:#fff"><span><b>Sub Total</b></span><span><b>₹'+fdTotal+'</b></span></div>';
+
+if(noticeOn){
+var mAmt=monthAmt>0?monthAmt:Math.round(daily*26);
+html+='<div class="row"><span>📄 एक महीना सैलरी (notice)</span><span>₹'+mAmt+'</span></div>';
+fdTotal=fdTotal+mAmt;
+}
+
+if(forcedOn && extraDays>0){
+var extraAmt=Math.round(daily*extraDays);
+html+='<div class="row"><span>⚠️ अतिरिक्त '+extraDays+' दिन × ₹'+daily+'</span><span>₹'+extraAmt+'</span></div>';
+fdTotal=fdTotal+extraAmt;
+}
+
+html+='<div class="row" style="background:#fff;color:#d40000;font-size:16px"><span><b>कुल माँग</b></span><span><b>₹'+fdTotal+'</b></span></div>';
+html+='<div class="big" style="color:#d40000">₹'+fdTotal+'</div>';
+html+='<p style="font-size:11px;color:#666;text-align:center;margin-top:8px">Formula: (दिन × रेट) + 18.73%'+(noticeOn?' + एक महीना सैलरी':'')+(forcedOn&&extraDays>0?' + अतिरिक्त दिन':'')+'</p>';
 html+='</div>';
 }
 
-html+='<a href="https://wa.me/?text='+encodeURIComponent('मजदूरी (Apana India):\n\nBasic: ₹'+baseWages+'\nGross: ₹'+gross+'\nPF: ₹'+epf+'\nESIC: ₹'+esic+'\nNet: ₹'+net+(fdOn?'\n\n🔴 FINAL DEMAND: ₹'+finalDemand:''))+'" target="_blank" class="btn-wa">📱 WhatsApp भेजें</a>';
+html+='<a href="https://wa.me/?text='+encodeURIComponent('मजदूरी हिसाब (Apana India):\n\nBasic: ₹'+baseWages+'\nGross: ₹'+gross+'\nPF: ₹'+epf+'\nESIC: ₹'+esic+'\nNet: ₹'+net+'\n\n🔴 FINAL DEMAND: ₹'+(fdOn?(baseWages+Math.round(baseWages*0.1873)+(noticeOn?(monthAmt>0?monthAmt:Math.round(daily*26)):0)+(forcedOn?Math.round(daily*extraDays):0)):net))+'" target="_blank" class="btn-wa">📱 WhatsApp भेजें</a>';
 html+='</div>';
 box.innerHTML=html;
 }
