@@ -169,22 +169,17 @@
 <option value="1">1x (सामान्य दर)</option>
 <option value="2" selected>2x (डबल दर)</option>
 </select>
-<label style="display:flex;align-items:center;gap:8px;margin-top:12px;background:#e6f9ff;padding:8px;border-radius:6px">
-<input type="checkbox" id="calcFinalDemand" onchange="calcWage()" style="width:auto;margin:0">
-<span>🔴 Final Demand निकालें (18.73% के साथ)</span>
-</label>
-<label style="display:flex;align-items:center;gap:8px;margin-top:8px;background:#fff5ee;padding:8px;border-radius:6px">
-<input type="checkbox" id="calcNotice" onchange="calcWage()" style="width:auto;margin:0">
-<span>📄 कंपनी ने Notice दिया (एक महीना सैलरी)</span>
-</label>
-<label>एक महीने की सैलरी (₹)</label>
-<input id="calcMonthAmt" type="number" placeholder="जैसे 16000" oninput="calcWage()">
-<label style="display:flex;align-items:center;gap:8px;margin-top:8px;background:#fff0f0;padding:8px;border-radius:6px">
-<input type="checkbox" id="calcForced" onchange="calcWage()" style="width:auto;margin:0">
-<span>⚠️ Notice के बाद भी काम कराया</span>
-</label>
-<label>अतिरिक्त दिन (notice के बाद)</label>
-<input id="calcExtraDays" type="number" placeholder="जैसे 20" oninput="calcWage()">
+</select>
+<label>कितने दिन काम किया? *</label>
+<input id="calcDays" type="number" placeholder="जैसे 26" oninput="calcWage()">
+<label>ओवरटाइम घंटे</label>
+<input id="calcOT" type="number" placeholder="जैसे 10" oninput="calcWage()">
+<label>ओवरटाइम दर</label>
+<select id="calcOTRate" onchange="calcWage()">
+<option value="1">1x (सामान्य दर)</option>
+<option value="2" selected>2x (डबल दर)</option>
+</select>
+<div id="calcResult"></div>
 <div id="calcResult"></div>
 </div></div>
   
