@@ -25,7 +25,6 @@
 </nav>
 <div class="w">
 
-<!-- होम -->
 <div id="p-home">
 <div class="hero"><h2>स्वागत है 🙏</h2><p>भारत का डिजिटल प्लेटफॉर्म जहाँ मजदूर, कंपनियाँ, ठेकेदार और दुकानदार एक साथ जुड़ते हैं।</p></div>
 <div class="stats"><div class="st"><h4 id="sa">0</h4><p>विज्ञापन</p></div><div class="st"><h4 id="sc">0</h4><p>शिकायतें</p></div><div class="st"><h4 id="sco">0</h4><p>कंपनियाँ</p></div><div class="st"><h4 id="sw2">0</h4><p>मजदूर</p></div></div>
@@ -51,7 +50,6 @@
 <div class="c"><h2>🔥 ट्रेंडिंग खबरें</h2><div id="ht"></div></div>
 </div>
 
-<!-- मजदूर -->
 <div id="p-worker" class="h"><div class="c"><h2>👷 मजदूर रजिस्ट्रेशन</h2>
 <div class="tb"><button class="tt active" onclick="wTab('list',this)">🔍 खोजें</button><button class="tt" onclick="wTab('reg',this)">✍️ रजिस्टर</button></div>
 <div id="wListTab"><input id="wSearch" placeholder="🔍 जगह/हुनर लिखें..." oninput="rWorkers()"><p class="note" id="wCount">कुल: 0</p><div id="wList"></div></div>
@@ -69,7 +67,6 @@
 <div class="sm" id="sm3">✅ रजिस्ट्रेशन सफल!</div>
 </form></div></div></div>
 
-<!-- कंपनियाँ -->
 <div id="p-comp" class="h"><div class="c"><h2>🏢 कंपनियाँ</h2>
 <div class="tb"><button class="tt active" onclick="cTab('list',this)">🔍 खोजें</button><button class="tt" onclick="cTab('reg',this)">✍️ रजिस्टर</button></div>
 <div id="cListTab"><input id="cs" placeholder="🔍 कंपनी खोजें..." oninput="rcomp()"><div id="cl"></div></div>
@@ -85,9 +82,7 @@
 <div class="sm" id="sm4">✅ कंपनी रजिस्टर हो गई!</div>
 </form></div></div></div>
 
-<!-- ठेकेदार -->
 <div id="p-contractor" class="h"><div class="c"><h2>📋 ठेकेदार रेट पोस्ट</h2>
-<p class="note">ठेकेदार अपना रेट, सुविधा और जरूरत पोस्ट करें। मजदूर सीधे संपर्क करें।</p>
 <div class="tb"><button class="tt active" onclick="ctTab('list',this)">🔍 देखें</button><button class="tt" onclick="ctTab('reg',this)">✍️ पोस्ट करें</button></div>
 <div id="ctListTab"><div id="ctList"></div></div>
 <div id="ctRegTab" class="h"><form onsubmit="regContractor(event)">
@@ -103,7 +98,6 @@
 <div class="sm" id="sm5">✅ पोस्ट हो गया!</div>
 </form></div></div></div>
 
-<!-- न्यूज़ -->
 <div id="p-news" class="h"><div class="c"><h2>📰 ताजा समाचार</h2>
 <input id="ns" placeholder="🔍 खबर खोजें..." oninput="rnews()">
 <div class="tb">
@@ -118,10 +112,8 @@
 <button class="tt" onclick="sw('sonbhadra',this)">📍 सोनभद्र</button>
 </div><div id="nl"></div></div></div>
 
-<!-- नौकरी -->
 <div id="p-jobs" class="h"><div class="c"><h2>💼 नौकरी</h2><div id="jl"></div></div></div>
 
-<!-- मजदूरी दर -->
 <div id="p-wage" class="h"><div class="c"><h2>💵 कंपनी मजदूरी दर</h2>
 <label>कंपनी चुनें:</label>
 <select id="wageCompany" onchange="showWageRate()">
@@ -143,7 +135,6 @@
 </select><div id="mgnregaResult"></div>
 </div></div></div>
 
-<!-- कैलकुलेटर -->
 <div id="p-calc" class="h"><div class="c"><h2>💰 मजदूरी कैलकुलेटर</h2>
 <p class="note">अपना रेट डालें। PF/ESIC कटौती के साथ पूरा हिसाब।</p>
 <label>अपना रेट (₹/दिन) *</label>
@@ -182,7 +173,6 @@
 <div id="calcResult"></div>
 </div></div>
 
-<!-- शिकायत -->
 <div id="p-shikayat" class="h"><div class="c"><h2>📢 शिकायत दर्ज करें</h2>
 <form onsubmit="subc(event)">
 <label>कंपनी का नाम *</label><input id="cn" required>
@@ -196,10 +186,8 @@
 <div class="sm" id="sm1">✅ शिकायत दर्ज!</div>
 </form></div></div>
 
-<!-- मेरी -->
 <div id="p-mycomp" class="h"><div class="c"><h2>📑 मेरी शिकायतें</h2><div id="mcl"></div></div></div>
 
-<!-- कानून -->
 <div id="p-laws" class="h"><div class="c"><h2>📜 नए श्रम कानून (2025)</h2>
 <div class="lc"><h3>1️⃣ नियुक्ति पत्र अनिवार्य</h3><ul><li>हर मजदूर को लिखित पत्र</li><li>3 महीने में</li></ul></div>
 <div class="lc"><h3>2️⃣ न्यूनतम मजदूरी</h3><ul><li>सभी को समान न्यूनतम मजदूरी</li></ul></div>
@@ -213,13 +201,11 @@
 <div class="tip"><b>💡 हेल्पलाइन:</b> 1800-11-4000</div>
 </div></div>
 
-<!-- कोर्स -->
 <div id="p-courses" class="h"><div class="c"><h2>🎓 स्किल कोर्स</h2><div id="coursesList"></div></div></div>
 
-<!-- दुकानें -->
 <div id="p-shops" class="h"><div class="c"><h2>🏪 दुकानें एवं प्रोडक्ट</h2>
 <div class="tb"><button class="tt active" onclick="shTab('list',this)">🛍️ प्रोडक्ट</button><button class="tt" onclick="shTab('reg',this)">✍️ दुकान जोड़ें</button></div>
-<div id="shListTab"><input id="shSearch" placeholder="🔍 प्रोडक्ट/दुकान खोजें..." oninput="rShops()"><div id="shopsList"></div></div>
+<div id="shListTab"><input id="shSearch" placeholder="🔍 प्रोडक्ट खोजें..." oninput="rShops()"><div id="shopsList"></div></div>
 <div id="shRegTab" class="h"><form onsubmit="regShop(event)">
 <label>दुकानदार का नाम *</label><input id="shO" required>
 <label>दुकान का नाम *</label><input id="shN" required>
@@ -233,9 +219,7 @@
 <div class="sm" id="sm6">✅ दुकान जुड़ गई!</div>
 </form></div></div></div>
 
-<!-- पंचायत -->
 <div id="p-panchayat" class="h"><div class="c"><h2>🏛️ ग्राम पंचायत समस्या</h2>
-<p class="note">अपने गाँव की समस्या यहाँ पोस्ट करें — सड़क, पानी, बिजली, राशन। सबको दिखेगी।</p>
 <div class="tb"><button class="tt active" onclick="pnTab('list',this)">📋 समस्याएँ</button><button class="tt" onclick="pnTab('reg',this)">✍️ पोस्ट करें</button></div>
 <div id="pnListTab"><div id="panchayatList"></div></div>
 <div id="pnRegTab" class="h"><form onsubmit="regPanchayat(event)">
@@ -250,12 +234,10 @@
 <div class="sm" id="sm7">✅ पोस्ट हो गया!</div>
 </form></div></div></div>
 
-<!-- सुझाव -->
 <div id="p-suggest" class="h"><div class="c"><h2>💡 सुझाव दें</h2>
-<p class="note">अपना सुझाव लिखें। जो सबसे ज्यादा पसंद किया जाएगा, वह होम पेज पर दिखेगा।</p>
 <form onsubmit="regSuggest(event)">
 <label>आपका नाम *</label><input id="sgN" required>
-<label>सुझाव *</label><textarea id="sgT" required placeholder="आपके मन में क्या सुझाव है?"></textarea>
+<label>सुझाव *</label><textarea id="sgT" required></textarea>
 <button class="btn">भेजें ✅</button>
 <div class="sm" id="sm8">✅ सुझाव भेज दिया!</div>
 </form>
@@ -263,15 +245,12 @@
 <div id="allSuggest"></div>
 </div></div>
 
-<!-- नंबर -->
 <div id="p-numbers" class="h"><div class="c"><h2>☎️ जरूरी नंबर</h2><div id="numbersList"></div></div></div>
 
-<!-- अलर्ट -->
 <div id="p-alert" class="h"><div class="c"><h2>⚠️ मजदूर अलर्ट</h2>
 <div class="ab ag">🟢 सुरक्षित</div><div class="ab ay">🟡 सावधान</div><div class="ab ar">🔴 अलर्ट</div>
 <div id="al"></div></div></div>
 
-<!-- विज्ञापन -->
 <div id="p-post" class="h"><div class="c"><h2>➕ विज्ञापन डालें</h2>
 <form onsubmit="suba(event)">
 <label>शीर्षक *</label><input id="at" required>
@@ -284,7 +263,6 @@
 <div class="sm" id="sm2">✅ जमा हो गया!</div>
 </form></div></div>
 
-<!-- एडमिन -->
 <div id="p-admin" class="h"><div class="c"><h2>⚙️ एडमिन पैनल</h2>
 <div id="alb"><p class="note">पासवर्ड: <b>admin123</b></p><input id="apw" type="password" placeholder="पासवर्ड"><button class="btn" onclick="alog()">लॉगिन</button></div>
 <div id="apn" class="h">
@@ -295,12 +273,9 @@
 <h3 style="color:#000080;margin-top:12px">👷 सभी मजदूर</h3><div id="adminWorkers"></div>
 </div></div></div>
 
-<!-- सहायता -->
 <div id="p-help" class="h"><div class="c"><h2>📞 सहायता</h2><p>📧 help@apanaindia.in</p><p>श्रम हेल्पलाइन: <b>1800-11-4000</b></p></div></div>
 
 </div>
-<footer>© 2025 APANA INDIA 🇮🇳</footer>
-
 <footer>© 2025 APANA INDIA 🇮🇳</footer>
 <script src="script1.js"></script>
 <script src="script2.js"></script>
