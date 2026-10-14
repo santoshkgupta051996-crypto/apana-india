@@ -51,7 +51,9 @@ e.target.reset();
 setTimeout(function(){document.getElementById('sm2').style.display='none';},5000);
 sts();
 }function alog(){
-if(document.getElementById('apw').value=='admin123'){
+var p=document.getElementById('apw').value;
+var secret=btoa(p);
+if(secret=='U29uYmhhZHJhQDIwMjY='){
 document.getElementById('alb').classList.add('h');
 document.getElementById('apn').classList.remove('h');
 rAdmin();
