@@ -71,7 +71,7 @@ label{display:block;margin-top:10px;font-weight:600;font-size:12px;color:#333}
 footer{text-align:center;padding:15px;font-size:12px;color:#fff;background:#000080;margin-top:20px;border-top:4px solid #FF9933}
 .h{display:none!important}
 
-/* मजदूर कार्ड */
+/* मजदूर */
 .worker-card{background:linear-gradient(135deg,#fff,#f9fdf9);border:2px solid #e0e0e0;border-radius:12px;padding:12px;margin-bottom:10px;display:flex;gap:12px;align-items:center;border-left:4px solid #138808}
 .w-photo{width:70px;height:70px;border-radius:50%;background:linear-gradient(135deg,#FF9933,#138808);display:flex;align-items:center;justify-content:center;font-size:32px;color:#fff;overflow:hidden;flex-shrink:0;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,0.15)}
 .w-photo img{width:100%;height:100%;object-fit:cover}
@@ -85,9 +85,9 @@ footer{text-align:center;padding:15px;font-size:12px;color:#fff;background:#0000
 .w-wa{background:#25D366}
 .no-worker{text-align:center;padding:30px;color:#888;font-size:13px}
 .no-worker b{color:#FF9933;font-size:16px;display:block;margin-bottom:8px}
-#wPhotoPreview img{max-width:100px;border-radius:8px;border:2px solid #FF9933;margin-top:8px}
+#wPhotoPreview img,#shPreview img{max-width:100px;border-radius:8px;border:2px solid #FF9933;margin-top:8px}
 
-/* मजदूरी दर */
+/* मजदूरी */
 .wage-card{background:linear-gradient(135deg,#e6f9e6,#fff);border:2px solid #0a7a0a;border-radius:10px;padding:14px;margin-top:12px}
 .wage-card h3{color:#0a7a0a;font-size:15px;margin-bottom:10px}
 .wage-card.yellow{background:linear-gradient(135deg,#fff3cd,#fff);border-color:#e6a700}
@@ -123,12 +123,34 @@ footer{text-align:center;padding:15px;font-size:12px;color:#fff;background:#0000
 .num-item.red a{background:#d40000}
 .num-item.yellow a{background:#e6a700}
 
-/* दुकानें */
-.shop-card{background:#fff;border:2px solid #e0e0e0;border-radius:10px;padding:12px;margin-bottom:8px;display:flex;gap:10px;align-items:center}
-.shop-card .s-icon{font-size:32px}
+/* दुकान */
+.shop-card{background:#fff;border:2px solid #e0e0e0;border-radius:10px;padding:12px;margin-bottom:8px;display:flex;gap:10px;align-items:flex-start;border-left:4px solid #FF9933}
+.shop-card .s-img{width:60px;height:60px;background:#ffeede;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:28px;overflow:hidden;flex-shrink:0}
+.shop-card .s-img img{width:100%;height:100%;object-fit:cover}
 .shop-card .s-info{flex:1}
 .shop-card h3{font-size:14px;color:#000080}
-.shop-card p{font-size:11px;color:#666}
+.shop-card p{font-size:11px;color:#666;margin:1px 0}
+.shop-card .s-price{color:#138808;font-weight:800;font-size:14px}
+
+/* ठेकेदार */
+.contractor-card{background:linear-gradient(135deg,#f0f4ff,#fff);border:2px solid #000080;border-radius:10px;padding:12px;margin-bottom:10px;border-left:4px solid #000080}
+.contractor-card h3{font-size:14px;color:#000080;margin-bottom:5px}
+.contractor-card p{font-size:12px;color:#555;margin:2px 0}
+.contractor-card .rate{background:#FF9933;color:#fff;padding:4px 10px;border-radius:12px;font-size:12px;font-weight:700;display:inline-block;margin:4px 0}
+
+/* पंचायत */
+.panchayat-card{background:#fff;border-left:4px solid #e6a700;padding:12px;border-radius:8px;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,0.05)}
+.panchayat-card h3{font-size:14px;color:#8a6d00;margin-bottom:4px}
+.panchayat-card p{font-size:12px;color:#555;margin:1px 0}
+.panchayat-card .pn-meta{font-size:10px;color:#999;margin-top:4px}
+
+/* सुझाव */
+.suggest-card{background:linear-gradient(135deg,#f0fdf0,#fff);border:2px solid #138808;border-radius:10px;padding:12px;margin-bottom:8px;border-left:4px solid #138808}
+.suggest-card h3{font-size:13px;color:#0a7a0a}
+.suggest-card p{font-size:12px;color:#444;margin:4px 0}
+.suggest-card .sg-meta{font-size:10px;color:#999}
+.top-suggest{background:linear-gradient(135deg,#fff9e6,#fff);border:2px solid #e6a700;border-radius:10px;padding:12px;margin-bottom:8px}
+.top-suggest h3{color:#8a6d00;font-size:14px}
 
 @media (max-width:500px){
 header h1{font-size:18px}
