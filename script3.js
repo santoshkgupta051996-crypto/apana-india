@@ -52,13 +52,19 @@ b.innerHTML='<p style="color:#b30000">❌ Error: '+err.message+'</p>';
 }
 function rPublic(){
 var b=document.getElementById('publicComplaints');if(!b)return;
-var approved=SC.filter(function(c){return c.status=='approved';});
-if(approved.length==0){b.innerHTML='<p class="note">अभी कोई सार्वजनिक शिकायत नहीं। एडमिन जाँच के बाद दिखेंगी।</p>';return;}
-b.innerHTML=approved.slice(-5).reverse().map(function(c){
-var waMsg='📢 शिकायत: '+c.name+'\n📍 '+c.address+'\n📋 '+c.type+'\n💬 '+c.detail+'\n\nApana India';
+b.innerHTML='<p class="note">🔄 लोड हो रहा है...</p>';
+db.collection('complaints').where('status','==','approved').get().then(function(snap){
+if(snap.empty){b.innerHTML='<p class="note">अभी कोई सार्वजनिक शिकायत नहीं। एडमिन जाँच के बाद दिखेंगी।</p>';return;}
+var list=[];
+snap.forEach(function(doc){var c=doc.data();c.id=doc.id;list.push(c);});
+b.innerHTML=list.slice(-5).reverse().map(function(c){
+var waMsg='📢 शिकायत: '+c.company+'\n📍 '+c.address+'\n📋 '+c.type+'\n💬 '+c.detail+'\n\nApana India';
 var wa='https://wa.me/?text='+encodeURIComponent(waMsg);
-return '<div class="cp"><h3>'+c.name+' <span class="bd bg">✅ सत्यापित</span></h3><p>📍 '+c.address+'</p><p>📋 '+c.type+'</p><p>💬 '+c.detail+'</p><p style="font-size:10px;color:#999">दर्ज: '+c.date+'</p><a href="'+wa+'" target="_blank" class="btn-wa">📱 WhatsApp</a></div>';
+return '<div class="cp"><h3>'+c.company+' <span class="bd bg">✅ सत्यापित</span></h3><p>📍 '+c.address+'</p><p>📋 '+c.type+'</p><p>💬 '+c.detail+'</p><p style="font-size:10px;color:#999">दर्ज: '+c.date+'</p><a href="'+wa+'" target="_blank" class="btn-wa">📱 WhatsApp</a></div>';
 }).join('');
+}).catch(function(err){
+b.innerHTML='<p style="color:#b30000">❌ Error: '+err.message+'</p>';
+});
 }
 function scomp(){
 var q=document.getElementById('sq')?document.getElementById('sq').value.toLowerCase().trim():'';
