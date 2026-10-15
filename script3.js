@@ -28,6 +28,7 @@ db.collection('companies').add({name:cn,address:c.address,complaints:1,rating:'y
 document.getElementById('sm1').style.display='block';
 e.target.reset();
 setTimeout(function(){document.getElementById('sm1').style.display='none';},5000);
+sts();
 }).catch(function(err){alert('❌ Error: '+err.message);});
 }
 function rmc(){
@@ -97,7 +98,8 @@ e.target.reset();
 setTimeout(function(){document.getElementById('sm2').style.display='none';},5000);
 sts();
 }).catch(function(err){alert('❌ Error: '+err.message);});
-}function alog(){
+}
+function alog(){
 var p=document.getElementById('apw').value;
 var secret=btoa(p);
 if(secret=='U29uYmhhZHJhQDIwMjY='){
@@ -117,7 +119,7 @@ snap.forEach(function(doc){var c=doc.data();c.id=doc.id;var st=c.status||'pendin
 if(st=='approved')approved.push(c);else if(st=='rejected')rejected.push(c);else pending.push(c);});
 var bp=document.getElementById('acomplPending');
 bp.innerHTML=pending.length==0?'<p class="note">कोई नई शिकायत नहीं।</p>':pending.map(function(c){
-return '<div class="cp rr"><h3>'+c.company+'</h3><p>👷 '+c.worker+' | 📱 '+c.phone+'</p><p>📍 '+c.address+'</p><p>📋 '+c.type+'</p><p>💬 '+c.detail+'</p><p style="font-size:10px;color:#999">दर्ज: '+c.date+'</p><div style="margin-top:8px"><button class="btn-ok" onclick="approve(\''+c.id+'\')">✅ स्वीकार</button><button class="btn-no" onclick="reject(\''+c.id+'\')">❌ रद्द</button></div></div>';
+return '<div class="cp rr"><h3>'+c.company+'</h3><p>👷 '+c.worker+' | 📱 '+c.phone+'</p><p>📍 '+c.address+'</p><p>📋 '+c.type+'</p><p>💬 '+c.detail+'</p>'+(c.proof?'<p>🔍 '+c.proof+'</p>':'')+'<p style="font-size:10px;color:#999">दर्ज: '+c.date+'</p><div style="margin-top:8px"><button class="btn-ok" onclick="approve(\''+c.id+'\')">✅ स्वीकार</button><button class="btn-no" onclick="reject(\''+c.id+'\')">❌ रद्द</button></div></div>';
 }).join('');
 var ba=document.getElementById('acomplApproved');
 ba.innerHTML=approved.length==0?'<p class="note">कोई स्वीकृत नहीं।</p>':approved.map(function(c){
