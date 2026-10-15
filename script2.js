@@ -23,6 +23,10 @@ document.getElementById('sa').innerText=AD.length;
 document.getElementById('sc').innerText=SC.length;
 document.getElementById('sco').innerText=C.length;
 document.getElementById('sw2').innerText=WK.length;
+db.collection('workers').get().then(function(s){document.getElementById('sw2').innerText=s.size;});
+db.collection('companies').get().then(function(s){document.getElementById('sco').innerText=s.size;});
+db.collection('complaints').get().then(function(s){document.getElementById('sc').innerText=s.size;});
+db.collection('ads').get().then(function(s){document.getElementById('sa').innerText=s.size;});
 }
 function wTab(t,b){
 document.querySelectorAll('#p-worker .tt').forEach(function(x){x.classList.remove('active');});
@@ -52,14 +56,10 @@ date:new Date().toLocaleDateString('hi-IN')
 };
 db.collection('workers').add(w).then(function(){
 document.getElementById('sm3').style.display='block';
-e.target.reset();
-wPhotoData='';
-document.getElementById('wPhotoPreview').innerHTML='';
+e.target.reset();wPhotoData='';document.getElementById('wPhotoPreview').innerHTML='';
 setTimeout(function(){document.getElementById('sm3').style.display='none';},5000);
 sts();
-}).catch(function(err){
-alert('❌ Error: '+err.message);
-});
+}).catch(function(err){alert('❌ Error: '+err.message);});
 }
 function rWorkers(){
 var b=document.getElementById('wList');if(!b)return;
@@ -67,16 +67,9 @@ b.innerHTML='<p class="note">🔄 लोड हो रहा है...</p>';
 var q=(document.getElementById('wSearch')?document.getElementById('wSearch').value:'').toLowerCase().trim();
 db.collection('workers').get().then(function(snap){
 var list=[];
-snap.forEach(function(doc){
-var w=doc.data();
-w.id=doc.id;
+snap.forEach(function(doc){var w=doc.data();w.id=doc.id;
 if(!q)list.push(w);
-else if((w.district||'').toLowerCase().indexOf(q)>-1||
-(w.village||'').toLowerCase().indexOf(q)>-1||
-(w.block||'').toLowerCase().indexOf(q)>-1||
-(w.state||'').toLowerCase().indexOf(q)>-1||
-(w.name||'').toLowerCase().indexOf(q)>-1||
-(w.skill||'').toLowerCase().indexOf(q)>-1)list.push(w);
+else if((w.district||'').toLowerCase().indexOf(q)>-1||(w.village||'').toLowerCase().indexOf(q)>-1||(w.block||'').toLowerCase().indexOf(q)>-1||(w.state||'').toLowerCase().indexOf(q)>-1||(w.name||'').toLowerCase().indexOf(q)>-1||(w.skill||'').toLowerCase().indexOf(q)>-1)list.push(w);
 });
 document.getElementById('wCount').innerText='कुल: '+list.length;
 if(list.length==0){b.innerHTML='<div class="no-worker"><b>😕 कोई मजदूर नहीं मिला</b>इस जगह का कोई मजदूर रजिस्टर नहीं।</div>';return;}
@@ -86,9 +79,7 @@ var waMsg='👷 मजदूर (Apana India):\n\nनाम: '+w.name+'\nहु�
 var wa='https://wa.me/?text='+encodeURIComponent(waMsg);
 return '<div class="worker-card"><div class="w-photo">'+photo+'</div><div class="w-info"><h3>'+w.name+'</h3><span class="w-skill">'+w.skill+(w.exp>0?' • '+w.exp+' साल':'')+'</span><p>📍 '+w.village+', '+w.block+'</p><p>🏠 '+w.district+', '+w.state+'</p><div class="w-btns"><a href="tel:'+w.phone+'" class="w-call">📞 कॉल</a><a href="'+wa+'" target="_blank" class="w-wa">📱 WhatsApp</a></div></div></div>';
 }).join('');
-}).catch(function(err){
-b.innerHTML='<p style="color:#b30000">❌ Error: '+err.message+'</p>';
-});
+}).catch(function(err){b.innerHTML='<p style="color:#b30000">❌ Error: '+err.message+'</p>';});
 }
 function cTab(t,b){
 document.querySelectorAll('#p-comp .tt').forEach(function(x){x.classList.remove('active');});
@@ -115,9 +106,7 @@ document.getElementById('sm4').style.display='block';
 e.target.reset();
 setTimeout(function(){document.getElementById('sm4').style.display='none';},5000);
 sts();
-}).catch(function(err){
-alert('❌ Error: '+err.message);
-});
+}).catch(function(err){alert('❌ Error: '+err.message);});
 }
 function rcomp(){
 var b=document.getElementById('cl');if(!b)return;
@@ -130,9 +119,7 @@ if(q)list=list.filter(function(c){return c.name.toLowerCase().indexOf(q)>-1||(c.
 if(list.length==0){b.innerHTML='<p class="note">कोई कंपनी नहीं।</p>';return;}
 list.sort(function(a,b){return b.complaints-a.complaints;});
 b.innerHTML=list.map(function(c){return cc(c);}).join('');
-}).catch(function(err){
-b.innerHTML='<p style="color:#b30000">❌ Error: '+err.message+'</p>';
-});
+}).catch(function(err){b.innerHTML='<p style="color:#b30000">❌ Error: '+err.message+'</p>';});
 }
 function cc(c){
 var cl=c.rating=='green'?'':(c.rating=='yellow'?'ry':'rr');
@@ -140,7 +127,8 @@ var bd=c.rating=='green'?'<span class="bd bg">🟢 सुरक्षित</spa
 var waMsg='🏢 '+c.name+'\n📍 '+c.address+'\n📢 शिकायतें: '+c.complaints+'\n\nApana India';
 var wa='https://wa.me/?text='+encodeURIComponent(waMsg);
 return '<div class="cp '+cl+'"><h3>'+c.name+' '+bd+'</h3><p>📍 '+c.address+' | '+(c.type||'')+'</p>'+(c.owner?'<p>👤 '+c.owner+'</p>':'')+'<p>📢 शिकायतें: <b>'+c.complaints+'</b></p>'+(c.phone?'<p>📞 <a href="tel:'+c.phone+'" style="color:#138808;font-weight:700">'+c.phone+'</a></p>':'')+'<a href="'+wa+'" target="_blank" class="btn-wa">📱 शेयर</a></div>';
-}function sw(c,b){
+}
+function sw(c,b){
 CAT=c;
 document.querySelectorAll('.tt').forEach(function(x){x.classList.remove('active');});
 b.classList.add('active');
@@ -175,12 +163,17 @@ t.innerText=a.map(function(n){return '• '+n.title;}).join('   ');
 }
 function rad(cat){
 var b=document.getElementById('jl');if(!b)return;
-var f=AD.filter(function(a){return a.cat==cat;});
-b.innerHTML=f.length==0?'<p class="note">कोई विज्ञापन नहीं।</p>':f.map(function(a){
+b.innerHTML='<p class="note">🔄 लोड हो रहा है...</p>';
+db.collection('ads').get().then(function(snap){
+var f=[];
+snap.forEach(function(doc){var a=doc.data();a.id=doc.id;if(a.cat==cat)f.push(a);});
+if(f.length==0){b.innerHTML='<p class="note">कोई विज्ञापन नहीं।</p>';return;}
+b.innerHTML=f.map(function(a){
 var waMsg='📌 '+a.title+'\n'+a.detail+'\n📞 '+a.phone+'\n\nApana India';
 var wa='https://wa.me/?text='+encodeURIComponent(waMsg);
 return '<div class="item"><h3>'+a.title+'</h3><p>'+a.detail+'</p><p>📍 '+(a.district||'')+' '+(a.state||'')+'</p><p>📞 <a href="tel:'+a.phone+'" style="color:#138808;font-weight:700">'+a.phone+'</a></p><a href="'+wa+'" target="_blank" class="btn-wa">📱 WhatsApp</a></div>';
 }).join('');
+}).catch(function(err){b.innerHTML='<p style="color:#b30000">❌ Error: '+err.message+'</p>';});
 }
 function showWageRate(){
 var comp=document.getElementById('wageCompany').value;
@@ -189,10 +182,10 @@ var mBox=document.getElementById('mgnregaStateBox');
 mBox.classList.add('h');
 if(!comp){box.innerHTML='';return;}
 if(comp=='ntpc'){
-box.innerHTML='<div class="wage-card"><h3>🏢 NTPC रिहंद (सोनभद्र)</h3><div class="rate-row"><span>USW (अकुशल)</span><span>₹500-556/दिन</span></div><div class="rate-row"><span>SSW (अर्ध-कुशल)</span><span>₹600-650/दिन</span></div><div class="rate-row"><span>SW (कुशल)</span><span>₹700-781/दिन</span></div><div class="rate-row"><span>HSW (अति कुशल)</span><span>₹800-918/दिन</span></div><div class="big-rate">₹556/दिन से शुरू</div><div class="warning">⚠️ ओवरटाइम 2x मिलेगा।</div></div>';
+box.innerHTML='<div class="wage-card"><h3>🏢 NTPC रिहंद (सोनभद्र) - अनुमानित</h3><div class="rate-row"><span>USW (अकुशल)</span><span>₹500-556/दिन</span></div><div class="rate-row"><span>SSW (अर्ध-कुशल)</span><span>₹600-650/दिन</span></div><div class="rate-row"><span>SW (कुशल)</span><span>₹700-781/दिन</span></div><div class="rate-row"><span>HSW (अति कुशल)</span><span>₹800-918/दिन</span></div><div class="big-rate">₹556/दिन से शुरू</div><div class="warning">⚠️ ओवरटाइम 2x मिलेगा। 8 घंटे से ज्यादा काम गैरकानूनी।</div><p class="note">📌 स्रोत: NTPC रिहंद श्रम रिपोर्ट्स।</p></div>';
 }
 else if(comp=='reliance'){
-box.innerHTML='<div class="wage-card yellow"><h3>🏢 Reliance Industries</h3><div class="rate-row"><span>हेल्पर / लेबर</span><span>₹600-800/दिन</span></div><div class="rate-row"><span>राजमिस्त्री</span><span>₹700-800/दिन</span></div><div class="rate-row"><span>सरिया फिटर</span><span>₹700/दिन</span></div><div class="warning">⚠️ ओवरटाइम 2x।</div></div>';
+box.innerHTML='<div class="wage-card yellow"><h3>🏢 Reliance Industries - अनुमानित</h3><div class="rate-row"><span>हेल्पर / लेबर</span><span>₹600-800/दिन</span></div><div class="rate-row"><span>राजमिस्त्री</span><span>₹700-800/दिन</span></div><div class="rate-row"><span>सरिया फिटर</span><span>₹700/दिन</span></div><div class="rate-row"><span>शटरिंग कारपेंटर</span><span>₹700/दिन</span></div><div class="warning">⚠️ ओवरटाइम 2x। 8 घंटे से ज्यादा पर 2x दर।</div><p class="note">📌 स्रोत: जामनगर प्रोजेक्ट जॉब पोस्टिंग्स।</p></div>';
 }
 else if(comp=='mgnrega'){
 mBox.classList.remove('h');
@@ -203,8 +196,9 @@ function showMgnregaRate(){
 var rate=document.getElementById('mgnregaState').value;
 var box=document.getElementById('mgnregaResult');
 if(!rate){box.innerHTML='';return;}
-box.innerHTML='<div class="wage-card"><h3>🌾 मनरेगा दैनिक मजदूरी</h3><div class="big-rate">₹'+rate+'/दिन</div><div class="warning">⚠️ ₹300 से कम नहीं।</div></div>';
-}function calcWage(){
+box.innerHTML='<div class="wage-card"><h3>🌾 मनरेगा दैनिक मजदूरी</h3><div class="big-rate">₹'+rate+'/दिन</div><p style="font-size:12px;color:#555;text-align:center">केंद्र सरकार द्वारा तय दर</p><div class="warning">⚠️ अब किसी राज्य में ₹300 से कम नहीं।</div></div>';
+}
+function calcWage(){
 var manual=parseFloat(document.getElementById('calcManual').value)||0;
 var state=document.getElementById('calcState').value;
 var days=parseFloat(document.getElementById('calcDays').value)||0;
@@ -232,9 +226,8 @@ var net=total-ded;
 
 var html='<div class="calc-box">';
 html+='<div style="text-align:center;font-size:12px;color:#666;margin-bottom:6px">'+label+'</div>';
-
 html+='<div style="margin-top:8px;font-size:12px;color:#138808;font-weight:700">➕ कमाई (Earnings)</div>';
-html+='<div class="row"><span>दिन × रेट ('+days+' × ₹'+daily+')</span><span>₹'+basic+'</span></div>';
+html+='<div class="row"><span>Basic ('+days+' × ₹'+daily+')</span><span>₹'+basic+'</span></div>';
 html+='<div class="row"><span>NH (0.96%)</span><span>₹'+nh+'</span></div>';
 html+='<div class="row"><span>EL (5%)</span><span>₹'+el+'</span></div>';
 html+='<div class="row"><span>बोनस (8.33%)</span><span>₹'+bonus+'</span></div>';
@@ -242,19 +235,16 @@ html+='<div class="row"><span>RB (4.8%)</span><span>₹'+rb+'</span></div>';
 html+='<div class="row"><span>Medical (0.5%)</span><span>₹'+medical+'</span></div>';
 if(ot>0){html+='<div class="row"><span>OT ('+ot+' घं × '+otRate+'x)</span><span>₹'+otAmt+'</span></div>';}
 html+='<div class="row" style="background:#e6f9e6;font-size:15px"><span><b>कुल वेतन (Total)</b></span><span><b style="color:#138808">₹'+total+'</b></span></div>';
-
 if(applyPF){
 html+='<div style="margin-top:12px;font-size:12px;color:#d40000;font-weight:700">➖ कटौती (Deductions)</div>';
-html+='<div class="row" style="color:#d40000"><span>EPF (12%)</span><span>- ₹'+epf+'</span></div>';
-html+='<div class="row" style="color:#d40000"><span>ESIC (0.75%)</span><span>- ₹'+esic+'</span></div>';
+html+='<div class="row" style="color:#d40000"><span>EPF (12% of Basic)</span><span>- ₹'+epf+'</span></div>';
+html+='<div class="row" style="color:#d40000"><span>ESIC (0.75% of Basic)</span><span>- ₹'+esic+'</span></div>';
 html+='<div class="row" style="background:#ffe6e6"><span><b>कुल कटौती</b></span><span><b style="color:#d40000">- ₹'+ded+'</b></span></div>';
 }
-
 html+='<div style="margin-top:12px;background:#d4f8d4;padding:10px;border-radius:8px;text-align:center">';
-html+='<div style="font-size:13px;color:#0a7a0a;font-weight:700">✅ हाथ में मिलेगा (Net Amount Paid)</div>';
+html+='<div style="font-size:13px;color:#0a7a0a;font-weight:700">✅ हाथ में मिलेगा (Net Amount)</div>';
 html+='<div style="font-size:34px;color:#138808;font-weight:800;margin-top:6px">₹'+net+'</div>';
 html+='</div>';
-
 html+='<a href="https://wa.me/?text='+encodeURIComponent('📋 मजदूरी हिसाब (Apana India)\n\nBasic: ₹'+basic+'\nNH: ₹'+nh+'\nEL: ₹'+el+'\nBonus: ₹'+bonus+'\nRB: ₹'+rb+'\nMedical: ₹'+medical+(ot>0?'\nOT: ₹'+otAmt:'')+'\n\nTotal: ₹'+total+'\nEPF: ₹'+epf+'\nESIC: ₹'+esic+'\n\n✅ हाथ में: ₹'+net)+'" target="_blank" class="btn-wa">📱 WhatsApp भेजें</a>';
 html+='</div>';
 box.innerHTML=html;
