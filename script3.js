@@ -70,12 +70,26 @@ function scomp(){
 var q=document.getElementById('sq')?document.getElementById('sq').value.toLowerCase().trim():'';
 var b=document.getElementById('sr');if(!b)return;
 if(!q){b.innerHTML='<p class="note">कंपनी का नाम लिखें...</p>';return;}
-var f=C.filter(function(c){return c.name.toLowerCase().indexOf(q)>-1;});
+b.innerHTML='<p class="note">🔄 लोड हो रहा है...</p>';
+db.collection('companies').get().then(function(snap){
+var f=[];
+snap.forEach(function(doc){var c=doc.data();c.id=doc.id;if(c.name.toLowerCase().indexOf(q)>-1)f.push(c);});
 b.innerHTML=f.length==0?'<p style="color:#b30000">कोई कंपनी नहीं।</p>':f.map(function(c){return cc(c);}).join('');
+}).catch(function(err){
+b.innerHTML='<p style="color:#b30000">❌ Error: '+err.message+'</p>';
+});
 }
 function ral(){
 var b=document.getElementById('al');if(!b)return;
-b.innerHTML=[].concat(C).sort(function(a,b){return b.complaints-a.complaints;}).map(function(c){return cc(c);}).join('');
+b.innerHTML='<p class="note">🔄 लोड हो रहा है...</p>';
+db.collection('companies').get().then(function(snap){
+var list=[];
+snap.forEach(function(doc){var c=doc.data();c.id=doc.id;list.push(c);});
+list.sort(function(a,b){return (b.complaints||0)-(a.complaints||0);});
+b.innerHTML=list.map(function(c){return cc(c);}).join('');
+}).catch(function(err){
+b.innerHTML='<p style="color:#b30000">❌ Error: '+err.message+'</p>';
+});
 }
 function suba(e){
 e.preventDefault();
