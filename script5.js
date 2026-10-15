@@ -27,12 +27,19 @@ alert('❌ Error: '+err.message);
 }
 function rCont(){
 var b=document.getElementById('ctList');if(!b)return;
-if(CONT.length==0){b.innerHTML='<p class="note">कोई पोस्ट नहीं।</p>';return;}
-b.innerHTML=CONT.slice().reverse().map(function(c){
+b.innerHTML='<p class="note">🔄 लोड हो रहा है...</p>';
+db.collection('contractors').get().then(function(snap){
+var list=[];
+snap.forEach(function(doc){var c=doc.data();c.id=doc.id;list.push(c);});
+if(list.length==0){b.innerHTML='<p class="note">कोई पोस्ट नहीं।</p>';return;}
+b.innerHTML=list.reverse().map(function(c){
 var waMsg='📋 ठेकेदार (Apana India):\n\nनाम: '+c.name+'\nकाम: '+c.work+'\nरेट: '+c.rate+'\nखाना: '+c.food+'\nजगह: '+c.place+'\nमजदूर: '+c.qty;
 var wa='https://wa.me/?text='+encodeURIComponent(waMsg);
 return '<div class="contractor-card"><h3>👤 '+c.name+'</h3><p>🔧 काम: '+c.work+'</p><span class="rate">'+c.rate+'</span><p>🍛 खाना: '+c.food+'</p><p>📍 '+c.place+'</p><p>👷 जरूरत: '+c.qty+' मजदूर</p>'+(c.other?'<p>💡 '+c.other+'</p>':'')+'<p style="font-size:10px;color:#999">📅 '+c.date+'</p><div class="w-btns"><a href="tel:'+c.phone+'" class="w-call">📞 कॉल</a><a href="'+wa+'" target="_blank" class="w-wa">📱 WhatsApp</a></div></div>';
 }).join('');
+}).catch(function(err){
+b.innerHTML='<p style="color:#b30000">❌ Error: '+err.message+'</p>';
+});
 }
 function shTab(t,b){
 document.querySelectorAll('#p-shops .tt').forEach(function(x){x.classList.remove('active');});
