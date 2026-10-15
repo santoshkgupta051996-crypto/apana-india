@@ -6,11 +6,24 @@ else{document.getElementById('ctListTab').classList.add('h');document.getElement
 }
 function regContractor(e){
 e.preventDefault();
-CONT.push({id:Date.now(),name:document.getElementById('ctN').value.trim(),phone:document.getElementById('ctP').value.trim(),work:document.getElementById('ctW').value.trim(),rate:document.getElementById('ctR').value.trim(),food:document.getElementById('ctF').value,place:document.getElementById('ctA').value.trim(),qty:document.getElementById('ctQ').value.trim(),other:document.getElementById('ctO').value.trim(),date:new Date().toLocaleDateString('hi-IN')});
-ss();
+var c={
+name:document.getElementById('ctN').value.trim(),
+phone:document.getElementById('ctP').value.trim(),
+work:document.getElementById('ctW').value.trim(),
+rate:document.getElementById('ctR').value.trim(),
+food:document.getElementById('ctF').value,
+place:document.getElementById('ctA').value.trim(),
+qty:document.getElementById('ctQ').value.trim(),
+other:document.getElementById('ctO').value.trim(),
+date:new Date().toLocaleDateString('hi-IN')
+};
+db.collection('contractors').add(c).then(function(){
 document.getElementById('sm5').style.display='block';
 e.target.reset();
 setTimeout(function(){document.getElementById('sm5').style.display='none';},5000);
+}).catch(function(err){
+alert('❌ Error: '+err.message);
+});
 }
 function rCont(){
 var b=document.getElementById('ctList');if(!b)return;
