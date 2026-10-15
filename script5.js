@@ -84,15 +84,22 @@ alert('❌ Error: '+err.message);
 }
 function rShops(){
 var b=document.getElementById('shopsList');if(!b)return;
+b.innerHTML='<p class="note">🔄 लोड हो रहा है...</p>';
 var q=(document.getElementById('shSearch')?document.getElementById('shSearch').value:'').toLowerCase();
-var f=SHOPS.filter(function(s){return !q||s.name.toLowerCase().indexOf(q)>-1||s.product.toLowerCase().indexOf(q)>-1||s.place.toLowerCase().indexOf(q)>-1;});
-if(f.length==0){b.innerHTML='<p class="note">कोई प्रोडक्ट नहीं मिला।</p>';return;}
-b.innerHTML=f.slice().reverse().map(function(s){
+db.collection('shops').get().then(function(snap){
+var list=[];
+snap.forEach(function(doc){var s=doc.data();s.id=doc.id;list.push(s);});
+if(q)list=list.filter(function(s){return s.name.toLowerCase().indexOf(q)>-1||s.product.toLowerCase().indexOf(q)>-1||s.place.toLowerCase().indexOf(q)>-1;});
+if(list.length==0){b.innerHTML='<p class="note">कोई प्रोडक्ट नहीं मिला।</p>';return;}
+b.innerHTML=list.reverse().map(function(s){
 var photo=s.photo?'<img src="'+s.photo+'">':'🏪';
 var waMsg='🛍️ '+s.product+'\nदुकान: '+s.name+'\nकीमत: ₹'+s.price+'\n📍 '+s.place;
 var wa='https://wa.me/?text='+encodeURIComponent(waMsg);
 return '<div class="shop-card"><div class="s-img">'+photo+'</div><div class="s-info"><h3>'+s.name+'</h3><p>🛍️ '+s.product+'</p><span class="s-price">₹'+s.price+'</span><p>📍 '+s.place+'</p><div class="w-btns"><a href="tel:'+s.phone+'" class="w-call">📞 कॉल</a><a href="'+wa+'" target="_blank" class="w-wa">📱 WhatsApp</a></div></div></div>';
 }).join('');
+}).catch(function(err){
+b.innerHTML='<p style="color:#b30000">❌ Error: '+err.message+'</p>';
+});
 }
 function pnTab(t,b){
 document.querySelectorAll('#p-panchayat .tt').forEach(function(x){x.classList.remove('active');});
