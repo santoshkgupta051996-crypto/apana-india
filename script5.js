@@ -28,10 +28,17 @@ alert('❌ Error: '+err.message);
 function rCont(){
 var b=document.getElementById('ctList');if(!b)return;
 b.innerHTML='<p class="note">🔄 लोड हो रहा है...</p>';
+var q=(document.getElementById('ctSearch')?document.getElementById('ctSearch').value:'').toLowerCase().trim();
 db.collection('contractors').get().then(function(snap){
 var list=[];
 snap.forEach(function(doc){var c=doc.data();c.id=doc.id;list.push(c);});
-if(list.length==0){b.innerHTML='<p class="note">कोई पोस्ट नहीं।</p>';return;}
+if(q)list=list.filter(function(c){
+return (c.name||'').toLowerCase().indexOf(q)>-1||
+(c.work||'').toLowerCase().indexOf(q)>-1||
+(c.place||'').toLowerCase().indexOf(q)>-1||
+(c.rate||'').toLowerCase().indexOf(q)>-1;
+});
+if(list.length==0){b.innerHTML='<p class="note">कोई पोस्ट नहीं मिली।</p>';return;}
 b.innerHTML=list.reverse().map(function(c){
 var waMsg='📋 ठेकेदार (Apana India):\n\nनाम: '+c.name+'\nकाम: '+c.work+'\nरेट: '+c.rate+'\nखाना: '+c.food+'\nजगह: '+c.place+'\nमजदूर: '+c.qty;
 var wa='https://wa.me/?text='+encodeURIComponent(waMsg);
