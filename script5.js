@@ -129,12 +129,19 @@ alert('❌ Error: '+err.message);
 }
 function rPanch(){
 var b=document.getElementById('panchayatList');if(!b)return;
-if(PANCH.length==0){b.innerHTML='<p class="note">कोई समस्या पोस्ट नहीं।</p>';return;}
-b.innerHTML=PANCH.slice().reverse().map(function(p){
+b.innerHTML='<p class="note">🔄 लोड हो रहा है...</p>';
+db.collection('panchayat').get().then(function(snap){
+if(snap.empty){b.innerHTML='<p class="note">कोई समस्या पोस्ट नहीं।</p>';return;}
+var list=[];
+snap.forEach(function(doc){var p=doc.data();p.id=doc.id;list.push(p);});
+b.innerHTML=list.reverse().map(function(p){
 var waMsg='🏛️ गाँव की समस्या:\n\nगाँव: '+p.village+'\nब्लॉक: '+p.block+'\nजिला: '+p.district+'\nप्रकार: '+p.type+'\n\n'+p.detail+'\n\n— '+p.name+'\n📱 '+p.phone;
 var wa='https://wa.me/?text='+encodeURIComponent(waMsg);
 return '<div class="panchayat-card"><h3>🏛️ '+p.type+' - '+p.village+'</h3><p>'+p.detail+'</p><p class="pn-meta">👤 '+p.name+' • 📱 '+p.phone+' • 📅 '+p.date+'</p><p class="pn-meta">📍 '+p.block+', '+p.district+'</p><a href="'+wa+'" target="_blank" class="btn-wa">📱 WhatsApp शेयर</a></div>';
 }).join('');
+}).catch(function(err){
+b.innerHTML='<p style="color:#b30000">❌ Error: '+err.message+'</p>';
+});
 }
 function regSuggest(e){
 e.preventDefault();
