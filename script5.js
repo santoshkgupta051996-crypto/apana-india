@@ -62,11 +62,25 @@ reader.readAsDataURL(file);
 }
 function regShop(e){
 e.preventDefault();
-SHOPS.push({id:Date.now(),owner:document.getElementById('shO').value.trim(),name:document.getElementById('shN').value.trim(),phone:document.getElementById('shP').value.trim(),type:document.getElementById('shT').value.trim(),place:document.getElementById('shL').value.trim(),product:document.getElementById('shPr').value.trim(),price:document.getElementById('shPc').value,photo:shPhotoData,date:new Date().toLocaleDateString('hi-IN')});
-ss();
+var s={
+owner:document.getElementById('shO').value.trim(),
+name:document.getElementById('shN').value.trim(),
+phone:document.getElementById('shP').value.trim(),
+type:document.getElementById('shT').value.trim(),
+place:document.getElementById('shL').value.trim(),
+product:document.getElementById('shPr').value.trim(),
+price:document.getElementById('shPc').value,
+photo:shPhotoData,
+date:new Date().toLocaleDateString('hi-IN')
+};
+db.collection('shops').add(s).then(function(){
 document.getElementById('sm6').style.display='block';
-e.target.reset();shPhotoData='';document.getElementById('shPreview').innerHTML='';
+e.target.reset();shPhotoData='';
+document.getElementById('shPreview').innerHTML='';
 setTimeout(function(){document.getElementById('sm6').style.display='none';},5000);
+}).catch(function(err){
+alert('❌ Error: '+err.message);
+});
 }
 function rShops(){
 var b=document.getElementById('shopsList');if(!b)return;
