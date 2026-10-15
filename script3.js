@@ -1,15 +1,37 @@
 function subc(e){
 e.preventDefault();
 var cn=document.getElementById('cn').value.trim();
-SC.push({name:cn,address:document.getElementById('ca').value.trim(),worker:document.getElementById('wn').value.trim(),phone:document.getElementById('wp').value.trim(),type:document.getElementById('ct').value,detail:document.getElementById('cd').value.trim(),proof:document.getElementById('cp').value.trim(),date:new Date().toLocaleDateString('hi-IN'),status:'pending'});
-var co=C.find(function(c){return c.name.toLowerCase()==cn.toLowerCase();});
-if(co){co.complaints++;if(co.complaints>=5)co.rating='red';else if(co.complaints>=2)co.rating='yellow';}
-else{C.push({name:cn,address:document.getElementById('ca').value.trim(),complaints:1,rating:'yellow',type:'अन्य'});}
-ss();
+var c={
+company:cn,
+address:document.getElementById('ca').value.trim(),
+worker:document.getElementById('wn').value.trim(),
+phone:document.getElementById('wp').value.trim(),
+type:document.getElementById('ct').value,
+detail:document.getElementById('cd').value.trim(),
+proof:document.getElementById('cp').value.trim(),
+date:new Date().toLocaleDateString('hi-IN'),
+status:'pending'
+};
+db.collection('complaints').add(c).then(function(){
+db.collection('companies').where('name','==',cn).get().then(function(snap){
+if(!snap.empty){
+snap.forEach(function(doc){
+var old=doc.data().complaints||0;
+var newC=old+1;
+var newR=newC>=5?'red':(newC>=2?'yellow':'green');
+db.collection('companies').doc(doc.id).update({complaints:newC,rating:newR});
+});
+}else{
+db.collection('companies').add({name:cn,address:c.address,complaints:1,rating:'yellow',type:'अन्य',date:c.date});
+}
+});
 document.getElementById('sm1').style.display='block';
 e.target.reset();
 setTimeout(function(){document.getElementById('sm1').style.display='none';},5000);
-sts();
+}).catch(function(err){
+alert('❌ Error: '+err.message);
+});
+}
 }
 function rmc(){
 var b=document.getElementById('mcl');if(!b)return;
