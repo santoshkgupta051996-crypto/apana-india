@@ -1,4 +1,4 @@
-function ctTab(t,b){
+wfunction ctTab(t,b){
 document.querySelectorAll('#p-contractor .tt').forEach(function(x){x.classList.remove('active');});
 b.classList.add('active');
 if(t=='list'){document.getElementById('ctListTab').classList.remove('h');document.getElementById('ctRegTab').classList.add('h');rCont();}
@@ -178,11 +178,26 @@ b.innerHTML='<p style="color:#b30000">❌ Error: '+err.message+'</p>';
 }
 function rTopSuggest(){
 var b=document.getElementById('topSuggest');if(!b)return;
-if(SUGG.length==0){b.innerHTML='<p class="note">अभी कोई सुझाव नहीं।</p>';return;}
-var top=SUGG.slice().sort(function(a,b){return (b.likes||0)-(a.likes||0);})[0];
+b.innerHTML='<p class="note">🔄 लोड हो रहा है...</p>';
+db.collection('suggestions').get().then(function(snap){
+if(snap.empty){b.innerHTML='<p class="note">अभी कोई सुझाव नहीं।</p>';return;}
+var list=[];
+snap.forEach(function(doc){var s=doc.data();s.id=doc.id;list.push(s);});
+list.sort(function(a,b){return (b.likes||0)-(a.likes||0);});
+var top=list[0];
 b.innerHTML='<div class="top-suggest"><h3>🏆 '+top.name+' का सुझाव</h3><p>'+top.text+'</p><div class="sg-meta">👍 '+top.likes+' लोगों ने पसंद किया</div></div>';
+}).catch(function(err){
+b.innerHTML='<p style="color:#b30000">❌ Error: '+err.message+'</p>';
+});
 }
 function likeSuggest(id){
-var s=SUGG.find(function(x){return x.id==id;});
-if(s){s.likes=(s.likes||0)+1;ss();rSuggest();rTopSuggest();}
-  }
+db.collection('suggestions').doc(id).get().then(function(doc){
+if(doc.exists){
+var likes=(doc.data().likes||0)+1;
+db.collection('suggestions').doc(id).update({likes:likes}).then(function(){
+rSuggest();
+rTopSuggest();
+});
+}
+});
+}
