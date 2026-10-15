@@ -1,4 +1,4 @@
-wfunction ctTab(t,b){
+function ctTab(t,b){
 document.querySelectorAll('#p-contractor .tt').forEach(function(x){x.classList.remove('active');});
 b.classList.add('active');
 if(t=='list'){document.getElementById('ctListTab').classList.remove('h');document.getElementById('ctRegTab').classList.add('h');rCont();}
@@ -21,9 +21,7 @@ db.collection('contractors').add(c).then(function(){
 document.getElementById('sm5').style.display='block';
 e.target.reset();
 setTimeout(function(){document.getElementById('sm5').style.display='none';},5000);
-}).catch(function(err){
-alert('❌ Error: '+err.message);
-});
+}).catch(function(err){alert('❌ Error: '+err.message);});
 }
 function rCont(){
 var b=document.getElementById('ctList');if(!b)return;
@@ -33,10 +31,7 @@ db.collection('contractors').get().then(function(snap){
 var list=[];
 snap.forEach(function(doc){var c=doc.data();c.id=doc.id;list.push(c);});
 if(q)list=list.filter(function(c){
-return (c.name||'').toLowerCase().indexOf(q)>-1||
-(c.work||'').toLowerCase().indexOf(q)>-1||
-(c.place||'').toLowerCase().indexOf(q)>-1||
-(c.rate||'').toLowerCase().indexOf(q)>-1;
+return (c.name||'').toLowerCase().indexOf(q)>-1||(c.work||'').toLowerCase().indexOf(q)>-1||(c.place||'').toLowerCase().indexOf(q)>-1||(c.rate||'').toLowerCase().indexOf(q)>-1;
 });
 if(list.length==0){b.innerHTML='<p class="note">कोई पोस्ट नहीं मिली।</p>';return;}
 b.innerHTML=list.reverse().map(function(c){
@@ -44,9 +39,7 @@ var waMsg='📋 ठेकेदार (Apana India):\n\nनाम: '+c.name+'\n�
 var wa='https://wa.me/?text='+encodeURIComponent(waMsg);
 return '<div class="contractor-card"><h3>👤 '+c.name+'</h3><p>🔧 काम: '+c.work+'</p><span class="rate">'+c.rate+'</span><p>🍛 खाना: '+c.food+'</p><p>📍 '+c.place+'</p><p>👷 जरूरत: '+c.qty+' मजदूर</p>'+(c.other?'<p>💡 '+c.other+'</p>':'')+'<p style="font-size:10px;color:#999">📅 '+c.date+'</p><div class="w-btns"><a href="tel:'+c.phone+'" class="w-call">📞 कॉल</a><a href="'+wa+'" target="_blank" class="w-wa">📱 WhatsApp</a></div></div>';
 }).join('');
-}).catch(function(err){
-b.innerHTML='<p style="color:#b30000">❌ Error: '+err.message+'</p>';
-});
+}).catch(function(err){b.innerHTML='<p style="color:#b30000">❌ Error: '+err.message+'</p>';});
 }
 function shTab(t,b){
 document.querySelectorAll('#p-shops .tt').forEach(function(x){x.classList.remove('active');});
@@ -78,9 +71,7 @@ document.getElementById('sm6').style.display='block';
 e.target.reset();shPhotoData='';
 document.getElementById('shPreview').innerHTML='';
 setTimeout(function(){document.getElementById('sm6').style.display='none';},5000);
-}).catch(function(err){
-alert('❌ Error: '+err.message);
-});
+}).catch(function(err){alert('❌ Error: '+err.message);});
 }
 function rShops(){
 var b=document.getElementById('shopsList');if(!b)return;
@@ -97,9 +88,7 @@ var waMsg='🛍️ '+s.product+'\nदुकान: '+s.name+'\nकीमत: ₹
 var wa='https://wa.me/?text='+encodeURIComponent(waMsg);
 return '<div class="shop-card"><div class="s-img">'+photo+'</div><div class="s-info"><h3>'+s.name+'</h3><p>🛍️ '+s.product+'</p><span class="s-price">₹'+s.price+'</span><p>📍 '+s.place+'</p><div class="w-btns"><a href="tel:'+s.phone+'" class="w-call">📞 कॉल</a><a href="'+wa+'" target="_blank" class="w-wa">📱 WhatsApp</a></div></div></div>';
 }).join('');
-}).catch(function(err){
-b.innerHTML='<p style="color:#b30000">❌ Error: '+err.message+'</p>';
-});
+}).catch(function(err){b.innerHTML='<p style="color:#b30000">❌ Error: '+err.message+'</p>';});
 }
 function pnTab(t,b){
 document.querySelectorAll('#p-panchayat .tt').forEach(function(x){x.classList.remove('active');});
@@ -123,9 +112,7 @@ db.collection('panchayat').add(p).then(function(){
 document.getElementById('sm7').style.display='block';
 e.target.reset();
 setTimeout(function(){document.getElementById('sm7').style.display='none';},5000);
-}).catch(function(err){
-alert('❌ Error: '+err.message);
-});
+}).catch(function(err){alert('❌ Error: '+err.message);});
 }
 function rPanch(){
 var b=document.getElementById('panchayatList');if(!b)return;
@@ -139,9 +126,7 @@ var waMsg='🏛️ गाँव की समस्या:\n\nगाँव: '+p.
 var wa='https://wa.me/?text='+encodeURIComponent(waMsg);
 return '<div class="panchayat-card"><h3>🏛️ '+p.type+' - '+p.village+'</h3><p>'+p.detail+'</p><p class="pn-meta">👤 '+p.name+' • 📱 '+p.phone+' • 📅 '+p.date+'</p><p class="pn-meta">📍 '+p.block+', '+p.district+'</p><a href="'+wa+'" target="_blank" class="btn-wa">📱 WhatsApp शेयर</a></div>';
 }).join('');
-}).catch(function(err){
-b.innerHTML='<p style="color:#b30000">❌ Error: '+err.message+'</p>';
-});
+}).catch(function(err){b.innerHTML='<p style="color:#b30000">❌ Error: '+err.message+'</p>';});
 }
 function regSuggest(e){
 e.preventDefault();
@@ -155,11 +140,8 @@ db.collection('suggestions').add(s).then(function(){
 document.getElementById('sm8').style.display='block';
 e.target.reset();
 setTimeout(function(){document.getElementById('sm8').style.display='none';},5000);
-rSuggest();
-rTopSuggest();
-}).catch(function(err){
-alert('❌ Error: '+err.message);
-});
+rSuggest();rTopSuggest();
+}).catch(function(err){alert('❌ Error: '+err.message);});
 }
 function rSuggest(){
 var b=document.getElementById('allSuggest');if(!b)return;
@@ -172,9 +154,7 @@ list.sort(function(a,b){return (b.likes||0)-(a.likes||0);});
 b.innerHTML=list.map(function(s){
 return '<div class="suggest-card"><h3>💡 '+s.name+'</h3><p>'+s.text+'</p><div class="sg-meta">👍 '+s.likes+' • 📅 '+s.date+'</div><button onclick="likeSuggest(\''+s.id+'\')" style="background:#138808;color:#fff;border:none;padding:5px 12px;border-radius:14px;font-size:11px;font-weight:700;cursor:pointer;margin-top:6px">👍 पसंद</button></div>';
 }).join('');
-}).catch(function(err){
-b.innerHTML='<p style="color:#b30000">❌ Error: '+err.message+'</p>';
-});
+}).catch(function(err){b.innerHTML='<p style="color:#b30000">❌ Error: '+err.message+'</p>';});
 }
 function rTopSuggest(){
 var b=document.getElementById('topSuggest');if(!b)return;
@@ -186,18 +166,15 @@ snap.forEach(function(doc){var s=doc.data();s.id=doc.id;list.push(s);});
 list.sort(function(a,b){return (b.likes||0)-(a.likes||0);});
 var top=list[0];
 b.innerHTML='<div class="top-suggest"><h3>🏆 '+top.name+' का सुझाव</h3><p>'+top.text+'</p><div class="sg-meta">👍 '+top.likes+' लोगों ने पसंद किया</div></div>';
-}).catch(function(err){
-b.innerHTML='<p style="color:#b30000">❌ Error: '+err.message+'</p>';
-});
+}).catch(function(err){b.innerHTML='<p style="color:#b30000">❌ Error: '+err.message+'</p>';});
 }
 function likeSuggest(id){
 db.collection('suggestions').doc(id).get().then(function(doc){
 if(doc.exists){
 var likes=(doc.data().likes||0)+1;
 db.collection('suggestions').doc(id).update({likes:likes}).then(function(){
-rSuggest();
-rTopSuggest();
+rSuggest();rTopSuggest();
 });
 }
 });
-}
+                                        }
