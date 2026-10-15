@@ -98,12 +98,26 @@ else{document.getElementById('cListTab').classList.add('h');document.getElementB
 }
 function regComp(e){
 e.preventDefault();
-C.push({name:document.getElementById('cmpN').value.trim(),owner:document.getElementById('cmpO').value.trim(),phone:document.getElementById('cmpP').value.trim(),type:document.getElementById('cmpT').value,address:document.getElementById('cmpA').value.trim(),district:document.getElementById('cmpD').value.trim(),state:document.getElementById('cmpS').value.trim(),complaints:0,rating:'green',date:new Date().toLocaleDateString('hi-IN')});
-ss();
+var c={
+name:document.getElementById('cmpN').value.trim(),
+owner:document.getElementById('cmpO').value.trim(),
+phone:document.getElementById('cmpP').value.trim(),
+type:document.getElementById('cmpT').value,
+address:document.getElementById('cmpA').value.trim(),
+district:document.getElementById('cmpD').value.trim(),
+state:document.getElementById('cmpS').value.trim(),
+complaints:0,
+rating:'green',
+date:new Date().toLocaleDateString('hi-IN')
+};
+db.collection('companies').add(c).then(function(){
 document.getElementById('sm4').style.display='block';
 e.target.reset();
 setTimeout(function(){document.getElementById('sm4').style.display='none';},5000);
 sts();
+}).catch(function(err){
+alert('❌ Error: '+err.message);
+});
 }
 function rcomp(){
 var b=document.getElementById('cl');if(!b)return;
