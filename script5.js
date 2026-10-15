@@ -145,20 +145,36 @@ b.innerHTML='<p style="color:#b30000">❌ Error: '+err.message+'</p>';
 }
 function regSuggest(e){
 e.preventDefault();
-SUGG.push({id:Date.now(),name:document.getElementById('sgN').value.trim(),text:document.getElementById('sgT').value.trim(),likes:0,date:new Date().toLocaleDateString('hi-IN')});
-ss();
+var s={
+name:document.getElementById('sgN').value.trim(),
+text:document.getElementById('sgT').value.trim(),
+likes:0,
+date:new Date().toLocaleDateString('hi-IN')
+};
+db.collection('suggestions').add(s).then(function(){
 document.getElementById('sm8').style.display='block';
 e.target.reset();
 setTimeout(function(){document.getElementById('sm8').style.display='none';},5000);
-rSuggest();rTopSuggest();
+rSuggest();
+rTopSuggest();
+}).catch(function(err){
+alert('❌ Error: '+err.message);
+});
 }
 function rSuggest(){
 var b=document.getElementById('allSuggest');if(!b)return;
-if(SUGG.length==0){b.innerHTML='<p class="note">कोई सुझाव नहीं।</p>';return;}
-var sorted=SUGG.slice().sort(function(a,b){return (b.likes||0)-(a.likes||0);});
-b.innerHTML=sorted.map(function(s){
-return '<div class="suggest-card"><h3>💡 '+s.name+'</h3><p>'+s.text+'</p><div class="sg-meta">👍 '+s.likes+' • 📅 '+s.date+'</div><button onclick="likeSuggest('+s.id+')" style="background:#138808;color:#fff;border:none;padding:5px 12px;border-radius:14px;font-size:11px;font-weight:700;cursor:pointer;margin-top:6px">👍 पसंद</button></div>';
+b.innerHTML='<p class="note">🔄 लोड हो रहा है...</p>';
+db.collection('suggestions').get().then(function(snap){
+if(snap.empty){b.innerHTML='<p class="note">कोई सुझाव नहीं।</p>';return;}
+var list=[];
+snap.forEach(function(doc){var s=doc.data();s.id=doc.id;list.push(s);});
+list.sort(function(a,b){return (b.likes||0)-(a.likes||0);});
+b.innerHTML=list.map(function(s){
+return '<div class="suggest-card"><h3>💡 '+s.name+'</h3><p>'+s.text+'</p><div class="sg-meta">👍 '+s.likes+' • 📅 '+s.date+'</div><button onclick="likeSuggest(\''+s.id+'\')" style="background:#138808;color:#fff;border:none;padding:5px 12px;border-radius:14px;font-size:11px;font-weight:700;cursor:pointer;margin-top:6px">👍 पसंद</button></div>';
 }).join('');
+}).catch(function(err){
+b.innerHTML='<p style="color:#b30000">❌ Error: '+err.message+'</p>';
+});
 }
 function rTopSuggest(){
 var b=document.getElementById('topSuggest');if(!b)return;
