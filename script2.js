@@ -63,10 +63,20 @@ alert('❌ Error: '+err.message);
 }
 function rWorkers(){
 var b=document.getElementById('wList');if(!b)return;
+b.innerHTML='<p class="note">🔄 लोड हो रहा है...</p>';
 var q=(document.getElementById('wSearch')?document.getElementById('wSearch').value:'').toLowerCase().trim();
-var list=WK.filter(function(w){
-if(!q)return true;
-return (w.district||'').toLowerCase().indexOf(q)>-1||(w.village||'').toLowerCase().indexOf(q)>-1||(w.block||'').toLowerCase().indexOf(q)>-1||(w.state||'').toLowerCase().indexOf(q)>-1||(w.name||'').toLowerCase().indexOf(q)>-1||(w.skill||'').toLowerCase().indexOf(q)>-1;
+db.collection('workers').get().then(function(snap){
+var list=[];
+snap.forEach(function(doc){
+var w=doc.data();
+w.id=doc.id;
+if(!q)list.push(w);
+else if((w.district||'').toLowerCase().indexOf(q)>-1||
+(w.village||'').toLowerCase().indexOf(q)>-1||
+(w.block||'').toLowerCase().indexOf(q)>-1||
+(w.state||'').toLowerCase().indexOf(q)>-1||
+(w.name||'').toLowerCase().indexOf(q)>-1||
+(w.skill||'').toLowerCase().indexOf(q)>-1)list.push(w);
 });
 document.getElementById('wCount').innerText='कुल: '+list.length;
 if(list.length==0){b.innerHTML='<div class="no-worker"><b>😕 कोई मजदूर नहीं मिला</b>इस जगह का कोई मजदूर रजिस्टर नहीं।</div>';return;}
@@ -76,6 +86,9 @@ var waMsg='👷 मजदूर (Apana India):\n\nनाम: '+w.name+'\nहु�
 var wa='https://wa.me/?text='+encodeURIComponent(waMsg);
 return '<div class="worker-card"><div class="w-photo">'+photo+'</div><div class="w-info"><h3>'+w.name+'</h3><span class="w-skill">'+w.skill+(w.exp>0?' • '+w.exp+' साल':'')+'</span><p>📍 '+w.village+', '+w.block+'</p><p>🏠 '+w.district+', '+w.state+'</p><div class="w-btns"><a href="tel:'+w.phone+'" class="w-call">📞 कॉल</a><a href="'+wa+'" target="_blank" class="w-wa">📱 WhatsApp</a></div></div></div>';
 }).join('');
+}).catch(function(err){
+b.innerHTML='<p style="color:#b30000">❌ Error: '+err.message+'</p>';
+});
 }
 function cTab(t,b){
 document.querySelectorAll('#p-comp .tt').forEach(function(x){x.classList.remove('active');});
