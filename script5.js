@@ -109,11 +109,23 @@ else{document.getElementById('pnListTab').classList.add('h');document.getElement
 }
 function regPanchayat(e){
 e.preventDefault();
-PANCH.push({id:Date.now(),name:document.getElementById('pnN').value.trim(),phone:document.getElementById('pnP').value.trim(),village:document.getElementById('pnV').value.trim(),block:document.getElementById('pnB').value.trim(),district:document.getElementById('pnD').value.trim(),type:document.getElementById('pnT').value,detail:document.getElementById('pnS').value.trim(),date:new Date().toLocaleDateString('hi-IN')});
-ss();
+var p={
+name:document.getElementById('pnN').value.trim(),
+phone:document.getElementById('pnP').value.trim(),
+village:document.getElementById('pnV').value.trim(),
+block:document.getElementById('pnB').value.trim(),
+district:document.getElementById('pnD').value.trim(),
+type:document.getElementById('pnT').value,
+detail:document.getElementById('pnS').value.trim(),
+date:new Date().toLocaleDateString('hi-IN')
+};
+db.collection('panchayat').add(p).then(function(){
 document.getElementById('sm7').style.display='block';
 e.target.reset();
 setTimeout(function(){document.getElementById('sm7').style.display='none';},5000);
+}).catch(function(err){
+alert('❌ Error: '+err.message);
+});
 }
 function rPanch(){
 var b=document.getElementById('panchayatList');if(!b)return;
