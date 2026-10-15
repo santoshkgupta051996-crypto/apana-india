@@ -28,10 +28,7 @@ db.collection('companies').add({name:cn,address:c.address,complaints:1,rating:'y
 document.getElementById('sm1').style.display='block';
 e.target.reset();
 setTimeout(function(){document.getElementById('sm1').style.display='none';},5000);
-}).catch(function(err){
-alert('❌ Error: '+err.message);
-});
-}
+}).catch(function(err){alert('❌ Error: '+err.message);});
 }
 function rmc(){
 var b=document.getElementById('mcl');if(!b)return;
@@ -46,9 +43,7 @@ var stTxt=st=='approved'?'✅ स्वीकृत':(st=='rejected'?'❌ रद
 var stCls=st=='approved'?'bg':(st=='rejected'?'br':'by');
 return '<div class="cp"><h3>'+c.company+' <span class="bd '+stCls+'">'+stTxt+'</span></h3><p>📍 '+c.address+'</p><p>📋 '+c.type+'</p><p>💬 '+c.detail+'</p><p style="font-size:10px;color:#999">दर्ज: '+c.date+'</p></div>';
 }).join('');
-}).catch(function(err){
-b.innerHTML='<p style="color:#b30000">❌ Error: '+err.message+'</p>';
-});
+}).catch(function(err){b.innerHTML='<p style="color:#b30000">❌ Error: '+err.message+'</p>';});
 }
 function rPublic(){
 var b=document.getElementById('publicComplaints');if(!b)return;
@@ -62,9 +57,7 @@ var waMsg='📢 शिकायत: '+c.company+'\n📍 '+c.address+'\n📋 '+c.
 var wa='https://wa.me/?text='+encodeURIComponent(waMsg);
 return '<div class="cp"><h3>'+c.company+' <span class="bd bg">✅ सत्यापित</span></h3><p>📍 '+c.address+'</p><p>📋 '+c.type+'</p><p>💬 '+c.detail+'</p><p style="font-size:10px;color:#999">दर्ज: '+c.date+'</p><a href="'+wa+'" target="_blank" class="btn-wa">📱 WhatsApp</a></div>';
 }).join('');
-}).catch(function(err){
-b.innerHTML='<p style="color:#b30000">❌ Error: '+err.message+'</p>';
-});
+}).catch(function(err){b.innerHTML='<p style="color:#b30000">❌ Error: '+err.message+'</p>';});
 }
 function scomp(){
 var q=document.getElementById('sq')?document.getElementById('sq').value.toLowerCase().trim():'';
@@ -75,9 +68,7 @@ db.collection('companies').get().then(function(snap){
 var f=[];
 snap.forEach(function(doc){var c=doc.data();c.id=doc.id;if(c.name.toLowerCase().indexOf(q)>-1)f.push(c);});
 b.innerHTML=f.length==0?'<p style="color:#b30000">कोई कंपनी नहीं।</p>':f.map(function(c){return cc(c);}).join('');
-}).catch(function(err){
-b.innerHTML='<p style="color:#b30000">❌ Error: '+err.message+'</p>';
-});
+}).catch(function(err){b.innerHTML='<p style="color:#b30000">❌ Error: '+err.message+'</p>';});
 }
 function ral(){
 var b=document.getElementById('al');if(!b)return;
@@ -87,9 +78,7 @@ var list=[];
 snap.forEach(function(doc){var c=doc.data();c.id=doc.id;list.push(c);});
 list.sort(function(a,b){return (b.complaints||0)-(a.complaints||0);});
 b.innerHTML=list.map(function(c){return cc(c);}).join('');
-}).catch(function(err){
-b.innerHTML='<p style="color:#b30000">❌ Error: '+err.message+'</p>';
-});
+}).catch(function(err){b.innerHTML='<p style="color:#b30000">❌ Error: '+err.message+'</p>';});
 }
 function suba(e){
 e.preventDefault();
@@ -107,76 +96,5 @@ document.getElementById('sm2').style.display='block';
 e.target.reset();
 setTimeout(function(){document.getElementById('sm2').style.display='none';},5000);
 sts();
-}).catch(function(err){
-alert('❌ Error: '+err.message);
-});
-}function alog(){
-var p=document.getElementById('apw').value;
-var secret=btoa(p);
-if(secret=='U29uYmhhZHJhQDIwMjY='){
-document.getElementById('alb').classList.add('h');
-document.getElementById('apn').classList.remove('h');
-rAdmin();
-}else{alert('❌ गलत पासवर्ड!');}
-}
-function rAdmin(){
-db.collection('ads').get().then(function(snap){document.getElementById('aa').innerText=snap.size;});
-db.collection('complaints').get().then(function(snap){document.getElementById('as').innerText=snap.size;});
-db.collection('workers').get().then(function(snap){document.getElementById('aw').innerText=snap.size;});
-db.collection('companies').get().then(function(snap){document.getElementById('ap2').innerText=snap.size;});
-
-db.collection('complaints').get().then(function(snap){
-var pending=[],approved=[],rejected=[];
-snap.forEach(function(doc){
-var c=doc.data();c.id=doc.id;
-var st=c.status||'pending';
-if(st=='approved')approved.push(c);
-else if(st=='rejected')rejected.push(c);
-else pending.push(c);
-});
-
-var bp=document.getElementById('acomplPending');
-bp.innerHTML=pending.length==0?'<p class="note">कोई नई शिकायत नहीं।</p>':pending.map(function(c){
-return '<div class="cp rr"><h3>'+c.company+'</h3><p>👷 '+c.worker+' | 📱 '+c.phone+'</p><p>📍 '+c.address+'</p><p>📋 '+c.type+'</p><p>💬 '+c.detail+'</p>'+(c.proof?'<p>🔍 '+c.proof+'</p>':'')+'<p style="font-size:10px;color:#999">दर्ज: '+c.date+'</p><div style="margin-top:8px"><button class="btn-ok" onclick="approve(\''+c.id+'\')">✅ स्वीकार</button><button class="btn-no" onclick="reject(\''+c.id+'\')">❌ रद्द</button></div></div>';
-}).join('');
-
-var ba=document.getElementById('acomplApproved');
-ba.innerHTML=approved.length==0?'<p class="note">कोई स्वीकृत नहीं।</p>':approved.map(function(c){
-return '<div class="cp"><h3>'+c.company+'</h3><p>💬 '+c.detail+'</p><button class="btn-no" onclick="reject(\''+c.id+'\')" style="margin-top:6px">❌ रद्द</button></div>';
-}).join('');
-
-var br=document.getElementById('acomplRejected');
-br.innerHTML=rejected.length==0?'<p class="note">कोई रद्द नहीं।</p>':rejected.map(function(c){
-return '<div class="cp"><h3>'+c.company+'</h3><p>💬 '+c.detail+'</p><button class="btn-ok" onclick="approve(\''+c.id+'\')" style="margin-top:6px">✅ बहाल</button></div>';
-}).join('');
-});
-
-db.collection('workers').get().then(function(snap){
-var bw=document.getElementById('adminWorkers');
-if(snap.empty){bw.innerHTML='<p class="note">कोई मजदूर नहीं।</p>';return;}
-var html='';
-snap.forEach(function(doc){var w=doc.data();
-html+='<div class="cp"><h3>'+w.name+'</h3><p>👷 '+w.skill+' | 📱 '+w.phone+'</p><p>📍 '+w.village+', '+w.block+', '+w.district+'</p></div>';
-});
-bw.innerHTML=html;
-});
-}
-
-function approve(id){db.collection('complaints').doc(id).update({status:'approved'}).then(function(){rAdmin();rPublic();alert('✅ स्वीकार! होम पर दिखेगी।');});}
-function reject(id){db.collection('complaints').doc(id).update({status:'rejected'}).then(function(){rAdmin();rPublic();alert('❌ रद्द।');});}
-function approve(i){SC[i].status='approved';ss();rAdmin();rPublic();alert('✅ स्वीकार! होम पर दिखेगी।');}
-function reject(i){SC[i].status='rejected';ss();rAdmin();rPublic();alert('❌ रद्द।');}
-function rnumbers(){
-var b=document.getElementById('numbersList');if(!b)return;
-b.innerHTML=NUMBERS.map(function(n){
-return '<div class="num-item '+n.cls+'"><div class="info"><b>'+n.name+'</b><span>'+n.desc+'</span></div><a href="tel:'+n.num+'">📞 '+n.num+'</a></div>';
-}).join('');
-}
-function rCourses(){
-var b=document.getElementById('coursesList');if(!b)return;
-b.innerHTML=COURSES.map(function(c){
-var waMsg='🎓 मुझे यह कोर्स चाहिए:\n\n*'+c.name+'*\n'+c.desc+'\n💰 ₹'+c.price+'\n\nकृपया बताएं।';
-var wa='https://wa.me/917398807484?text='+encodeURIComponent(waMsg);
-return '<div class="course-card"><div class="c-icon">'+c.icon+'</div><div class="c-info"><h3>'+c.name+'</h3><p>'+c.desc+'</p><span class="c-price">₹'+c.price+'</span><span class="c-old">₹'+c.old+'</span></div><a href="'+wa+'" target="_blank" class="c-btn">📱 खरीदें</a></div>';
-}).join('');
+}).catch(function(err){alert('❌ Error: '+err.message);});
 }
