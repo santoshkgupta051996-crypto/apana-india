@@ -35,13 +35,20 @@ alert('❌ Error: '+err.message);
 }
 function rmc(){
 var b=document.getElementById('mcl');if(!b)return;
-if(SC.length==0){b.innerHTML='<p class="note">कोई शिकायत नहीं।</p>';return;}
-b.innerHTML=SC.map(function(c){
+b.innerHTML='<p class="note">🔄 लोड हो रहा है...</p>';
+db.collection('complaints').get().then(function(snap){
+if(snap.empty){b.innerHTML='<p class="note">कोई शिकायत नहीं।</p>';return;}
+var list=[];
+snap.forEach(function(doc){var c=doc.data();c.id=doc.id;list.push(c);});
+b.innerHTML=list.reverse().map(function(c){
 var st=c.status||'pending';
 var stTxt=st=='approved'?'✅ स्वीकृत':(st=='rejected'?'❌ रद्द':'⏳ जाँच बाकी');
 var stCls=st=='approved'?'bg':(st=='rejected'?'br':'by');
-return '<div class="cp"><h3>'+c.name+' <span class="bd '+stCls+'">'+stTxt+'</span></h3><p>📍 '+c.address+'</p><p>📋 '+c.type+'</p><p>💬 '+c.detail+'</p><p style="font-size:10px;color:#999">दर्ज: '+c.date+'</p></div>';
-}).reverse().join('');
+return '<div class="cp"><h3>'+c.company+' <span class="bd '+stCls+'">'+stTxt+'</span></h3><p>📍 '+c.address+'</p><p>📋 '+c.type+'</p><p>💬 '+c.detail+'</p><p style="font-size:10px;color:#999">दर्ज: '+c.date+'</p></div>';
+}).join('');
+}).catch(function(err){
+b.innerHTML='<p style="color:#b30000">❌ Error: '+err.message+'</p>';
+});
 }
 function rPublic(){
 var b=document.getElementById('publicComplaints');if(!b)return;
