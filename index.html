@@ -82,8 +82,9 @@
 </form></div></div></div>
 
 <div id="p-contractor" class="h"><div class="c"><h2>📋 ठेकेदार रेट पोस्ट</h2>
+  <div class="tb"><button class="tt active" onclick="ctTab('list',this)">🔍 देखें</button><button class="tt" onclick="ctTab('reg',this)">✍️ पोस्ट करें</button></div>
 <div id="ctListTab"><input id="ctSearch" placeholder="🔍 ठेकेदार/काम खोजें..." oninput="rCont()"><div id="ctList"></div></div>
-<div id="ctListTab"><div id="ctList"></div></div>
+
 <div id="ctRegTab" class="h"><form onsubmit="regContractor(event)">
 <label>ठेकेदार का नाम *</label><input id="ctN" required>
 <label>मोबाइल *</label><input id="ctP" required maxlength="10" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
