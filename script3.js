@@ -93,12 +93,23 @@ b.innerHTML='<p style="color:#b30000">❌ Error: '+err.message+'</p>';
 }
 function suba(e){
 e.preventDefault();
-AD.push({id:Date.now(),title:document.getElementById('at').value.trim(),cat:document.getElementById('ac').value,detail:document.getElementById('ad').value.trim(),phone:document.getElementById('ap').value.trim(),state:document.getElementById('ast').value.trim(),district:document.getElementById('adi').value.trim()});
-ss();
+var a={
+title:document.getElementById('at').value.trim(),
+cat:document.getElementById('ac').value,
+detail:document.getElementById('ad').value.trim(),
+phone:document.getElementById('ap').value.trim(),
+state:document.getElementById('ast').value.trim(),
+district:document.getElementById('adi').value.trim(),
+date:new Date().toLocaleDateString('hi-IN')
+};
+db.collection('ads').add(a).then(function(){
 document.getElementById('sm2').style.display='block';
 e.target.reset();
 setTimeout(function(){document.getElementById('sm2').style.display='none';},5000);
 sts();
+}).catch(function(err){
+alert('❌ Error: '+err.message);
+});
 }function alog(){
 var p=document.getElementById('apw').value;
 var secret=btoa(p);
