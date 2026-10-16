@@ -85,9 +85,7 @@ else if((w.district||'').toLowerCase().indexOf(q)>-1||(w.village||'').toLowerCas
 });
 document.getElementById('wCount').innerText='कुल: '+list.length;
 if(list.length==0){b.innerHTML='<div class="no-worker"><b>😕 कोई मजदूर नहीं मिला</b>इस जगह का कोई मजदूर रजिस्टर नहीं।</div>';return;}
-b.innerHTML=list.map(function(w){
-  return '<div class="worker-card"><div class="w-photo">'+photo+'</div><div class="w-info"><h3>'+w.name+'</h3><span class="w-skill">'+w.skill+(w.exp>0?' • '+w.exp+' साल':'')+'</span><p>📍 '+w.village+', '+w.block+'</p><p>🏠 '+w.district+', '+w.state+'</p><div class="w-btns"><a href="tel:'+w.phone+'" class="w-call">📞 कॉल</a><a href="'+wa+'" target="_blank" class="w-wa">📱 WhatsApp</a><button onclick="editWorker(\''+w.id+'\')" style="background:#FF9933;color:#fff;border:none;padding:5px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-top:5px;margin-right:5px;cursor:pointer">✏️ हुनर बदलें</button></div></div></div>';
-return '<div class="worker-card"><div class="w-photo">'+photo+'</div><div class="w-info"><h3>'+w.name+'</h3><span class="w-skill">'+w.skill+(w.exp>0?' • '+w.exp+' साल':'')+'</span><p>📍 '+w.village+', '+w.block+'</p><p>🏠 '+w.district+', '+w.state+'</p><div class="w-btns"><a href="tel:'+w.phone+'" class="w-call">📞 कॉल</a><a href="'+wa+'" target="_blank" class="w-wa">📱 WhatsApp</a></div></div></div>';
+b.innerHTML=list.map(function(w){return '<div class="worker-card"><div class="w-photo">'+photo+'</div><div class="w-info"><h3>'+w.name+'</h3><span class="w-skill">'+w.skill+(w.exp>0?' • '+w.exp+' साल':'')+'</span><p>📍 '+w.village+', '+w.block+'</p><p>🏠 '+w.district+', '+w.state+'</p><div class="w-btns"><a href="tel:'+w.phone+'" class="w-call">📞 कॉल</a><a href="'+wa+'" target="_blank" class="w-wa">📱 WhatsApp</a><button onclick="editWorker(\''+w.id+'\')" style="background:#FF9933;color:#fff;border:none;padding:5px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-top:5px;margin-right:5px;cursor:pointer">✏️ हुनर बदलें</button></div></div></div>';
 }).join('');
 }).catch(function(err){b.innerHTML='<p style="color:#b30000">❌ Error: '+err.message+'</p>';});
 }
