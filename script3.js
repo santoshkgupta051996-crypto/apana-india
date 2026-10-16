@@ -180,7 +180,7 @@ function rCourses(){
 var b=document.getElementById('coursesList');if(!b)return;
 b.innerHTML=COURSES.map(function(c){
 var waMsg='🎓 मुझे यह कोर्स चाहिए:\n\n'+c.name+'\n'+c.desc+'\n💰 ₹'+c.price+'\n\nकृपया बताएं।';
-var wa='https://wa.me/919999999999?text='+encodeURIComponent(waMsg);
+var wa='https://wa.me/917398807484?text='+encodeURIComponent(waMsg);
 return '<div class="course-card"><div class="c-icon">'+c.icon+'</div><div class="c-info"><h3>'+c.name+'</h3><p>'+c.desc+'</p><span class="c-price">₹'+c.price+'</span><span class="c-old">₹'+c.old+'</span></div><a href="'+wa+'" target="_blank" class="c-btn">📱 खरीदें</a></div>';
 }).join('');
 }
