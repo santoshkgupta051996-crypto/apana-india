@@ -1,9 +1,11 @@
+// ================= CONTRACTOR =================
 function ctTab(t,b){
 document.querySelectorAll('#p-contractor .tt').forEach(function(x){x.classList.remove('active');});
 b.classList.add('active');
 if(t=='list'){document.getElementById('ctListTab').classList.remove('h');document.getElementById('ctRegTab').classList.add('h');rCont();}
 else{document.getElementById('ctListTab').classList.add('h');document.getElementById('ctRegTab').classList.remove('h');}
 }
+
 function regContractor(e){
 e.preventDefault();
 var c={
@@ -15,7 +17,8 @@ food:document.getElementById('ctF').value,
 place:document.getElementById('ctA').value.trim(),
 qty:document.getElementById('ctQ').value.trim(),
 other:document.getElementById('ctO').value.trim(),
-date:new Date().toLocaleDateString('hi-IN')
+date:new Date().toLocaleDateString('hi-IN'),
+user:currentUser?currentUser.uid:'guest'
 };
 db.collection('contractors').add(c).then(function(){
 document.getElementById('sm5').style.display='block';
@@ -23,6 +26,7 @@ e.target.reset();
 setTimeout(function(){document.getElementById('sm5').style.display='none';},5000);
 }).catch(function(err){alert('❌ Error: '+err.message);});
 }
+
 function rCont(){
 var b=document.getElementById('ctList');if(!b)return;
 b.innerHTML='<p class="note">🔄 लोड हो रहा है...</p>';
@@ -41,18 +45,22 @@ return '<div class="contractor-card"><h3>👤 '+c.name+'</h3><p>🔧 काम: 
 }).join('');
 }).catch(function(err){b.innerHTML='<p style="color:#b30000">❌ Error: '+err.message+'</p>';});
 }
+
+// ================= SHOPS =================
 function shTab(t,b){
 document.querySelectorAll('#p-shops .tt').forEach(function(x){x.classList.remove('active');});
 b.classList.add('active');
 if(t=='list'){document.getElementById('shListTab').classList.remove('h');document.getElementById('shRegTab').classList.add('h');rShops();}
 else{document.getElementById('shListTab').classList.add('h');document.getElementById('shRegTab').classList.remove('h');}
 }
+
 function previewShopPhoto(e){
 var file=e.target.files[0];if(!file)return;
 var reader=new FileReader();
 reader.onload=function(ev){shPhotoData=ev.target.result;document.getElementById('shPreview').innerHTML='<img src="'+shPhotoData+'">';};
 reader.readAsDataURL(file);
 }
+
 function regShop(e){
 e.preventDefault();
 var s={
@@ -64,7 +72,8 @@ place:document.getElementById('shL').value.trim(),
 product:document.getElementById('shPr').value.trim(),
 price:document.getElementById('shPc').value,
 photo:shPhotoData,
-date:new Date().toLocaleDateString('hi-IN')
+date:new Date().toLocaleDateString('hi-IN'),
+user:currentUser?currentUser.uid:'guest'
 };
 db.collection('shops').add(s).then(function(){
 document.getElementById('sm6').style.display='block';
@@ -73,6 +82,7 @@ document.getElementById('shPreview').innerHTML='';
 setTimeout(function(){document.getElementById('sm6').style.display='none';},5000);
 }).catch(function(err){alert('❌ Error: '+err.message);});
 }
+
 function rShops(){
 var b=document.getElementById('shopsList');if(!b)return;
 b.innerHTML='<p class="note">🔄 लोड हो रहा है...</p>';
@@ -90,12 +100,80 @@ return '<div class="shop-card"><div class="s-img">'+photo+'</div><div class="s-i
 }).join('');
 }).catch(function(err){b.innerHTML='<p style="color:#b30000">❌ Error: '+err.message+'</p>';});
 }
+
+// ================= RENTAL =================
+function rnTab(t,b){
+document.querySelectorAll('#p-rental .tt').forEach(function(x){x.classList.remove('active');});
+b.classList.add('active');
+if(t=='list'){document.getElementById('rnListTab').classList.remove('h');document.getElementById('rnRegTab').classList.add('h');rRentals();}
+else{document.getElementById('rnListTab').classList.add('h');document.getElementById('rnRegTab').classList.remove('h');}
+}
+
+function previewRentalPhoto(e){
+rnPhotoData=[];
+var files=e.target.files;
+for(var i=0;i<files.length;i++){
+(function(f){
+var reader=new FileReader();
+reader.onload=function(ev){rnPhotoData.push(ev.target.result);document.getElementById('rnPreview').innerHTML=rnPhotoData.map(function(p){return '<img src="'+p+'">';}).join('');};
+reader.readAsDataURL(f);
+})(files[i]);
+}
+}
+
+function regRental(e){
+e.preventDefault();
+var r={
+name:document.getElementById('rnN').value.trim(),
+phone:document.getElementById('rnP').value.trim(),
+type:document.getElementById('rnT').value,
+rooms:document.getElementById('rnR').value.trim(),
+price:document.getElementById('rnPrice').value,
+facilities:document.getElementById('rnF').value.trim(),
+address:document.getElementById('rnA').value.trim(),
+district:document.getElementById('rnD').value.trim(),
+gps:document.getElementById('rnGPS').value.trim(),
+photos:rnPhotoData.slice(),
+date:new Date().toLocaleDateString('hi-IN'),
+user:currentUser?currentUser.uid:'guest'
+};
+db.collection('rentals').add(r).then(function(){
+document.getElementById('sm9').style.display='block';
+e.target.reset();rnPhotoData=[];
+document.getElementById('rnPreview').innerHTML='';
+setTimeout(function(){document.getElementById('sm9').style.display='none';},5000);
+}).catch(function(err){alert('❌ Error: '+err.message);});
+}
+
+function rRentals(){
+var b=document.getElementById('rnList');if(!b)return;
+b.innerHTML='<p class="note">🔄 लोड हो रहा है...</p>';
+var q=(document.getElementById('rnSearch')?document.getElementById('rnSearch').value:'').toLowerCase().trim();
+db.collection('rentals').get().then(function(snap){
+var list=[];
+snap.forEach(function(doc){var r=doc.data();r.id=doc.id;list.push(r);});
+if(q)list=list.filter(function(r){
+return (r.name||'').toLowerCase().indexOf(q)>-1||(r.district||'').toLowerCase().indexOf(q)>-1||(r.address||'').toLowerCase().indexOf(q)>-1||(r.type||'').toLowerCase().indexOf(q)>-1;
+});
+if(list.length==0){b.innerHTML='<p class="note">कोई किराया नहीं मिला।</p>';return;}
+b.innerHTML=list.reverse().map(function(r){
+var photos='';
+if(r.photos&&r.photos.length>0){photos='<div class="rent-photos">'+r.photos.map(function(p){return '<img src="'+p+'">';}).join('')+'</div>';}
+var waMsg='🏠 किराया (Apana India):\n\n'+r.type+'\nकमरे: '+r.rooms+'\nकिराया: ₹'+r.price+'/माह\nसुविधाएँ: '+r.facilities+'\nपता: '+r.address+', '+r.district;
+var wa='https://wa.me/?text='+encodeURIComponent(waMsg);
+var gpsLink=r.gps?'<p>📍 <a href="'+r.gps+'" target="_blank" style="color:#138808;font-weight:700">Google Maps पर देखें</a></p>':'';
+return '<div class="rental-card"><h3>🏠 '+r.type+' — '+r.district+'</h3>'+photos+'<p>👤 '+r.name+'</p><p>🛏️ '+r.rooms+'</p><span class="rent-price">₹'+r.price+'/माह</span><p>✨ '+r.facilities+'</p><p>📍 '+r.address+'</p>'+gpsLink+'<div class="w-btns"><a href="tel:'+r.phone+'" class="w-call">📞 कॉल</a><a href="'+wa+'" target="_blank" class="w-wa">📱 WhatsApp</a></div></div>';
+}).join('');
+}).catch(function(err){b.innerHTML='<p style="color:#b30000">❌ Error: '+err.message+'</p>';});
+}
+// ================= PANCHAYAT =================
 function pnTab(t,b){
 document.querySelectorAll('#p-panchayat .tt').forEach(function(x){x.classList.remove('active');});
 b.classList.add('active');
 if(t=='list'){document.getElementById('pnListTab').classList.remove('h');document.getElementById('pnRegTab').classList.add('h');rPanch();}
 else{document.getElementById('pnListTab').classList.add('h');document.getElementById('pnRegTab').classList.remove('h');}
 }
+
 function regPanchayat(e){
 e.preventDefault();
 var p={
@@ -106,14 +184,31 @@ block:document.getElementById('pnB').value.trim(),
 district:document.getElementById('pnD').value.trim(),
 type:document.getElementById('pnT').value,
 detail:document.getElementById('pnS').value.trim(),
-date:new Date().toLocaleDateString('hi-IN')
+date:new Date().toLocaleDateString('hi-IN'),
+status:'public',
+user:currentUser?currentUser.uid:'guest'
 };
 db.collection('panchayat').add(p).then(function(){
 document.getElementById('sm7').style.display='block';
-e.target.reset();
-setTimeout(function(){document.getElementById('sm7').style.display='none';},5000);
+showBDOHelp();
+setTimeout(function(){document.getElementById('sm7').style.display='none';},8000);
 }).catch(function(err){alert('❌ Error: '+err.message);});
 }
+
+function showBDOHelp(){
+var d=document.getElementById('pnD').value.trim();
+var box=document.getElementById('bdoHelp');
+if(!d){box.innerHTML='';return;}
+var info=BDO_NUMBERS[d]||BDO_NUMBERS['default'];
+box.innerHTML='<div class="wage-card"><h3>🏛️ '+d+' ग्राम विकास अधिकारी</h3>'+
+'<div class="rate-row"><span>ब्लॉक</span><span>'+info.block+'</span></div>'+
+'<div class="rate-row"><span>हेल्पलाइन</span><span>'+info.num+'</span></div>'+
+'<div class="rate-row"><span>विभाग</span><span>'+info.extra+'</span></div>'+
+'<div style="margin-top:10px"><a href="tel:'+info.num+'" class="btn-wa" style="background:#138808;margin-right:5px">📞 कॉल करें</a>'+
+'<a href="https://wa.me/91'+info.num+'" target="_blank" class="btn-wa">📱 WhatsApp</a></div>'+
+'<p class="note" style="margin-top:8px">💡 समस्या आपकी वेबसाइट पर तुरंत सार्वजनिक हो गई है। ऊपर के नंबर पर सीधे बात करें।</p></div>';
+}
+
 function rPanch(){
 var b=document.getElementById('panchayatList');if(!b)return;
 b.innerHTML='<p class="note">🔄 लोड हो रहा है...</p>';
@@ -128,21 +223,26 @@ return '<div class="panchayat-card"><h3>🏛️ '+p.type+' - '+p.village+'</h3><
 }).join('');
 }).catch(function(err){b.innerHTML='<p style="color:#b30000">❌ Error: '+err.message+'</p>';});
 }
+
+// ================= SUGGESTIONS =================
 function regSuggest(e){
 e.preventDefault();
 var s={
 name:document.getElementById('sgN').value.trim(),
 text:document.getElementById('sgT').value.trim(),
 likes:0,
-date:new Date().toLocaleDateString('hi-IN')
+date:new Date().toLocaleDateString('hi-IN'),
+user:currentUser?currentUser.uid:'guest'
 };
 db.collection('suggestions').add(s).then(function(){
 document.getElementById('sm8').style.display='block';
 e.target.reset();
 setTimeout(function(){document.getElementById('sm8').style.display='none';},5000);
-rSuggest();rTopSuggest();
+rSuggest();
+rTopSuggest();
 }).catch(function(err){alert('❌ Error: '+err.message);});
 }
+
 function rSuggest(){
 var b=document.getElementById('allSuggest');if(!b)return;
 b.innerHTML='<p class="note">🔄 लोड हो रहा है...</p>';
@@ -156,6 +256,7 @@ return '<div class="suggest-card"><h3>💡 '+s.name+'</h3><p>'+s.text+'</p><div 
 }).join('');
 }).catch(function(err){b.innerHTML='<p style="color:#b30000">❌ Error: '+err.message+'</p>';});
 }
+
 function rTopSuggest(){
 var b=document.getElementById('topSuggest');if(!b)return;
 b.innerHTML='<p class="note">🔄 लोड हो रहा है...</p>';
@@ -168,6 +269,7 @@ var top=list[0];
 b.innerHTML='<div class="top-suggest"><h3>🏆 '+top.name+' का सुझाव</h3><p>'+top.text+'</p><div class="sg-meta">👍 '+top.likes+' लोगों ने पसंद किया</div></div>';
 }).catch(function(err){b.innerHTML='<p style="color:#b30000">❌ Error: '+err.message+'</p>';});
 }
+
 function likeSuggest(id){
 db.collection('suggestions').doc(id).get().then(function(doc){
 if(doc.exists){
@@ -177,4 +279,4 @@ rSuggest();rTopSuggest();
 });
 }
 });
-                                        }
+}
