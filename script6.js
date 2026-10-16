@@ -1,4 +1,6 @@
 // ================= ID CARD =================
+var idPhotoData='';
+
 function liveID(){
 var n=document.getElementById('idN').value||'आपका नाम';
 var p=document.getElementById('idP').value||'__________';
@@ -170,5 +172,4 @@ liveID();
 setTimeout(function(){document.getElementById('sm10').style.display='none';},8000);
 }).catch(function(err){alert('❌ Error: '+err.message);});
 };
-var idPhotoData='';
 
