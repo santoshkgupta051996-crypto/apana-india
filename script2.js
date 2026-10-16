@@ -334,3 +334,21 @@ box.innerHTML='<div class="wage-card"><h3>📞 '+info.name+' श्रम वि
 '<a href="https://wa.me/91'+info.num+'" target="_blank" class="btn-wa">📱 WhatsApp</a></div>'+
 '<p class="note" style="margin-top:8px">💡 अगर कॉल न लगे तो केंद्रीय हेल्पलाइन 14434 पर कॉल करें।</p></div>';
 }
+// ================= EDIT FUNCTIONS =================
+function editWorker(id){
+var newSkill=prompt('✏️ नया हुनर लिखें (जैसे: वेल्डर, फिटर, राजमिस्त्री, ड्राइवर):');
+if(!newSkill)return;
+db.collection('workers').doc(id).update({skill:newSkill.trim()}).then(function(){
+alert('✅ हुनर अपडेट हो गया! अब आप '+newSkill+' हैं।');
+rWorkers();
+}).catch(function(err){alert('❌ Error: '+err.message);});
+}
+
+function editCompany(id){
+var newType=prompt('✏️ कंपनी का काम का प्रकार बदलें (जैसे: निर्माण, स्टील, कोयला):');
+if(!newType)return;
+db.collection('companies').doc(id).update({type:newType.trim()}).then(function(){
+alert('✅ कंपनी का प्रकार अपडेट हो गया!');
+rcomp();
+}).catch(function(err){alert('❌ Error: '+err.message);});
+}
