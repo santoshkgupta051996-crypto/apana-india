@@ -172,34 +172,3 @@ setTimeout(function(){document.getElementById('sm10').style.display='none';},800
 };
 var idPhotoData='';
 
-function previewIDPhoto(e){
-var file=e.target.files[0];if(!file)return;
-var reader=new FileReader();
-reader.onload=function(ev){
-idPhotoData=ev.target.result;
-document.getElementById('idPhotoPreview').innerHTML='<img src="'+idPhotoData+'" style="max-width:100px;border-radius:8px;border:2px solid #FF9933">';
-liveID();
-};
-reader.readAsDataURL(file);
-}
-
-var _oldLiveID=liveID;
-liveID=function(){
-var n=document.getElementById('idN').value||'आपका नाम';
-var p=document.getElementById('idP').value||'__________';
-var s=document.getElementById('idS').value||'________';
-var v=document.getElementById('idV').value||'___';
-var d=document.getElementById('idD').value||'___';
-var st=document.getElementById('idSt').value||'___';
-var photo=idPhotoData?'<img src="'+idPhotoData+'">':'👷';
-var box=document.getElementById('idCardPreview');
-box.innerHTML='<div class="id-card"><div class="id-card-header">🇮🇳 APANA INDIA — मजदूर ID कार्ड</div>'+
-'<div class="id-card-body"><div class="id-card-photo">'+photo+'</div><div class="id-card-info">'+
-'<h3>'+n+'</h3>'+
-'<p>🛠️ हुनर: <b>'+s+'</b></p>'+
-'<p>📱 '+p+'</p>'+
-'<p>📍 '+v+', '+d+'</p>'+
-'<p>🏠 '+st+'</p>'+
-'</div></div>'+
-'<div class="id-card-footer">Apana India — रोजगार भी, मजदूरों को न्याय भी</div></div>';
-};
