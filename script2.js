@@ -1,13 +1,21 @@
+// ================= NAVIGATION =================
 function go(p){
-var ps=['home','worker','comp','contractor','news','jobs','wage','calc','shikayat','mycomp','laws','courses','shops','panchayat','suggest','numbers','alert','post','admin','help'];
-ps.forEach(function(x){var e=document.getElementById('p-'+x),n=document.getElementById('n-'+x);if(e)e.classList.add('h');if(n)n.classList.remove('active');});
-document.getElementById('p-'+p).classList.remove('h');
-document.getElementById('n-'+p).classList.add('active');
+var ps=['home','worker','comp','contractor','rental','news','jobs','wage','calc','idcard','land','health','shikayat','mycomp','laws','yojana','courses','shops','panchayat','suggest','numbers','alert','post','admin','login','help'];
+ps.forEach(function(x){
+var e=document.getElementById('p-'+x),n=document.getElementById('n-'+x);
+if(e)e.classList.add('h');
+if(n)n.classList.remove('active');
+});
+var pageEl=document.getElementById('p-'+p);
+var navEl=document.getElementById('n-'+p);
+if(pageEl)pageEl.classList.remove('h');
+if(navEl)navEl.classList.add('active');
 window.scrollTo({top:0,behavior:'smooth'});
 if(p=='home'){sts();rht();rPublic();rTopSuggest();}
 if(p=='worker')rWorkers();
 if(p=='comp')rcomp();
 if(p=='contractor')rCont();
+if(p=='rental')rRentals();
 if(p=='news')rnews();
 if(p=='jobs')rad('job');
 if(p=='mycomp')rmc();
@@ -18,28 +26,30 @@ if(p=='shops')rShops();
 if(p=='panchayat')rPanch();
 if(p=='suggest')rSuggest();
 }
+
+// ================= STATS =================
 function sts(){
-document.getElementById('sa').innerText=AD.length;
-document.getElementById('sc').innerText=SC.length;
-document.getElementById('sco').innerText=C.length;
-document.getElementById('sw2').innerText=WK.length;
 db.collection('workers').get().then(function(s){document.getElementById('sw2').innerText=s.size;});
 db.collection('companies').get().then(function(s){document.getElementById('sco').innerText=s.size;});
 db.collection('complaints').get().then(function(s){document.getElementById('sc').innerText=s.size;});
 db.collection('ads').get().then(function(s){document.getElementById('sa').innerText=s.size;});
 }
+
+// ================= WORKER TAB =================
 function wTab(t,b){
 document.querySelectorAll('#p-worker .tt').forEach(function(x){x.classList.remove('active');});
 b.classList.add('active');
 if(t=='list'){document.getElementById('wListTab').classList.remove('h');document.getElementById('wRegTab').classList.add('h');rWorkers();}
 else{document.getElementById('wListTab').classList.add('h');document.getElementById('wRegTab').classList.remove('h');}
 }
+
 function previewPhoto(e){
 var file=e.target.files[0];if(!file)return;
 var reader=new FileReader();
 reader.onload=function(ev){wPhotoData=ev.target.result;document.getElementById('wPhotoPreview').innerHTML='<img src="'+wPhotoData+'">';};
 reader.readAsDataURL(file);
 }
+
 function regWorker(e){
 e.preventDefault();
 var w={
@@ -52,7 +62,8 @@ block:document.getElementById('wB').value.trim(),
 district:document.getElementById('wD').value.trim(),
 state:document.getElementById('wSt').value.trim(),
 photo:wPhotoData,
-date:new Date().toLocaleDateString('hi-IN')
+date:new Date().toLocaleDateString('hi-IN'),
+user:currentUser?currentUser.uid:'guest'
 };
 db.collection('workers').add(w).then(function(){
 document.getElementById('sm3').style.display='block';
@@ -61,6 +72,7 @@ setTimeout(function(){document.getElementById('sm3').style.display='none';},5000
 sts();
 }).catch(function(err){alert('❌ Error: '+err.message);});
 }
+
 function rWorkers(){
 var b=document.getElementById('wList');if(!b)return;
 b.innerHTML='<p class="note">🔄 लोड हो रहा है...</p>';
@@ -81,12 +93,15 @@ return '<div class="worker-card"><div class="w-photo">'+photo+'</div><div class=
 }).join('');
 }).catch(function(err){b.innerHTML='<p style="color:#b30000">❌ Error: '+err.message+'</p>';});
 }
+
+// ================= COMPANY TAB =================
 function cTab(t,b){
 document.querySelectorAll('#p-comp .tt').forEach(function(x){x.classList.remove('active');});
 b.classList.add('active');
 if(t=='list'){document.getElementById('cListTab').classList.remove('h');document.getElementById('cRegTab').classList.add('h');rcomp();}
 else{document.getElementById('cListTab').classList.add('h');document.getElementById('cRegTab').classList.remove('h');}
 }
+
 function regComp(e){
 e.preventDefault();
 var c={
@@ -99,7 +114,8 @@ district:document.getElementById('cmpD').value.trim(),
 state:document.getElementById('cmpS').value.trim(),
 complaints:0,
 rating:'green',
-date:new Date().toLocaleDateString('hi-IN')
+date:new Date().toLocaleDateString('hi-IN'),
+user:currentUser?currentUser.uid:'guest'
 };
 db.collection('companies').add(c).then(function(){
 document.getElementById('sm4').style.display='block';
@@ -108,6 +124,7 @@ setTimeout(function(){document.getElementById('sm4').style.display='none';},5000
 sts();
 }).catch(function(err){alert('❌ Error: '+err.message);});
 }
+
 function rcomp(){
 var b=document.getElementById('cl');if(!b)return;
 b.innerHTML='<p class="note">🔄 लोड हो रहा है...</p>';
@@ -121,6 +138,7 @@ list.sort(function(a,b){return b.complaints-a.complaints;});
 b.innerHTML=list.map(function(c){return cc(c);}).join('');
 }).catch(function(err){b.innerHTML='<p style="color:#b30000">❌ Error: '+err.message+'</p>';});
 }
+
 function cc(c){
 var cl=c.rating=='green'?'':(c.rating=='yellow'?'ry':'rr');
 var bd=c.rating=='green'?'<span class="bd bg">🟢 सुरक्षित</span>':(c.rating=='yellow'?'<span class="bd by">🟡 सावधान</span>':'<span class="bd br">🔴 अलर्ट</span>');
@@ -128,12 +146,14 @@ var waMsg='🏢 '+c.name+'\n📍 '+c.address+'\n📢 शिकायतें: '
 var wa='https://wa.me/?text='+encodeURIComponent(waMsg);
 return '<div class="cp '+cl+'"><h3>'+c.name+' '+bd+'</h3><p>📍 '+c.address+' | '+(c.type||'')+'</p>'+(c.owner?'<p>👤 '+c.owner+'</p>':'')+'<p>📢 शिकायतें: <b>'+c.complaints+'</b></p>'+(c.phone?'<p>📞 <a href="tel:'+c.phone+'" style="color:#138808;font-weight:700">'+c.phone+'</a></p>':'')+'<a href="'+wa+'" target="_blank" class="btn-wa">📱 शेयर</a></div>';
 }
+// ================= NEWS =================
 function sw(c,b){
 CAT=c;
-document.querySelectorAll('.tt').forEach(function(x){x.classList.remove('active');});
+document.querySelectorAll('#p-news .tt').forEach(function(x){x.classList.remove('active');});
 b.classList.add('active');
 rnews();
 }
+
 function rnews(){
 var l=document.getElementById('nl');if(!l)return;
 var q=(document.getElementById('ns')?document.getElementById('ns').value:'').toLowerCase();
@@ -145,6 +165,7 @@ var ec=CAT=='trending'?'tr':(CAT=='hartal'?'ha':'');
 return '<div class="nw '+ec+'" onclick="showNews(\''+CAT+'\','+idx+')"><div class="ni">'+n.icon+'</div><div><div class="nt">'+n.title+'</div><div class="nd">'+n.desc+'</div><div class="nm">📅 '+n.date+' • 📰 '+n.src+'</div></div></div>';
 }).join('');
 }
+
 function showNews(cat,idx){
 var n=ND[cat][idx];
 var msg='📰 '+n.title+'\n\n'+n.desc+'\n\n📅 '+n.date+'\n📰 '+n.src+'\n\nApana India से देखा';
@@ -152,15 +173,19 @@ var wa='https://wa.me/?text='+encodeURIComponent(msg);
 var html='<div style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.75);z-index:100;display:flex;align-items:center;justify-content:center;padding:15px" onclick="this.remove()"><div style="background:#fff;border-radius:12px;padding:18px;max-width:450px" onclick="event.stopPropagation()"><h2 style="color:#000080;font-size:16px;margin-bottom:10px">'+n.title+'</h2><p style="font-size:13px;margin-bottom:10px">'+n.desc+'</p><p style="font-size:11px;color:#666;margin-bottom:12px">📅 '+n.date+' • 📰 '+n.src+'</p><a href="'+wa+'" target="_blank" class="btn-wa">📱 WhatsApp शेयर</a> <button onclick="this.closest(\'div[style*=fixed]\').remove()" style="background:#666;color:#fff;border:none;padding:6px 12px;border-radius:4px;font-size:12px;font-weight:700;cursor:pointer;margin-top:6px">बंद</button></div></div>';
 document.body.insertAdjacentHTML('beforeend',html);
 }
+
 function rht(){
 var b=document.getElementById('ht');if(!b)return;
 b.innerHTML=ND.trending.slice(0,3).map(function(n){return '<div class="nw tr" onclick="go(\'news\')"><div class="ni">'+n.icon+'</div><div><div class="nt">'+n.title+'</div><div class="nd">'+n.desc+'</div></div></div>';}).join('');
 }
+
 function updTk(){
 var t=document.getElementById('tk');if(!t)return;
 var a=[].concat(ND.breaking,ND.trending,ND.hartal);
 t.innerText=a.map(function(n){return '• '+n.title;}).join('   ');
 }
+
+// ================= ADS =================
 function rad(cat){
 var b=document.getElementById('jl');if(!b)return;
 b.innerHTML='<p class="note">🔄 लोड हो रहा है...</p>';
@@ -175,6 +200,8 @@ return '<div class="item"><h3>'+a.title+'</h3><p>'+a.detail+'</p><p>📍 '+(a.di
 }).join('');
 }).catch(function(err){b.innerHTML='<p style="color:#b30000">❌ Error: '+err.message+'</p>';});
 }
+
+// ================= WAGE RATES =================
 function showWageRate(){
 var comp=document.getElementById('wageCompany').value;
 var box=document.getElementById('wageRateResult');
@@ -192,12 +219,14 @@ mBox.classList.remove('h');
 box.innerHTML='<p class="note">कृपया नीचे से राज्य चुनें।</p>';
 }
 }
+
 function showMgnregaRate(){
 var rate=document.getElementById('mgnregaState').value;
 var box=document.getElementById('mgnregaResult');
 if(!rate){box.innerHTML='';return;}
 box.innerHTML='<div class="wage-card"><h3>🌾 मनरेगा दैनिक मजदूरी</h3><div class="big-rate">₹'+rate+'/दिन</div><p style="font-size:12px;color:#555;text-align:center">केंद्र सरकार द्वारा तय दर</p><div class="warning">⚠️ अब किसी राज्य में ₹300 से कम नहीं।</div></div>';
 }
+// ================= CALCULATOR =================
 function calcWage(){
 var manual=parseFloat(document.getElementById('calcManual').value)||0;
 var state=document.getElementById('calcState').value;
@@ -224,6 +253,8 @@ var esic=applyPF?Math.round(basic*0.0075):0;
 var ded=epf+esic;
 var net=total-ded;
 
+window.lastCalc={daily:daily,days:days,label:label,basic:basic,nh:nh,el:el,bonus:bonus,rb:rb,medical:medical,ot:ot,otRate:otRate,otAmt:otAmt,total:total,epf:epf,esic:esic,ded:ded,net:net};
+
 var html='<div class="calc-box">';
 html+='<div style="text-align:center;font-size:12px;color:#666;margin-bottom:6px">'+label+'</div>';
 html+='<div style="margin-top:8px;font-size:12px;color:#138808;font-weight:700">➕ कमाई (Earnings)</div>';
@@ -248,4 +279,58 @@ html+='</div>';
 html+='<a href="https://wa.me/?text='+encodeURIComponent('📋 मजदूरी हिसाब (Apana India)\n\nBasic: ₹'+basic+'\nNH: ₹'+nh+'\nEL: ₹'+el+'\nBonus: ₹'+bonus+'\nRB: ₹'+rb+'\nMedical: ₹'+medical+(ot>0?'\nOT: ₹'+otAmt:'')+'\n\nTotal: ₹'+total+'\nEPF: ₹'+epf+'\nESIC: ₹'+esic+'\n\n✅ हाथ में: ₹'+net)+'" target="_blank" class="btn-wa">📱 WhatsApp भेजें</a>';
 html+='</div>';
 box.innerHTML=html;
+}
+
+// ================= CALC PDF DOWNLOAD =================
+function downloadCalcPDF(){
+if(!window.lastCalc){alert('पहले हिसाब लगाएं!');return;}
+var d=window.lastCalc;
+var txt='APANA INDIA - मजदूरी हिसाब\n';
+txt+='==============================\n\n';
+txt+='रेट: '+d.label+'\n';
+txt+='दैनिक: ₹'+d.daily+'\n';
+txt+='दिन: '+d.days+'\n\n';
+txt+='--- कमाई ---\n';
+txt+='Basic: ₹'+d.basic+'\n';
+txt+='NH (0.96%): ₹'+d.nh+'\n';
+txt+='EL (5%): ₹'+d.el+'\n';
+txt+='बोनस (8.33%): ₹'+d.bonus+'\n';
+txt+='RB (4.8%): ₹'+d.rb+'\n';
+txt+='Medical (0.5%): ₹'+d.medical+'\n';
+if(d.ot>0)txt+='OT ('+d.ot+'×'+d.otRate+'x): ₹'+d.otAmt+'\n';
+txt+='कुल वेतन: ₹'+d.total+'\n\n';
+txt+='--- कटौती ---\n';
+txt+='EPF (12%): -₹'+d.epf+'\n';
+txt+='ESIC (0.75%): -₹'+d.esic+'\n';
+txt+='कुल कटौती: -₹'+d.ded+'\n\n';
+txt+='==============================\n';
+txt+='✅ हाथ में मिलेगा: ₹'+d.net+'\n';
+txt+='==============================\n\n';
+txt+='Apana India - रोजगार भी, मजदूरों को न्याय भी\n';
+txt+='https://santoshkgupta051996-crypto.github.io/apanaindia/';
+
+var blob=new Blob([txt],{type:'text/plain;charset=utf-8'});
+var url=URL.createObjectURL(blob);
+var a=document.createElement('a');
+a.href=url;
+a.download='Apana-India-Wage-Slip.txt';
+document.body.appendChild(a);
+a.click();
+document.body.removeChild(a);
+setTimeout(function(){URL.revokeObjectURL(url);},1000);
+alert('✅ हिसाब डाउनलोड हो गया! WhatsApp पर भी भेज सकते हैं।');
+}
+
+// ================= COMPLAINT STATE HELP =================
+function showStateHelp(){
+var s=document.getElementById('cState').value;
+var box=document.getElementById('stateHelp');
+if(!s||!STATE_NUMBERS[s]){box.innerHTML='';return;}
+var info=STATE_NUMBERS[s];
+box.innerHTML='<div class="wage-card"><h3>📞 '+info.name+' श्रम विभाग</h3>'+
+'<div class="rate-row"><span>हेल्पलाइन</span><span>'+info.num+'</span></div>'+
+(info.extra?'<div class="rate-row"><span>अतिरिक्त</span><span>'+info.extra+'</span></div>':'')+
+'<div style="margin-top:10px"><a href="tel:'+info.num+'" class="btn-wa" style="background:#138808;margin-right:5px">📞 कॉल करें</a>'+
+'<a href="https://wa.me/91'+info.num+'" target="_blank" class="btn-wa">📱 WhatsApp</a></div>'+
+'<p class="note" style="margin-top:8px">💡 अगर कॉल न लगे तो केंद्रीय हेल्पलाइन 14434 पर कॉल करें।</p></div>';
 }
