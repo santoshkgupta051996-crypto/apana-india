@@ -1,4 +1,3 @@
-// Firebase की सारी जरूरी चीजें
 var firebaseConfig = {
   apiKey: "AIzaSyDUNK2J0lJ-VzwuGnovvjsrRCJJX--UTpE",
   authDomain: "apana-india-df3d7.firebaseapp.com",
@@ -9,6 +8,6 @@ var firebaseConfig = {
   measurementId: "G-BXN81QCKZX"
 };
 
-// Firebase को शुरू करें
 firebase.initializeApp(firebaseConfig);
 var db = firebase.firestore();
+var auth = firebase.auth();
