@@ -1,4 +1,6 @@
-/* बेसिक सेटिंग्स */
+/* =========================================
+   बेसिक सेटिंग्स
+========================================= */
 * { 
     margin: 0; 
     padding: 0; 
@@ -12,7 +14,9 @@ body {
     padding-bottom: 50px;
 }
 
-/* हेडर (ऊपर वाला हिस्सा) */
+/* =========================================
+   हेडर (ऊपर वाला हिस्सा)
+========================================= */
 header { 
     background: #0d47a1; 
     color: white; 
@@ -41,7 +45,9 @@ header {
     cursor: pointer; 
 }
 
-/* साइड मेनू (Sidebar) */
+/* =========================================
+   साइड मेनू (Sidebar)
+========================================= */
 .sidebar { 
     height: 100%; 
     width: 0; 
@@ -53,6 +59,7 @@ header {
     transition: 0.3s; 
     padding-top: 20px; 
     z-index: 200; 
+    box-shadow: 2px 0 10px rgba(0,0,0,0.5);
 }
 
 .sidebar a { 
@@ -67,10 +74,11 @@ header {
 
 .sidebar a:hover { 
     background: #3949ab; 
+    padding-left: 35px; /* हॉवर करने पर थोड़ा आगे खिसके */
 }
 
 .sidebar i { 
-    margin-right: 10px; 
+    margin-right: 15px; 
     width: 25px; 
     text-align: center;
 }
@@ -84,7 +92,9 @@ header {
     cursor: pointer; 
 }
 
-/* मुख्य कंटेंट एरिया */
+/* =========================================
+   मुख्य कंटेंट एरिया (Main)
+========================================= */
 main { 
     padding: 15px; 
     max-width: 800px; 
@@ -110,7 +120,11 @@ h2 {
     margin-bottom: 20px; 
     color: #0d47a1; 
     font-size: 22px;
-}/* होम पेज का हीरो सेक्शन (बैनर) */
+}
+
+/* =========================================
+   होम पेज का हीरो सेक्शन (बैनर)
+========================================= */
 .hero { 
     background: linear-gradient(135deg, #0d47a1, #1976d2); 
     color: white; 
@@ -140,13 +154,14 @@ h2 {
     font-size: 15px; 
     outline: none; 
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-/* सर्विस कार्ड्स (होम पेज के आइकन) */
+}/* =========================================
+   सर्विस कार्ड्स (होम पेज के आइकन)
+========================================= */
 .services-grid { 
     display: grid; 
     grid-template-columns: repeat(3, 1fr); 
     gap: 12px; 
+    margin-top: 15px;
 }
 
 .service-card { 
@@ -172,12 +187,14 @@ h2 {
 }
 
 .service-card h3 { 
-    font-size: 14px; 
+    font-size: 13px; 
     color: #333; 
     font-weight: 600;
 }
 
-/* फॉर्म बॉक्स (रजिस्ट्रेशन फॉर्म) */
+/* =========================================
+   फॉर्म बॉक्स (रजिस्ट्रेशन फॉर्म)
+========================================= */
 .form-box { 
     background: white; 
     padding: 20px; 
@@ -202,9 +219,12 @@ h2 {
 
 .form-box input:focus, .form-box textarea:focus {
     border-color: #0d47a1;
+    box-shadow: 0 0 5px rgba(13, 71, 161, 0.2);
 }
 
-/* बटन्स */
+/* =========================================
+   बटन्स (Buttons)
+========================================= */
 .btn-primary { 
     background: #0d47a1; 
     color: white; 
@@ -255,14 +275,15 @@ h2 {
     background: #616161;
 }
 
-/* लिस्ट कंटेनर (डेटा दिखाने के लिए) */
+/* =========================================
+   लिस्ट कंटेनर और डेटा कार्ड (मजदूर, वाहन, किराया)
+========================================= */
 .list-container { 
     display: flex; 
     flex-direction: column; 
     gap: 15px; 
 }
 
-/* डेटा कार्ड (मजदूर, वाहन, किराया) */
 .card { 
     background: white; 
     padding: 15px; 
@@ -336,9 +357,10 @@ h2 {
     opacity: 0.8;
 }
 
-/* लोडिंग टेक्स्ट */
+/* लोडिंग और खाली टेक्स्ट */
 .list-container p {
     text-align: center;
     color: #888;
     padding: 20px;
+    font-size: 15px;
 }
