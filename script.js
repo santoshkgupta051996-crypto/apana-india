@@ -11,8 +11,6 @@ const firebaseConfig = {
   appId: "1:881764619223:web:13510eec19ee1e46cd7192",
   measurementId: "G-BXN81QCKZX"
 };
-};
-
 // Firebase शुरू करें
 if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
 const db = firebase.firestore();
