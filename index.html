@@ -23,60 +23,61 @@
         </button>
     </header>
 
-    <!-- साइड मेनू (Sidebar) -->
+    <!-- साइड मेनू (आपके सभी 26 फीचर्स) -->
     <div id="sidebar" class="sidebar">
         <div class="close-btn" onclick="toggleSidebar()"><i class="fas fa-times"></i></div>
         <h2 style="color:white; text-align:center; margin-bottom: 20px;">Apana India</h2>
         <a href="#" onclick="showPage('home')"><i class="fas fa-home"></i> होम</a>
         <a href="#" onclick="showPage('majdoor')"><i class="fas fa-hard-hat"></i> मजदूर</a>
+        <a href="#" onclick="showPage('company')"><i class="fas fa-building"></i> कंपनियाँ</a>
+        <a href="#" onclick="showPage('contractor')"><i class="fas fa-clipboard-list"></i> ठेकेदार</a>
         <a href="#" onclick="showPage('vehicle')"><i class="fas fa-car"></i> वाहन (टैक्सी)</a>
-        <a href="#" onclick="showPage('rental')"><i class="fas fa-building"></i> किराया</a>
+        <a href="#" onclick="showPage('rental')"><i class="fas fa-home"></i> किराया</a>
+        <a href="#" onclick="showPage('news')"><i class="fas fa-newspaper"></i> न्यूज़</a>
+        <a href="#" onclick="showPage('jobs')"><i class="fas fa-briefcase"></i> नौकरी</a>
+        <a href="#" onclick="showPage('wage')"><i class="fas fa-money-bill-wave"></i> मजदूरी दर</a>
+        <a href="#" onclick="showPage('calculator')"><i class="fas fa-calculator"></i> कैलकुलेटर</a>
+        <a href="#" onclick="showPage('idcard')"><i class="fas fa-id-card"></i> ID कार्ड</a>
+        <a href="#" onclick="showPage('land')"><i class="fas fa-mountain"></i> जमीन नापी</a>
+        <a href="#" onclick="showPage('health')"><i class="fas fa-hospital"></i> स्वास्थ्य</a>
         <a href="#" onclick="showPage('complaint')"><i class="fas fa-bullhorn"></i> शिकायत</a>
+        <a href="#" onclick="showPage('laws')"><i class="fas fa-gavel"></i> कानून</a>
+        <a href="#" onclick="showPage('yojana')"><i class="fas fa-hand-holding-usd"></i> सरकारी योजनाएँ</a>
+        <a href="#" onclick="showPage('courses')"><i class="fas fa-graduation-cap"></i> कोर्स</a>
+        <a href="#" onclick="showPage('shops')"><i class="fas fa-store"></i> दुकानें</a>
+        <a href="#" onclick="showPage('panchayat')"><i class="fas fa-university"></i> पंचायत</a>
+        <a href="#" onclick="showPage('numbers')"><i class="fas fa-phone-alt"></i> हेल्पलाइन नंबर</a>
         <a href="#" onclick="showPage('admin')"><i class="fas fa-user-shield"></i> एडमिन</a>
     </div>
 
-    <!-- मुख्य कंटेंट एरिया शुरू -->
-    <main>        <!-- होम पेज -->
+    <!-- मुख्य कंटेंट एरिया -->
+    <main>
+        <!-- 1. होम पेज -->
         <section id="page-home" class="page active">
             <div class="hero">
                 <h1>नमस्ते! अपना इंडिया में स्वागत है</h1>
-                <p>भारत का डिजिटल प्लेटफॉर्म</p>
+                <p>भारत का डिजिटल प्लेटफॉर्म जहाँ मजदूर, कंपनियाँ और दुकानदार जुड़ते हैं।</p>
                 <input type="text" placeholder="🔍 यहाँ खोजें (मजदूर, टैक्सी, किराया...)">
             </div>
+            
+            <!-- सेवाओं का ग्रिड (आपके सभी फीचर्स) -->
             <div class="services-grid">
-                <div class="service-card" onclick="showPage('majdoor')">
-                    <i class="fas fa-hard-hat"></i><h3>मजदूर</h3>
-                </div>
-                <div class="service-card" onclick="showPage('vehicle')">
-                    <i class="fas fa-car"></i><h3>वाहन</h3>
-                </div>
-                <div class="service-card" onclick="showPage('rental')">
-                    <i class="fas fa-home"></i><h3>किराया</h3>
-                </div>
+                <div class="service-card" onclick="showPage('majdoor')"><i class="fas fa-hard-hat"></i><h3>मजदूर</h3></div>
+                <div class="service-card" onclick="showPage('vehicle')"><i class="fas fa-car"></i><h3>वाहन</h3></div>
+                <div class="service-card" onclick="showPage('rental')"><i class="fas fa-home"></i><h3>किराया</h3></div>
+                <div class="service-card" onclick="showPage('company')"><i class="fas fa-building"></i><h3>कंपनियाँ</h3></div>
+                <div class="service-card" onclick="showPage('contractor')"><i class="fas fa-clipboard-list"></i><h3>ठेकेदार</h3></div>
+                <div class="service-card" onclick="showPage('complaint')"><i class="fas fa-bullhorn"></i><h3>शिकायत</h3></div>
+                <div class="service-card" onclick="showPage('calculator')"><i class="fas fa-calculator"></i><h3>कैलकुलेटर</h3></div>
+                <div class="service-card" onclick="showPage('idcard')"><i class="fas fa-id-card"></i><h3>ID कार्ड</h3></div>
+                <div class="service-card" onclick="showPage('laws')"><i class="fas fa-gavel"></i><h3>कानून</h3></div>
+                <div class="service-card" onclick="showPage('numbers')"><i class="fas fa-phone-alt"></i><h3>हेल्पलाइन</h3></div>
+                <div class="service-card" onclick="showPage('news')"><i class="fas fa-newspaper"></i><h3>न्यूज़</h3></div>
+                <div class="service-card" onclick="showPage('jobs')"><i class="fas fa-briefcase"></i><h3>नौकरी</h3></div>
             </div>
-        </section>
-
-        <!-- लॉगिन पेज -->
-        <section id="page-login" class="page">
-            <h2>🔐 लॉगिन करें</h2>
-            <div class="form-box" style="text-align: center;">
-                <p style="margin-bottom: 15px; color: #666;">Google से लॉगिन करें ताकि आपका डेटा सुरक्षित रहे।</p>
-                
-                <button id="googleLoginBtn" onclick="googleLogin()" class="btn-primary" style="background: white; color: #333; border: 1px solid #ccc; display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%;">
-                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20"> Google से लॉगिन करें
-                </button>
-                
-                <div id="userBox" style="display: none; margin-top: 20px;">
-                    <p style="color: green; font-weight: bold; margin-bottom: 10px;">✅ आप लॉगिन हैं</p>
-                    <p id="userName" style="font-weight: bold; font-size: 18px; color: #0d47a1;"></p>
-                    <p id="userEmail" style="color: #666; font-size: 14px; margin-bottom: 15px;"></p>
-                    <button onclick="logoutUser()" class="btn-gray" style="width: 100%;">लॉगआउट</button>
-                </div>
-            </div>
-        </section>        <!-- मजदूर पेज -->
+        </section>        <!-- 2. मजदूर पेज -->
         <section id="page-majdoor" class="page">
             <h2>👷 मजदूर रजिस्ट्रेशन</h2>
-            <!-- मजदूर फॉर्म -->
             <div id="majdoorFormBox" class="form-box" style="display: none;">
                 <input type="hidden" id="editMajdoorId">
                 <input type="text" id="majdoorName" placeholder="मजदूर का नाम">
@@ -91,21 +92,18 @@
             <div id="majdoorList" class="list-container">लोड हो रहा है...</div>
         </section>
 
-        <!-- वाहन पेज -->
+        <!-- 3. वाहन पेज -->
         <section id="page-vehicle" class="page">
             <h2>🚗 वाहन (टैक्सी) रजिस्ट्रेशन</h2>
-            <!-- वाहन फॉर्म -->
             <div id="vehicleFormBox" class="form-box" style="display: none;">
                 <input type="hidden" id="editVehicleId">
                 <input type="text" id="vehicleName" placeholder="ड्राइवर का नाम">
-                <input type="text" id="vehicleNumber" placeholder="गाड़ी नंबर (जैसे: UP 64 AB 1234)">
+                <input type="text" id="vehicleNumber" placeholder="गाड़ी नंबर">
                 <input type="tel" id="vehicleMobile" placeholder="मोबाइल नंबर">
-                             <!-- GPS कोड शुरू -->
-             <input type="hidden" id="vehicleLat">
-             <input type="hidden" id="vehicleLng">
-             <button type="button" onclick="getGPS('vehicle')" class="btn-primary" style="background:#ffca28; color:#000; padding:8px;">📍 मेरी लोकेशन लें</button>
-             <p id="vehicleLocStatus" style="font-size:12px; color:green; display:none;">✅ लोकेशन मिल गई!</p>
-             <!-- GPS कोड खत्म -->
+                <input type="hidden" id="vehicleLat">
+                <input type="hidden" id="vehicleLng">
+                <button type="button" onclick="getGPS('vehicle')" class="btn-primary" style="background:#ffca28; color:#000; padding:8px;">📍 मेरी लोकेशन लें</button>
+                <p id="vehicleLocStatus" style="font-size:12px; color:green; display:none;">✅ लोकेशन मिल गई!</p>
                 <label style="font-size:14px; color:#555;">फोटो चुनें:</label>
                 <input type="file" id="vehiclePhoto" accept="image/*">
                 <button class="btn-green" onclick="saveVehicle()">सेव करें</button>
@@ -113,15 +111,20 @@
             </div>
             <button id="addVehicleBtn" class="btn-primary" onclick="openForm('vehicle')">+ नया वाहन जोड़ें</button>
             <div id="vehicleList" class="list-container">लोड हो रहा है...</div>
-        </section>        <!-- किराया पेज -->
+        </section>
+
+        <!-- 4. किराया पेज -->
         <section id="page-rental" class="page">
-            <h2>🏠 किराया (मकान/कमरा/होटल)</h2>
-            <!-- किराया फॉर्म -->
+            <h2>🏠 किराया (मकान/कमरा)</h2>
             <div id="rentalFormBox" class="form-box" style="display: none;">
                 <input type="hidden" id="editRentalId">
-                <input type="text" id="rentalTitle" placeholder="शीर्षक (जैसे: 2 BHK मकान किराये पर)">
+                <input type="text" id="rentalTitle" placeholder="शीर्षक (जैसे: 2 BHK मकान)">
                 <input type="number" id="rentalRent" placeholder="किराया (₹ प्रति माह)">
                 <input type="tel" id="rentalMobile" placeholder="मोबाइल नंबर">
+                <input type="hidden" id="rentalLat">
+                <input type="hidden" id="rentalLng">
+                <button type="button" onclick="getGPS('rental')" class="btn-primary" style="background:#ffca28; color:#000; padding:8px;">📍 मेरी लोकेशन लें</button>
+                <p id="rentalLocStatus" style="font-size:12px; color:green; display:none;">✅ लोकेशन मिल गई!</p>
                 <label style="font-size:14px; color:#555;">फोटो चुनें:</label>
                 <input type="file" id="rentalPhoto" accept="image/*">
                 <button class="btn-green" onclick="saveRental()">सेव करें</button>
@@ -129,27 +132,98 @@
             </div>
             <button id="addRentalBtn" class="btn-primary" onclick="openForm('rental')">+ नया किराया जोड़ें</button>
             <div id="rentalList" class="list-container">लोड हो रहा है...</div>
-        </section>        <!-- शिकायत पेज -->
+        </section>
+
+        <!-- 5. शिकायत पेज -->
         <section id="page-complaint" class="page">
             <h2>📢 शिकायत दर्ज करें</h2>
             <div id="complaintFormBox" class="form-box">
-                <input type="text" id="complaintTitle" placeholder="शिकायत का विषय (जैसे: गली में पानी भरा है)">
+                <input type="text" id="complaintTitle" placeholder="शिकायत का विषय">
                 <textarea id="complaintDesc" placeholder="अपनी पूरी शिकायत विस्तार से लिखें..." rows="4"></textarea>
                 <button class="btn-green" onclick="saveComplaint()">शिकायत भेजें</button>
             </div>
             <div id="complaintList" class="list-container">लोड हो रहा है...</div>
         </section>
 
-        <!-- एडमिन पेज -->
+        <!-- 6. कैलकुलेटर पेज -->
+        <section id="page-calculator" class="page">
+            <h2>💰 मजदूरी और PF कैलकुलेटर</h2>
+            <div class="form-box">
+                <h3>PF और सैलरी कैलकुलेटर</h3>
+                <input type="number" id="calcBasic" placeholder="बेसिक सैलरी (Basic Salary)">
+                <button class="btn-primary" onclick="calculatePF()">कैलकुलेट करें</button>
+                <div id="calcResult" style="margin-top:15px; font-weight:bold; color:#0d47a1;"></div>
+            </div>
+        </section>
+
+        <!-- 7. ID कार्ड पेज -->
+        <section id="page-idcard" class="page">
+            <h2>🆔 डिजिटल मजदूर ID कार्ड</h2>
+            <div class="form-box">
+                <p>अपनी जानकारी भरें और अपना डिजिटल ID कार्ड बनाएँ।</p>
+                <input type="text" id="idName" placeholder="पूरा नाम">
+                <input type="text" id="idSkill" placeholder="काम/स्किल">
+                <button class="btn-primary" onclick="generateIDCard()">ID कार्ड बनाएँ</button>
+                <div id="idCardResult" style="margin-top:20px;"></div>
+            </div>
+        </section>
+
+        <!-- 8. कानून पेज -->
+        <section id="page-laws" class="page">
+            <h2>📜 श्रम कानून</h2>
+            <div class="form-box">
+                <h3>मजदूरी और वेतन</h3>
+                <p>वेतन 7 तारीख तक मिलना चाहिए। नौकरी छोड़ने पर 48 घंटे में पूरा हिसाब (F&F) मिले।</p>
+                <hr style="margin: 10px 0;">
+                <h3>काम के घंटे</h3>
+                <p>दिन में 8-9 घंटे काम। ओवरटाइम का दोगुना पैसा मिले। हर 5 घंटे बाद ब्रेक ज़रूरी है।</p>
+            </div>
+        </section>
+
+        <!-- 9. हेल्पलाइन नंबर पेज -->
+        <section id="page-numbers" class="page">
+            <h2>☎️ हेल्पलाइन नंबर</h2>
+            <div class="form-box">
+                <h3>आपातकालीन नंबर</h3>
+                <p>🚓 पुलिस: <a href="tel:100">100</a> | 🚑 एम्बुलेंस: <a href="tel:108">108</a> | 🚒 फायर: <a href="tel:101">101</a></p>
+                <p>👩 महिला हेल्पलाइन: <a href="tel:1091">1091</a> | 👶 चाइल्ड हेल्पलाइन: <a href="tel:1098">1098</a></p>
+                <hr style="margin: 10px 0;">
+                <h3>श्रमिक हेल्पलाइन</h3>
+                <p>केंद्रीय श्रम हेल्पलाइन: <a href="tel:14434">14434</a></p>
+            </div>
+        </section>
+
+        <!-- 10. लॉगिन पेज -->
+        <section id="page-login" class="page">
+            <h2>🔐 लॉगिन करें</h2>
+            <div class="form-box" style="text-align: center;">
+                <p style="margin-bottom: 15px; color: #666;">Google से लॉगिन करें ताकि आपका डेटा सुरक्षित रहे।</p>
+                <button id="googleLoginBtn" onclick="googleLogin()" class="btn-primary" style="background: white; color: #333; border: 1px solid #ccc; display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%;">
+                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20"> Google से लॉगिन करें
+                </button>
+                <div id="userBox" style="display: none; margin-top: 20px;">
+                    <p style="color: green; font-weight: bold; margin-bottom: 10px;">✅ आप लॉगिन हैं</p>
+                    <p id="userName" style="font-weight: bold; font-size: 18px; color: #0d47a1;"></p>
+                    <p id="userEmail" style="color: #666; font-size: 14px; margin-bottom: 15px;"></p>
+                    <button onclick="logoutUser()" class="btn-gray" style="width: 100%;">लॉगआउट</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 11. एडमिन पेज -->
         <section id="page-admin" class="page">
             <h2>⚙️ एडमिन पैनल</h2>
             <div class="form-box">
-                <p>यहाँ सिर्फ एडमिन ही सब कुछ देख और डिलीट कर सकता है।</p>
-                <button class="btn-primary" onclick="alert('एडमिन फंक्शन अगले स्टेप में जुड़ेंगे')">सभी यूजर्स देखें</button>
+                <p>यहाँ सिर्फ एडमिन ही सब कुछ देख सकता है।</p>
             </div>
-        </section>    </main>
+        </section>
 
-    <!-- जावास्क्रिप्ट फाइलें लोड करें (अभी के लिए सिर्फ script.js) -->
-    <script src="script.js"></script>
+    </main>
+
+    <!-- जावास्क्रिप्ट फाइलें लोड करें -->
+    <script src="firebase.js"></script>
+    <script src="script1.js"></script>
+    <script src="script2.js"></script>
+    <script src="script3.js"></script>
 </body>
 </html>
