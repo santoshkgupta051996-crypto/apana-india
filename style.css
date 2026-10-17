@@ -1,158 +1,344 @@
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
-body{background:#f0f2f5;font-size:14px;line-height:1.6;color:#1a1a1a}
-header{background:linear-gradient(135deg,#FF9933 0%,#fff 50%,#138808 100%);padding:15px 12px;text-align:center;border-bottom:4px solid #000080;box-shadow:0 3px 10px rgba(0,0,0,0.1)}
-header h1{font-size:22px;color:#000080;font-weight:800;letter-spacing:1px}
-header p{font-size:12px;color:#333;font-weight:600;margin-top:3px}
-.tk{background:linear-gradient(90deg,#d40000,#ff3333);color:#fff;padding:7px 10px;display:flex;align-items:center;gap:8px;overflow:hidden;font-size:12px}
-.tk b{background:#fff;color:#d40000;padding:2px 8px;border-radius:3px;font-size:10px;white-space:nowrap}
-.tk div{flex:1;overflow:hidden;white-space:nowrap}
-.tk span{display:inline-block;padding-left:100%;animation:m 30s linear infinite;font-weight:600}
-@keyframes m{to{transform:translateX(-100%)}}
-nav{background:#000080;display:flex;padding:6px;overflow-x:auto;gap:3px;position:sticky;top:0;z-index:50;box-shadow:0 2px 8px rgba(0,0,0,0.2);scrollbar-width:none}
-nav::-webkit-scrollbar{display:none}
-nav button{background:none;border:none;color:#fff;font-size:11px;padding:7px 10px;border-radius:6px;white-space:nowrap;cursor:pointer;font-weight:600;transition:.2s}
-nav button.active{background:#FF9933;color:#000}
-nav button:hover{background:rgba(255,153,51,0.5)}
-.w{max-width:1000px;margin:12px auto;padding:0 10px}
-.c{background:#fff;border-radius:12px;padding:15px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,0.05);border-top:3px solid #FF9933}
-.c h2{color:#000080;font-size:17px;margin-bottom:10px;border-bottom:2px solid #138808;padding-bottom:6px}
-.hero{background:linear-gradient(135deg,#fff8f4,#fff);border-radius:12px;padding:18px;margin-bottom:12px;text-align:center;border:2px solid #ffd9c2}
-.hero h2{color:#000080;font-size:18px;margin-bottom:6px}
-.hero p{font-size:13px;color:#555}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
-.st{background:#fff;text-align:center;padding:10px 6px;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,0.06);border-top:3px solid #FF9933}
-.st h4{color:#FF9933;font-size:20px;font-weight:800}
-.st p{font-size:10px;color:#666;font-weight:600}
-.g{display:grid;grid-template-columns:repeat(auto-fill,minmax(105px,1fr));gap:8px;margin-top:8px}
-.sb{background:linear-gradient(135deg,#fff5ee,#fff);border:2px solid #ffd9c2;border-radius:10px;padding:12px 6px;text-align:center;cursor:pointer;font-size:11px;font-weight:600;transition:.2s;color:#333}
-.sb:hover{transform:translateY(-3px);border-color:#FF9933;box-shadow:0 4px 12px rgba(255,153,51,0.3)}
-.sb b{font-size:24px;display:block;margin-bottom:4px}
-input,select,textarea{width:100%;padding:9px;margin-top:4px;border:1.5px solid #ddd;border-radius:6px;font-size:13px;font-family:inherit;background:#fafafa;transition:.2s}
-input:focus,select:focus,textarea:focus{outline:none;border-color:#FF9933;background:#fff;box-shadow:0 0 0 3px rgba(255,153,51,.15)}
-label{display:block;margin-top:10px;font-weight:600;font-size:12px;color:#333}
-.btn{margin-top:12px;padding:10px 20px;background:linear-gradient(135deg,#FF9933,#138808);color:#fff;border:none;border-radius:6px;font-size:14px;font-weight:700;cursor:pointer;width:100%}
-.btn:hover{opacity:.9}
-.btn-ok{background:#138808;color:#fff;border:none;padding:6px 12px;border-radius:4px;font-size:12px;font-weight:700;cursor:pointer;margin:3px 3px 0 0}
-.btn-no{background:#d40000;color:#fff;border:none;padding:6px 12px;border-radius:4px;font-size:12px;font-weight:700;cursor:pointer;margin:3px 3px 0 0}
-.btn-wa{background:#25D366;color:#fff;border:none;padding:6px 12px;border-radius:4px;font-size:12px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block;margin-top:6px}
-.bd{display:inline-block;padding:2px 8px;border-radius:12px;font-size:10px;font-weight:700}
-.bg{background:#d4f8d4;color:#0a7a0a}.by{background:#fff3cd;color:#8a6d00}.br{background:#ffd6d6;color:#b30000}
-.cp{border-left:4px solid #138808;padding:10px;background:#f9fdf9;border-radius:6px;margin-bottom:8px;font-size:12px}
-.cp.ry{border-left-color:#e6a700;background:#fffbf0}
-.cp.rr{border-left-color:#d40000;background:#fff5f5}
-.cp h3{font-size:13px;color:#000080;margin-bottom:3px}
-.nw{padding:10px;border-bottom:1px solid #eee;display:flex;gap:8px;cursor:pointer;border-radius:6px}
-.nw:hover{background:#fff8f4}
-.nw.tr{border-left:3px solid #d40000;background:linear-gradient(90deg,#fff5f5,#fff)}
-.nw.ha{border-left:3px solid #e6a700;background:linear-gradient(90deg,#fffbf0,#fff)}
-.ni{width:50px;height:50px;background:linear-gradient(135deg,#ffd9c2,#ffeede);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
-.nt{font-size:13px;font-weight:700;color:#222}
-.nd{font-size:11px;color:#666}
-.nm{font-size:10px;color:#999;margin-top:2px}
-.tb{display:flex;gap:4px;margin-bottom:10px;flex-wrap:wrap}
-.tt{padding:5px 10px;border-radius:14px;font-size:11px;font-weight:600;background:#f4f4f4;color:#555;border:none;cursor:pointer}
-.tt.active{background:#FF9933;color:#fff}
-.tt.tr.active{background:#d40000}
-.tt.ha.active{background:#e6a700}.lc{background:#fff8f4;border:1.5px solid #ffd9c2;border-radius:8px;padding:12px;margin-bottom:8px}
-.lc h3{color:#FF9933;font-size:14px;margin-bottom:6px}
-.lc ul{list-style:none}
-.lc li{padding:4px 0 4px 20px;position:relative;font-size:12px}
-.lc li:before{content:"✅";position:absolute;left:0}
-.lc a{color:#138808;text-decoration:none;font-weight:700}
-.ab{padding:10px;border-radius:6px;margin-bottom:8px;font-size:12px;font-weight:600}
-.ag{background:#e6f9e6;border-left:4px solid #0a7a0a}
-.ay{background:#fff8e1;border-left:4px solid #e6a700}
-.ar{background:#ffe6e6;border-left:4px solid #d40000}
-.item{border-left:4px solid #138808;padding:10px;background:#f9fdf9;border-radius:6px;margin-bottom:8px;font-size:12px}
-.item h3{font-size:14px;color:#000080;margin-bottom:4px}
-.tip{background:#e6f9e6;border-left:4px solid #0a7a0a;padding:10px;border-radius:6px;margin-top:10px;font-size:12px;color:#0a7a0a}
-.note{font-size:11px;color:#888;font-style:italic;margin-bottom:8px}
-.sm{background:#d4f8d4;color:#0a7a0a;padding:10px;border-radius:6px;margin-top:10px;font-size:12px;display:none;font-weight:600;border-left:4px solid #0a7a0a}
-footer{text-align:center;padding:15px;font-size:12px;color:#fff;background:#000080;margin-top:20px;border-top:4px solid #FF9933}
-.h{display:none!important}
-.worker-card{background:linear-gradient(135deg,#fff,#f9fdf9);border:2px solid #e0e0e0;border-radius:12px;padding:12px;margin-bottom:10px;display:flex;gap:12px;align-items:center;border-left:4px solid #138808}
-.w-photo{width:70px;height:70px;border-radius:50%;background:linear-gradient(135deg,#FF9933,#138808);display:flex;align-items:center;justify-content:center;font-size:32px;color:#fff;overflow:hidden;flex-shrink:0;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,0.15)}
-.w-photo img{width:100%;height:100%;object-fit:cover}
-.w-info{flex:1}
-.w-info h3{font-size:15px;color:#000080;margin-bottom:3px}
-.w-skill{display:inline-block;background:#FF9933;color:#fff;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;margin-bottom:4px}
-.w-info p{font-size:12px;color:#555;margin:1px 0}
-.w-btns{margin-top:6px}
-.w-btns a{padding:5px 10px;border-radius:20px;text-decoration:none;font-size:11px;font-weight:700;margin-right:5px;color:#fff;display:inline-block}
-.w-call{background:#138808}
-.w-wa{background:#25D366}
-.no-worker{text-align:center;padding:30px;color:#888;font-size:13px}
-.no-worker b{color:#FF9933;font-size:16px;display:block;margin-bottom:8px}
-#wPhotoPreview img,#shPreview img,#rnPreview img{max-width:100px;border-radius:8px;border:2px solid #FF9933;margin-top:8px;margin-right:5px}
-.wage-card{background:linear-gradient(135deg,#e6f9e6,#fff);border:2px solid #0a7a0a;border-radius:10px;padding:14px;margin-top:12px}
-.wage-card h3{color:#0a7a0a;font-size:15px;margin-bottom:10px}
-.wage-card.yellow{background:linear-gradient(135deg,#fff3cd,#fff);border-color:#e6a700}
-.wage-card.yellow h3{color:#8a6d00}
-.rate-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed #b3e6b3;font-size:13px}
-.rate-row:last-child{border:none;font-weight:800;color:#000080;font-size:15px;padding-top:8px}
-.big-rate{font-size:26px;color:#0a7a0a;font-weight:800;text-align:center;margin:10px 0}
-.warning{font-size:11px;color:#d40000;font-weight:700;background:#ffe6e6;padding:8px;border-radius:5px;margin-top:8px;text-align:center}
-.calc-box{background:linear-gradient(135deg,#fff5ee,#fff);border:2px solid #ffd9c2;border-radius:10px;padding:14px;margin-top:12px}
-.calc-box .big{font-size:34px;color:#138808;font-weight:800;text-align:center;margin:10px 0}
-.calc-box .row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed #ffd9c2;font-size:13px}
-.calc-box .row:last-child{border:none;font-weight:800;color:#000080;font-size:15px}
-.course-card{background:linear-gradient(135deg,#fff5ee,#fff);border:2px solid #ffd9c2;border-radius:10px;padding:12px;margin-bottom:10px;display:flex;gap:12px;align-items:center}
-.c-icon{width:60px;height:60px;background:linear-gradient(135deg,#FF9933,#138808);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;color:#fff;flex-shrink:0}
-.c-info{flex:1}
-.c-info h3{font-size:14px;color:#000080;margin-bottom:3px}
-.c-info p{font-size:11px;color:#666;margin-bottom:4px}
-.c-price{font-size:16px;color:#138808;font-weight:800}
-.c-old{font-size:11px;color:#999;text-decoration:line-through;margin-left:5px}
-.c-btn{background:#25D366;color:#fff;border:none;padding:8px 12px;border-radius:6px;font-size:11px;font-weight:700;text-decoration:none;white-space:nowrap}
-.num-item{display:flex;justify-content:space-between;align-items:center;padding:10px;background:#f9fdf9;border-left:4px solid #138808;border-radius:6px;margin-bottom:7px}
-.num-item.red{border-left-color:#d40000;background:#fff5f5}
-.num-item.yellow{border-left-color:#e6a700;background:#fffbf0}
-.num-item .info b{color:#000080;display:block;font-size:13px}
-.num-item .info span{font-size:11px;color:#666}
-.num-item a{background:#138808;color:#fff;padding:7px 12px;border-radius:20px;text-decoration:none;font-weight:700;font-size:12px;white-space:nowrap}
-.num-item.red a{background:#d40000}
-.num-item.yellow a{background:#e6a700}
-.shop-card{background:#fff;border:2px solid #e0e0e0;border-radius:10px;padding:12px;margin-bottom:8px;display:flex;gap:10px;align-items:flex-start;border-left:4px solid #FF9933}
-.shop-card .s-img{width:60px;height:60px;background:#ffeede;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:28px;overflow:hidden;flex-shrink:0}
-.shop-card .s-img img{width:100%;height:100%;object-fit:cover}
-.shop-card .s-info{flex:1}
-.shop-card h3{font-size:14px;color:#000080}
-.shop-card p{font-size:11px;color:#666;margin:1px 0}
-.shop-card .s-price{color:#138808;font-weight:800;font-size:14px}
-.contractor-card{background:linear-gradient(135deg,#f0f4ff,#fff);border:2px solid #000080;border-radius:10px;padding:12px;margin-bottom:10px;border-left:4px solid #000080}
-.contractor-card h3{font-size:14px;color:#000080;margin-bottom:5px}
-.contractor-card p{font-size:12px;color:#555;margin:2px 0}
-.contractor-card .rate{background:#FF9933;color:#fff;padding:4px 10px;border-radius:12px;font-size:12px;font-weight:700;display:inline-block;margin:4px 0}
-.panchayat-card{background:#fff;border-left:4px solid #e6a700;padding:12px;border-radius:8px;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,0.05)}
-.panchayat-card h3{font-size:14px;color:#8a6d00;margin-bottom:4px}
-.panchayat-card p{font-size:12px;color:#555;margin:1px 0}
-.panchayat-card .pn-meta{font-size:10px;color:#999;margin-top:4px}
-.suggest-card{background:linear-gradient(135deg,#f0fdf0,#fff);border:2px solid #138808;border-radius:10px;padding:12px;margin-bottom:8px;border-left:4px solid #138808}
-.suggest-card h3{font-size:13px;color:#0a7a0a}
-.suggest-card p{font-size:12px;color:#444;margin:4px 0}
-.suggest-card .sg-meta{font-size:10px;color:#999}
-.top-suggest{background:linear-gradient(135deg,#fff9e6,#fff);border:2px solid #e6a700;border-radius:10px;padding:12px;margin-bottom:8px}
-.top-suggest h3{color:#8a6d00;font-size:14px}
-.rental-card{background:linear-gradient(135deg,#fff,#f9fdf9);border:2px solid #e0e0e0;border-radius:10px;padding:12px;margin-bottom:10px;border-left:4px solid #FF9933}
-.rental-card h3{font-size:14px;color:#000080;margin-bottom:6px}
-.rental-card p{font-size:12px;color:#555;margin:2px 0}
-.rental-card .rent-price{color:#138808;font-weight:800;font-size:15px}
-.rental-card .rent-photos{display:flex;gap:5px;margin-top:6px;overflow-x:auto}
-.rental-card .rent-photos img{width:70px;height:70px;object-fit:cover;border-radius:6px;border:2px solid #ffd9c2}
-.id-card{max-width:320px;margin:0 auto;background:linear-gradient(135deg,#FF9933,#fff,#138808);border-radius:12px;padding:12px;box-shadow:0 4px 15px rgba(0,0,0,0.2);border:3px solid #000080}
-.id-card-header{text-align:center;font-weight:800;color:#000080;font-size:14px;padding:5px;border-bottom:2px solid #000080;margin-bottom:8px}
-.id-card-body{display:flex;gap:10px;background:#fff;border-radius:8px;padding:10px}
-.id-card-photo{width:70px;height:70px;background:#f0f0f0;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;flex-shrink:0;border:2px solid #FF9933;overflow:hidden}
-.id-card-photo img{width:100%;height:100%;object-fit:cover}
-.id-card-info h3{font-size:14px;color:#000080}
-.id-card-info p{font-size:11px;color:#555;margin-top:2px}
-.id-card-footer{text-align:center;font-size:10px;font-weight:700;color:#000080;margin-top:6px;background:#fff;padding:4px;border-radius:4px}
-.land-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed #ffd9c2;font-size:13px}
-.land-row:last-child{border:none;font-weight:800;color:#000080;font-size:14px}
-@media (max-width:500px){
-header h1{font-size:18px}
-.stats{grid-template-columns:repeat(4,1fr)}
-.st h4{font-size:16px}
-.st p{font-size:9px}
-.g{grid-template-columns:repeat(auto-fill,minmax(90px,1fr))}
+/* बेसिक सेटिंग्स */
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+}
+
+body { 
+    background: #f4f7f6; 
+    color: #333; 
+    padding-bottom: 50px;
+}
+
+/* हेडर (ऊपर वाला हिस्सा) */
+header { 
+    background: #0d47a1; 
+    color: white; 
+    padding: 15px 20px; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    position: sticky; 
+    top: 0; 
+    z-index: 100; 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2); 
+}
+
+.logo { 
+    font-size: 20px; 
+    font-weight: bold; 
+    letter-spacing: 1px;
+}
+
+.logo span { 
+    color: #ffca28; 
+}
+
+.menu-btn { 
+    font-size: 24px; 
+    cursor: pointer; 
+}
+
+/* साइड मेनू (Sidebar) */
+.sidebar { 
+    height: 100%; 
+    width: 0; 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    background: #1a237e; 
+    overflow-x: hidden; 
+    transition: 0.3s; 
+    padding-top: 20px; 
+    z-index: 200; 
+}
+
+.sidebar a { 
+    padding: 15px 25px; 
+    text-decoration: none; 
+    font-size: 16px; 
+    color: white; 
+    display: block; 
+    border-bottom: 1px solid #283593; 
+    transition: 0.2s;
+}
+
+.sidebar a:hover { 
+    background: #3949ab; 
+}
+
+.sidebar i { 
+    margin-right: 10px; 
+    width: 25px; 
+    text-align: center;
+}
+
+.close-btn { 
+    position: absolute; 
+    top: 15px; 
+    right: 20px; 
+    font-size: 24px; 
+    color: white; 
+    cursor: pointer; 
+}
+
+/* मुख्य कंटेंट एरिया */
+main { 
+    padding: 15px; 
+    max-width: 800px; 
+    margin: 0 auto; 
+}
+
+.page { 
+    display: none; 
+}
+
+.page.active { 
+    display: block; 
+    animation: fadeIn 0.3s ease-in-out; 
+}
+
+@keyframes fadeIn { 
+    from { opacity: 0; transform: translateY(10px); } 
+    to { opacity: 1; transform: translateY(0); } 
+}
+
+h2 { 
+    text-align: center; 
+    margin-bottom: 20px; 
+    color: #0d47a1; 
+    font-size: 22px;
+}/* होम पेज का हीरो सेक्शन (बैनर) */
+.hero { 
+    background: linear-gradient(135deg, #0d47a1, #1976d2); 
+    color: white; 
+    padding: 25px 20px; 
+    border-radius: 10px; 
+    text-align: center; 
+    margin-bottom: 20px; 
+    box-shadow: 0 4px 10px rgba(13, 71, 161, 0.3);
+}
+
+.hero h1 { 
+    font-size: 20px; 
+    margin-bottom: 5px; 
+}
+
+.hero p {
+    font-size: 14px;
+    margin-bottom: 15px;
+    opacity: 0.9;
+}
+
+.hero input { 
+    width: 100%; 
+    padding: 12px 15px; 
+    border: none; 
+    border-radius: 25px; 
+    font-size: 15px; 
+    outline: none; 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* सर्विस कार्ड्स (होम पेज के आइकन) */
+.services-grid { 
+    display: grid; 
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 12px; 
+}
+
+.service-card { 
+    background: white; 
+    padding: 15px 10px; 
+    border-radius: 10px; 
+    text-align: center; 
+    cursor: pointer; 
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08); 
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 1px solid #eee;
+}
+
+.service-card:hover { 
+    transform: translateY(-5px); 
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+}
+
+.service-card i { 
+    font-size: 28px; 
+    color: #0d47a1; 
+    margin-bottom: 8px; 
+}
+
+.service-card h3 { 
+    font-size: 14px; 
+    color: #333; 
+    font-weight: 600;
+}
+
+/* फॉर्म बॉक्स (रजिस्ट्रेशन फॉर्म) */
+.form-box { 
+    background: white; 
+    padding: 20px; 
+    border-radius: 10px; 
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
+    margin-bottom: 20px; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 12px; 
+    border-top: 4px solid #0d47a1;
+}
+
+.form-box input, .form-box textarea { 
+    width: 100%; 
+    padding: 12px; 
+    border: 1px solid #ccc; 
+    border-radius: 6px; 
+    font-size: 15px; 
+    outline: none;
+    transition: border 0.2s;
+}
+
+.form-box input:focus, .form-box textarea:focus {
+    border-color: #0d47a1;
+}
+
+/* बटन्स */
+.btn-primary { 
+    background: #0d47a1; 
+    color: white; 
+    border: none; 
+    padding: 12px; 
+    border-radius: 6px; 
+    cursor: pointer; 
+    width: 100%; 
+    font-size: 16px; 
+    font-weight: bold;
+    margin-bottom: 15px; 
+    transition: background 0.2s;
+}
+
+.btn-primary:hover {
+    background: #1565c0;
+}
+
+.btn-green { 
+    background: #4CAF50; 
+    color: white; 
+    border: none; 
+    padding: 12px; 
+    border-radius: 6px; 
+    cursor: pointer; 
+    font-size: 15px; 
+    font-weight: bold;
+    transition: background 0.2s;
+}
+
+.btn-green:hover {
+    background: #43a047;
+}
+
+.btn-gray { 
+    background: #757575; 
+    color: white; 
+    border: none; 
+    padding: 12px; 
+    border-radius: 6px; 
+    cursor: pointer; 
+    font-size: 15px; 
+    font-weight: bold;
+    transition: background 0.2s;
+}
+
+.btn-gray:hover {
+    background: #616161;
+}
+
+/* लिस्ट कंटेनर (डेटा दिखाने के लिए) */
+.list-container { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 15px; 
+}
+
+/* डेटा कार्ड (मजदूर, वाहन, किराया) */
+.card { 
+    background: white; 
+    padding: 15px; 
+    border-radius: 10px; 
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08); 
+    display: flex; 
+    align-items: center; 
+    border-left: 5px solid #0d47a1; 
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+}
+
+.card img { 
+    width: 60px; 
+    height: 60px; 
+    border-radius: 50%; 
+    object-fit: cover; 
+    margin-right: 15px; 
+    background: #eee; 
+    border: 2px solid #f0f0f0;
+}
+
+.card-info { 
+    flex: 1;
+}
+
+.card-info h3 { 
+    font-size: 16px; 
+    margin-bottom: 4px; 
+    color: #222;
+}
+
+.card-info p { 
+    font-size: 13px; 
+    color: #666; 
+    margin-bottom: 8px; 
+}
+
+.card-info a { 
+    background: #4CAF50; 
+    color: white; 
+    padding: 6px 12px; 
+    border-radius: 5px; 
+    text-decoration: none; 
+    font-size: 12px; 
+    display: inline-block; 
+    font-weight: bold;
+}
+
+.card-actions { 
+    margin-left: 10px; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 8px; 
+}
+
+.card-actions button { 
+    border: none; 
+    padding: 8px 12px; 
+    border-radius: 5px; 
+    color: white; 
+    cursor: pointer; 
+    font-size: 14px; 
+    transition: opacity 0.2s;
+}
+
+.card-actions button:hover {
+    opacity: 0.8;
+}
+
+/* लोडिंग टेक्स्ट */
+.list-container p {
+    text-align: center;
+    color: #888;
+    padding: 20px;
 }
