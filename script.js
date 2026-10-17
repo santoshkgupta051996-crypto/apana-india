@@ -17,7 +17,7 @@ const db = firebase.firestore();
 const auth = firebase.auth();
 
 // ⚠️ ImgBB API Key
-const IMGBB_API_KEY = "b601ec4cbb5f140288fa5e5c2ac4ff0";
+const IMGBB_API_KEY = "b601ec4cbb5f140288fa5e5c2ac4ff09;
 
 let currentUser = null; 
 
