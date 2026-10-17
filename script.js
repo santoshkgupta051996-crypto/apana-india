@@ -186,12 +186,8 @@ async function editMajdoor(id) {
 // ==========================================
 // 5. वाहन (Vehicle) का सिस्टम
 // ==========================================
-async function saveVehicle() {
-    const id = document.getElementById('editVehicleId').value;
-    const name = document.getElementById('vehicleName').value.trim();
-    const number = document.getElementById('vehicleNumber').value.trim();
-    const mobile = document.getElementById('vehicleMobile').value.trim();
-    const file = document.getElementById('vehiclePhoto').files[0];
+async function saveVehicle() {    let lat = document.getElementById('vehicleLat').value;
+    let lng = document.getElementById('vehicleLng').value;
     
     if (!name || !mobile) return alert("नाम और मोबाइल नंबर ज़रूरी है!");
 
