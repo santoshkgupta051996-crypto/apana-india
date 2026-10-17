@@ -1,58 +1,32 @@
-// ================= FIREBASE CONFIG =================
-var firebaseConfig = {
-  apiKey: "AIzaSyDUNK2J0lJ-VzwuGnovvjsrRCJJX--UTpE",
-  authDomain: "apana-india-df3d7.firebaseapp.com",
-  projectId: "apana-india-df3d7",
-  storageBucket: "apana-india-df3d7.firebasestorage.app",
-  messagingSenderId: "881764619223",
-  appId: "1:881764619223:web:13510eec19ee1e46cd7192",
-  measurementId: "G-BXN81QCKZX"
+// ==========================================
+// 1. Firebase कॉन्फ़िगरेशन (आपकी असली डिटेल्स)
+// ==========================================
+const firebaseConfig = {
+    apiKey: "AIzaSyDUNK2J0lJ-VzwuGnovvjsrRCJJX--UTpE",
+    authDomain: "apana-india-df3d7.firebaseapp.com",
+    projectId: "apana-india-df3d7",
+    storageBucket: "apana-india-df3d7.firebasestorage.app",
+    messagingSenderId: "881764619223",
+    appId: "1:881764619223:web:13510eec19ee1e46cd7192",
+    measurementId: "G-BXN81QCKZX"
 };
 
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-var db = firebase.firestore();
-var auth = firebase.auth();
-
-// ================= GLOBAL USER =================
-var currentUser = null;
-
-// Login status change
-auth.onAuthStateChanged(function(u){
-  currentUser = u;
-  var un=document.getElementById('userName');
-  var ue=document.getElementById('userEmail');
-  var lb=document.getElementById('loginBox');
-  var ub=document.getElementById('userBox');
-  var lb2=document.getElementById('loginBtn');
-  if(u){
-    if(un)un.innerText=u.displayName||'उपयोगकर्ता';
-    if(ue)ue.innerText=u.email||'';
-    if(lb)lb.style.display='none';
-    if(ub)ub.classList.remove('h');
-    if(lb2)lb2.innerText='👤 '+((u.displayName||'').split(' ')[0]||'यूज़र');
-  }else{
-    if(lb)lb.style.display='block';
-    if(ub)ub.classList.add('h');
-    if(lb2)lb2.innerText='🔐 लॉगिन';
-  }
-});
-
-// ================= GOOGLE LOGIN =================
-function googleLogin(){
-  var provider=new firebase.auth.GoogleAuthProvider();
-  auth.signInWithPopup(provider).then(function(r){
-    alert('✅ लॉगिन सफल! स्वागत '+(r.user.displayName||''));
-    go('home');
-  }).catch(function(e){
-    alert('❌ Error: '+e.message);
-  });
+// Firebase शुरू करें
+if (!firebase.apps.length) { 
+    firebase.initializeApp(firebaseConfig); 
 }
 
-// ================= LOGOUT =================
-function logoutUser(){
-  auth.signOut().then(function(){
-    alert('👋 लॉगआउट हो गया!');
-    go('home');
-  });
-}
+// डेटाबेस और लॉगिन को वैश्विक (Global) बनाएँ
+const db = firebase.firestore();
+const auth = firebase.auth();
+
+// ==========================================
+// 2. ImgBB API Key (फोटो अपलोड के लिए)
+// ==========================================
+// ⚠️ यहाँ अपनी असली ImgBB की (Key) डालें
+const IMGBB_API_KEY = "b601ec4cbb5f140288fa5e5c2ac4ff0"; 
+
+// ==========================================
+// 3. ग्लोबल वेरिएबल्स
+// ==========================================
+let currentUser = null; // यह याद रखेगा कि कौन लॉगिन है
