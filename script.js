@@ -16,8 +16,8 @@ if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
 const db = firebase.firestore();
 const auth = firebase.auth();
 
-// ⚠️ ImgBB API Key
-const IMGBB_API_KEY = "b601ec4cbb5f140288fa5e5c2ac4ff09;
+// ImgBB API Key (यहाँ अपनी असली Key डालें!)
+const IMGBB_API_KEY = "b601ec4cbb5f140288fa5e5c2ac4ff0"; 
 
 let currentUser = null; 
 
@@ -109,33 +109,28 @@ async function uploadImg(file) {
 }
 
 // ==========================================
-// 4. GPS लोकेशन का सिस्टम
+// 4. GPS लोकेशन
 // ==========================================
 function getGPS(type) {
     if (navigator.geolocation) {
         const btn = event.target;
         btn.innerText = "लोकेशन ढूँढ रहे हैं...";
-        
         navigator.geolocation.getCurrentPosition(
             (position) => {
-                const lat = position.coords.latitude;
-                const lng = position.coords.longitude;
-                
-                document.getElementById(type + 'Lat').value = lat;
-                document.getElementById(type + 'Lng').value = lng;
-                
+                document.getElementById(type + 'Lat').value = position.coords.latitude;
+                document.getElementById(type + 'Lng').value = position.coords.longitude;
                 document.getElementById(type + 'LocStatus').style.display = "block";
                 btn.innerText = "📍 लोकेशन ली गई";
                 btn.style.background = "#4CAF50";
                 btn.style.color = "#fff";
             },
             (error) => {
-                alert("लोकेशन नहीं मिल पाई! कृपया GPS चालू करें और Allow दबाएँ।");
+                alert("लोकेशन नहीं मिल पाई! GPS चालू करें।");
                 btn.innerText = "📍 मेरी लोकेशन लें";
             }
         );
     } else {
-        alert("आपके ब्राउज़र में GPS सपोर्ट नहीं है।");
+        alert("GPS सपोर्ट नहीं है।");
     }
 }
 
@@ -201,7 +196,7 @@ async function editMajdoor(id) {
 }
 
 // ==========================================
-// 6. वाहन (Vehicle) - GPS के साथ
+// 6. वाहन (Vehicle)
 // ==========================================
 async function saveVehicle() {
     const id = document.getElementById('editVehicleId').value;
@@ -213,11 +208,8 @@ async function saveVehicle() {
     if (!name || !mobile) return alert("नाम और मोबाइल नंबर ज़रूरी है!");
 
     let photo = file ? await uploadImg(file) : (id ? null : "https://via.placeholder.com/100");
-    
-    // GPS डेटा
     let lat = document.getElementById('vehicleLat').value;
     let lng = document.getElementById('vehicleLng').value;
-    
     let data = { name, number, mobile, lat, lng, uid: currentUser.uid, date: firebase.firestore.FieldValue.serverTimestamp() };
     if (photo) data.photo = photo;
 
@@ -243,7 +235,7 @@ async function loadVehicles() {
                 <h3>${d.name}</h3>
                 <p>🚗 ${d.number || 'गाड़ी नंबर नहीं'}</p>
                 <a href="tel:${d.mobile}">📞 ${d.mobile}</a>
-                ${d.lat && d.lng ? `<a href="https://www.google.com/maps?q=${d.lat},${d.lng}" target="_blank" style="background:#2196F3; margin-left:5px;">🗺️ मैप देखें</a>` : ''}
+                ${d.lat && d.lng ? `<a href="https://www.google.com/maps?q=${d.lat},${d.lng}" target="_blank" style="background:#2196F3; margin-left:5px;">🗺️ मैप</a>` : ''}
             </div>`;
         if (isOwner) {
             html += `<div class="card-actions">
@@ -263,17 +255,14 @@ async function editVehicle(id) {
     document.getElementById('vehicleName').value = d.name;
     document.getElementById('vehicleNumber').value = d.number || "";
     document.getElementById('vehicleMobile').value = d.mobile;
-    
-    // पुरानी लोकेशन भरें
     if(d.lat) document.getElementById('vehicleLat').value = d.lat;
     if(d.lng) document.getElementById('vehicleLng').value = d.lng;
-    
     openForm('vehicle');
     window.scrollTo(0,0);
 }
 
 // ==========================================
-// 7. किराया (Rental) - GPS के साथ
+// 7. किराया (Rental)
 // ==========================================
 async function saveRental() {
     const id = document.getElementById('editRentalId').value;
@@ -285,11 +274,8 @@ async function saveRental() {
     if (!title || !mobile) return alert("शीर्षक और मोबाइल नंबर ज़रूरी है!");
 
     let photo = file ? await uploadImg(file) : (id ? null : "https://via.placeholder.com/100");
-    
-    // GPS डेटा
     let lat = document.getElementById('rentalLat').value;
     let lng = document.getElementById('rentalLng').value;
-    
     let data = { title, rent, mobile, lat, lng, uid: currentUser.uid, date: firebase.firestore.FieldValue.serverTimestamp() };
     if (photo) data.photo = photo;
 
@@ -315,7 +301,7 @@ async function loadRentals() {
                 <h3>${d.title}</h3>
                 <p>💰 ₹${d.rent || '0'}</p>
                 <a href="tel:${d.mobile}">📞 ${d.mobile}</a>
-                ${d.lat && d.lng ? `<a href="https://www.google.com/maps?q=${d.lat},${d.lng}" target="_blank" style="background:#2196F3; margin-left:5px;">🗺️ मैप देखें</a>` : ''}
+                ${d.lat && d.lng ? `<a href="https://www.google.com/maps?q=${d.lat},${d.lng}" target="_blank" style="background:#2196F3; margin-left:5px;">🗺️ मैप</a>` : ''}
             </div>`;
         if (isOwner) {
             html += `<div class="card-actions">
@@ -335,11 +321,8 @@ async function editRental(id) {
     document.getElementById('rentalTitle').value = d.title;
     document.getElementById('rentalRent').value = d.rent || "";
     document.getElementById('rentalMobile').value = d.mobile;
-    
-    // पुरानी लोकेशन भरें
     if(d.lat) document.getElementById('rentalLat').value = d.lat;
     if(d.lng) document.getElementById('rentalLng').value = d.lng;
-    
     openForm('rental');
     window.scrollTo(0,0);
 }
@@ -381,7 +364,7 @@ async function loadComplaints() {
 }
 
 // ==========================================
-// 9. कॉमन डिलीट फंक्शन
+// 9. कॉमन डिलीट
 // ==========================================
 async function deleteData(collection, id) {
     if (confirm("क्या आप वाकई इसे डिलीट करना चाहते हैं?")) {
