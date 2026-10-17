@@ -1,112 +1,137 @@
-// ================= DEMO DATA (पहली बार दिखाने के लिए) =================
-var C=[];
-var SC=[];
-var AD=[];
-var WK=[];
-var US=[];
-var CONT=[];
-var PANCH=[];
-var SUGG=[];
-var SHOPS=[];
-var RENTALS=[];
-var IDCARDS=[];
+// ==========================================
+// 1. बेसिक फंक्शन्स (मेनू और पेज बदलना)
+// ==========================================
+function toggleSidebar() {
+    const sidebar = document.getElementById("sidebar");
+    sidebar.style.width = (sidebar.style.width === "250px") ? "0" : "250px";
+}
 
-// ================= न्यूज़ डेटा =================
-var ND={
-trending:[
-{title:"🔴 देशभर में मजदूरों की हड़ताल",desc:"न्यूनतम मजदूरी बढ़ाने की मांग को लेकर मजदूर संगठनों ने हड़ताल का ऐलान किया।",date:"आज",src:"राष्ट्रीय समाचार",icon:"🔥"},
-{title:"मनरेगा मजदूरी में ₹50 की बढ़ोतरी",desc:"ग्रामीण विकास मंत्रालय ने सभी राज्यों के लिए मजदूरी दरों में संशोधन किया।",date:"आज",src:"ग्रामीण समाचार",icon:"🌾"},
-{title:"गिग वर्कर्स को PF और बीमा",desc:"Ola, Uber, Swiggy, Zomato के कर्मचारियों को बड़ी राहत।",date:"1 दिन पहले",src:"श्रम मंत्रालय",icon:"📋"}],
-breaking:[
-{title:"सोनभद्र में बड़ा हादसा, 5 मजदूर घायल",desc:"निर्माण स्थल पर मलबा गिरने से हादसा।",date:"अभी",src:"स्थानीय समाचार",icon:"🚨"},
-{title:"रेलवे में 10,000 नई नौकरियाँ",desc:"तकनीशियन और हेल्पर पदों के लिए भर्ती।",date:"आज",src:"रेलवे समाचार",icon:"🚂"}],
-hartal:[
-{title:"⚠️ हरियाणा: 15 अक्टूबर से हड़ताल",desc:"न्यूनतम मजदूरी न बढ़ने पर अनिश्चितकालीन हड़ताल।",date:"आज",src:"श्रम समाचार",icon:"✊"},
-{title:"महाराष्ट्र ऑटो कर्मचारी हड़ताल",desc:"तीन दिन से हड़ताल जारी।",date:"1 दिन पहले",src:"महाराष्ट्र समाचार",icon:"⚠️"},
-{title:"झारखंड कोयला मजदूर प्रदर्शन",desc:"बकाया वेतन की मांग।",date:"2 दिन पहले",src:"झारखंड समाचार",icon:"✊"}],
-mazdoor:[
-{title:"नियुक्ति पत्र अनिवार्य",desc:"हर कंपनी को मजदूरों को लिखित पत्र देना होगा।",date:"आज",src:"श्रम मंत्रालय",icon:"👷"},
-{title:"ओवरटाइम का पैसा अब डबल",desc:"नए कानून में ओवरटाइम 2x।",date:"1 दिन पहले",src:"श्रम समाचार",icon:"💰"},
-{title:"ESIC का दायरा बढ़ा",desc:"₹21,000 तक वाले श्रमिक शामिल।",date:"2 दिन पहले",src:"स्वास्थ्य विभाग",icon:"🏥"}],
-company:[
-{title:"NTPC में 500 नई भर्तियाँ",desc:"ITI और डिप्लोमा वालों के लिए।",date:"आज",src:"कंपनी समाचार",icon:"🏢"},
-{title:"L&T में 2000 पद",desc:"इंजीनियर, सुपरवाइजर, मजदूर।",date:"1 दिन पहले",src:"कंपनी समाचार",icon:"🏗️"},
-{title:"Coal India में बंपर भर्ती",desc:"10,000 पदों पर भर्ती।",date:"2 दिन पहले",src:"कंपनी समाचार",icon:"⛏️"}],
-india:[
-{title:"देश में नई श्रम नीति लागू",desc:"4 नई श्रम संहिताएँ लागू।",date:"आज",src:"राष्ट्रीय समाचार",icon:"🇮🇳"},
-{title:"PM आवास योजना नए आवेदन",desc:"नई किस्त जारी।",date:"1 दिन पहले",src:"आवास समाचार",icon:"🏠"}],
-world:[
-{title:"अमेरिका में मजदूर हड़ताल",desc:"कारखाने बंद।",date:"आज",src:"अंतर्राष्ट्रीय",icon:"🌍"},
-{title:"यूरोप में गिग वर्कर्स को अधिकार",desc:"EU ने नए कानून बनाए।",date:"2 दिन पहले",src:"विदेश समाचार",icon:"🌐"}],
-up:[
-{title:"UP में 5,000 कॉन्स्टेबल भर्ती",desc:"बड़े पैमाने पर भर्ती।",date:"आज",src:"UP समाचार",icon:"👮"},
-{title:"शिक्षक भर्ती 15,000 पद",desc:"बेसिक शिक्षा विभाग।",date:"1 दिन पहले",src:"शिक्षा समाचार",icon:"📚"}],
-sonbhadra:[
-{title:"सोनभद्र में नई सड़क परियोजना",desc:"120 करोड़ की लागत से 45 किमी।",date:"आज",src:"स्थानीय समाचार",icon:"🛣️"},
-{title:"बीजपुर में श्रमिक शिविर",desc:"मजदूरों को जानकारी दी गई।",date:"1 दिन पहले",src:"श्रम विभाग",icon:"👷"},
-{title:"म्योरपुर में स्वास्थ्य शिविर",desc:"निःशुल्क जाँच 15 अक्टूबर।",date:"2 दिन पहले",src:"स्वास्थ्य विभाग",icon:"🏥"}]};
+function showPage(pageId) {
+    document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+    const targetPage = document.getElementById('page-' + pageId);
+    if(targetPage) targetPage.classList.add('active');
+    
+    // मोबाइल में पेज बदलते ही साइडबार बंद हो जाए
+    if (window.innerWidth < 768) toggleSidebar(); 
+}
 
-var CAT='trending';
-var wPhotoData='';
-var shPhotoData='';
-var rnPhotoData=[];
+// ==========================================
+// 2. Google लॉगिन और लॉगआउट
+// ==========================================
+function googleLogin() {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    auth.signInWithPopup(provider).then(result => {
+        alert("✅ लॉगिन सफल! स्वागत है " + result.user.displayName);
+        showPage('home'); // लॉगिन के बाद होम पेज पर भेजें
+    }).catch(error => {
+        alert("❌ लॉगिन में समस्या: " + error.message);
+    });
+}
 
-function ss(){}
-// ================= जरूरी नंबर =================
-var NUMBERS=[
-{name:"🚨 नेशनल इमरजेंसी",num:"112",desc:"कोई भी आपातकाल",cls:"red"},
-{name:"👮 पुलिस",num:"100",desc:"पुलिस सहायता",cls:"red"},
-{name:"🚑 एम्बुलेंस",num:"108",desc:"मेडिकल इमरजेंसी",cls:"red"},
-{name:"👶 गर्भवती एम्बुलेंस",num:"102",desc:"महिला/नवजात के लिए",cls:"red"},
-{name:"🔥 फायर ब्रिगेड",num:"101",desc:"आग लगने पर",cls:"red"},
-{name:"👨‍⚕️ डॉक्टर सलाह",num:"104",desc:"फोन पर फ्री डॉक्टर",cls:"yellow"},
-{name:"🏥 राष्ट्रीय स्वास्थ्य",num:"18001801104",desc:"राष्ट्रीय स्वास्थ्य हेल्पलाइन",cls:"yellow"},
-{name:"👷 श्रम विभाग (e-Shram)",num:"14434",desc:"श्रमिक कार्ड, असंगठित क्षेत्र",cls:"yellow"},
-{name:"💼 e-Shram सहायता",num:"18008896811",desc:"श्रम सहायता केंद्र",cls:"yellow"},
-{name:"🎓 करियर हेल्पलाइन",num:"1514",desc:"रोजगार सहायता",cls:"yellow"},
-{name:"👶 बाल श्रम",num:"1098",desc:"बाल श्रमिक सहायता",cls:"yellow"},
-{name:"👩 महिला हेल्पलाइन",num:"1091",desc:"महिलाओं के लिए",cls:"yellow"},
-{name:"💻 साइबर क्राइम",num:"1930",desc:"ऑनलाइन ठगी",cls:"yellow"},
-{name:"🧠 मेंटल हेल्थ",num:"14416",desc:"Tele-MANAS — मानसिक स्वास्थ्य",cls:"yellow"},
-{name:"🚂 रेलवे",num:"139",desc:"ट्रेन संबंधी",cls:""},
-{name:"📞 एंटी करप्शन",num:"1064",desc:"भ्रष्टाचार शिकायत",cls:""},
-{name:"🛡️ कंज्यूमर",num:"1915",desc:"उपभोक्ता शिकायत",cls:""},
-{name:"🩸 रक्तदान",num:"104",desc:"रक्त संबंधी जानकारी",cls:""}];
+function logoutUser() {
+    auth.signOut().then(() => {
+        alert("👋 लॉगआउट हो गया!");
+        showPage('home');
+    });
+}
 
-// ================= राज्यवार श्रम विभाग हेल्पलाइन =================
-var STATE_NUMBERS={
-up:{name:"उत्तर प्रदेश",num:"18001805160",extra:"0512-2297142"},
-mp:{name:"मध्य प्रदेश",num:"18002338888",extra:"0755-2555582 (WhatsApp)"},
-bihar:{name:"बिहार",num:"18003456131",extra:"0612-2233857"},
-cg:{name:"छत्तीसगढ़",num:"07713505050",extra:"0771-2443515"},
-jharkhand:{name:"झारखंड",num:"18003456526",extra:""},
-haryana:{name:"हरियाणा",num:"18001804818",extra:"0172-2701373"},
-karnataka:{name:"कर्नाटक",num:"155214",extra:"9333333684 (WhatsApp)"},
-odisha:{name:"ओडिशा",num:"155368",extra:"1800-345-6703"},
-maharashtra:{name:"महाराष्ट्र",num:"02226573833",extra:"022-22025607"},
-rajasthan:{name:"राजस्थान",num:"18001806127",extra:""},
-delhi:{name:"दिल्ली",num:"01123951115",extra:"011-23978449"},
-wb:{name:"पश्चिम बंगाल",num:"03322488150",extra:""},
-tamilnadu:{name:"तमिलनाडु",num:"04312311343",extra:"9445398799"},
-gujarat:{name:"गुजरात",num:"02652433894",extra:"0281-2446911"},
-other:{name:"अन्य राज्य",num:"14434",extra:"राष्ट्रीय हेल्पलाइन"}
-};
+// लॉगिन स्टेटस चेक करना (जब भी वेबसाइट खुले)
+auth.onAuthStateChanged(user => {
+    currentUser = user;
+    const loginBtn = document.getElementById('loginBtn');
+    const userBox = document.getElementById('userBox');
+    const loginBox = document.getElementById('googleLoginBtn');
 
-// ================= ब्लॉक BDO (उदाहरण — जिलेवार बढ़ा सकेंगे) =================
-var BDO_NUMBERS={
-"सोनभद्र":{"block":"सभी ब्लॉक","num":"05444222222","extra":"जिला ग्राम विकास अधिकारी"},
-"वाराणसी":{"block":"सभी ब्लॉक","num":"05422222222","extra":"जिला ग्राम विकास अधिकारी"},
-"प्रयागराज":{"block":"सभी ब्लॉक","num":"05322222222","extra":"जिला ग्राम विकास अधिकारी"},
-"default":{"block":"जिला","num":"18001805160","extra":"UP ग्राम विकास विभाग"}
-};
+    if (user) {
+        // अगर यूज़र लॉगिन है
+        if(loginBtn) loginBtn.innerText = "👤 " + (user.displayName ? user.displayName.split(' ')[0] : 'यूज़र');
+        if(userBox) userBox.style.display = "block";
+        if(loginBox) loginBox.style.display = "none";
+        if(document.getElementById('userName')) document.getElementById('userName').innerText = user.displayName || 'उपयोगकर्ता';
+        if(document.getElementById('userEmail')) document.getElementById('userEmail').innerText = user.email || '';
+    } else {
+        // अगर यूज़र लॉगआउट है
+        if(loginBtn) loginBtn.innerText = "🔐 लॉगिन";
+        if(userBox) userBox.style.display = "none";
+        if(loginBox) loginBox.style.display = "flex";
+    }
 
-// ================= कोर्स =================
-var COURSES=[
-{icon:"🔧",name:"वेल्डिंग कोर्स",desc:"गैस, आर्क, MIG/TIG — हिंदी में",price:199,old:499},
-{icon:"⚡",name:"इलेक्ट्रिशियन कोर्स",desc:"वायरिंग, मोटर, पैनल",price:199,old:499},
-{icon:"🚗",name:"HTV ड्राइविंग",desc:"ट्रक, बस, ट्रेलर",price:299,old:699},
-{icon:"📱",name:"मोबाइल रिपेयर",desc:"स्मार्टफोन, डिस्प्ले, बैटरी",price:249,old:599},
-{icon:"🔩",name:"फिटर / टर्नर",desc:"ITI फिटर की पूरी तैयारी",price:199,old:499},
-{icon:"✂️",name:"सिलाई / टेलरिंग",desc:"महिलाओं के लिए",price:149,old:399},
-{icon:"🧑‍🍳",name:"कुकिंग कोर्स",desc:"होटल, ढाबा, कैटरिंग",price:149,old:399},
-{icon:"❄️",name:"AC / फ्रिज रिपेयर",desc:"AC, फ्रिज, वॉशिंग मशीन",price:249,old:599}];
+    // बाकी फाइलों के डेटा लोडिंग फंक्शन्स कॉल करें (अगर वो मौजूद हों)
+    if (typeof loadMajdoors === 'function') loadMajdoors();
+    if (typeof loadVehicles === 'function') loadVehicles();
+    if (typeof loadRentals === 'function') loadRentals();
+    if (typeof loadComplaints === 'function') loadComplaints();
+});
+
+// ==========================================
+// 3. कॉमन फंक्शन्स (फॉर्म खोलना/बंद करना)
+// ==========================================
+function openForm(type) {
+    if (!currentUser) return alert("⚠️ कृपया पहले लॉगिन करें!");
+    
+    document.getElementById('edit' + type.charAt(0).toUpperCase() + type.slice(1) + 'Id').value = "";
+    document.getElementById(type + 'FormBox').style.display = "flex";
+    document.getElementById('add' + type.charAt(0).toUpperCase() + type.slice(1) + 'Btn').style.display = "none";
+    document.getElementById(type + 'FormBox').reset();
+}
+
+function closeForm(type) {
+    document.getElementById(type + 'FormBox').style.display = "none";
+    document.getElementById('add' + type.charAt(0).toUpperCase() + type.slice(1) + 'Btn').style.display = "block";
+}
+
+// ==========================================
+// 4. ImgBB पर फोटो अपलोड करना
+// ==========================================
+async function uploadImg(file) {
+    if (!file) return ""; // अगर फोटो नहीं चुनी है तो खाली रिटर्न करें
+    
+    const formData = new FormData();
+    formData.append("image", file);
+    
+    try {
+        // IMGBB_API_KEY जो हमने firebase.js में सेट की थी
+        const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, { 
+            method: "POST", 
+            body: formData 
+        });
+        const data = await res.json();
+        if(data.success) {
+            return data.data.url; // फोटो का लिंक मिल गया
+        } else {
+            alert("फोटो अपलोड नहीं हो पाई: " + (data.error ? data.error.message : "Unknown Error"));
+            return "";
+        }
+    } catch (e) { 
+        alert("फोटो अपलोड करने में समस्या आई! इंटरनेट चेक करें।");
+        return ""; 
+    }
+}
+
+// ==========================================
+// 5. GPS लोकेशन का सिस्टम (वाहन और किराया के लिए)
+// ==========================================
+function getGPS(type) {
+    if (navigator.geolocation) {
+        const btn = event.target;
+        btn.innerText = "लोकेशन ढूँढ रहे हैं...";
+        
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                document.getElementById(type + 'Lat').value = position.coords.latitude;
+                document.getElementById(type + 'Lng').value = position.coords.longitude;
+                
+                document.getElementById(type + 'LocStatus').style.display = "block";
+                btn.innerText = "📍 लोकेशन ली गई";
+                btn.style.background = "#4CAF50";
+                btn.style.color = "#fff";
+            },
+            (error) => {
+                alert("लोकेशन नहीं मिल पाई! कृपया GPS चालू करें और Allow दबाएँ।");
+                btn.innerText = "📍 मेरी लोकेशन लें";
+            }
+        );
+    } else {
+        alert("आपके ब्राउज़र में GPS सपोर्ट नहीं है।");
+    }
+}
