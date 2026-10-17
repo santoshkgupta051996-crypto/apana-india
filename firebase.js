@@ -2,7 +2,7 @@
 // 1. Firebase कॉन्फ़िगरेशन (आपकी असली डिटेल्स)
 // ==========================================
 const firebaseConfig = {
-    apiKey: "AIzaSyDUNK2J0lJ-VzwuGnovvjsrRCJJX--UTpE",
+    apiKey: "AIzaSyCm_NoSK82BdJLt9LYRoM4eul1HdNba29A",
     authDomain: "apana-india-df3d7.firebaseapp.com",
     projectId: "apana-india-df3d7",
     storageBucket: "apana-india-df3d7.firebasestorage.app",
