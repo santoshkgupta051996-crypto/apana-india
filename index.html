@@ -73,4 +73,77 @@
                     <button onclick="logoutUser()" class="btn-gray" style="width: 100%;">लॉगआउट</button>
                 </div>
             </div>
+        </section>        <!-- मजदूर पेज -->
+        <section id="page-majdoor" class="page">
+            <h2>👷 मजदूर रजिस्ट्रेशन</h2>
+            <!-- मजदूर फॉर्म -->
+            <div id="majdoorFormBox" class="form-box" style="display: none;">
+                <input type="hidden" id="editMajdoorId">
+                <input type="text" id="majdoorName" placeholder="मजदूर का नाम">
+                <input type="text" id="majdoorSkill" placeholder="काम (जैसे: राजमिस्त्री, प्लंबर)">
+                <input type="tel" id="majdoorMobile" placeholder="मोबाइल नंबर">
+                <label style="font-size:14px; color:#555;">फोटो चुनें:</label>
+                <input type="file" id="majdoorPhoto" accept="image/*">
+                <button class="btn-green" onclick="saveMajdoor()">सेव करें</button>
+                <button class="btn-gray" onclick="closeForm('majdoor')">रद्द करें</button>
+            </div>
+            <button id="addMajdoorBtn" class="btn-primary" onclick="openForm('majdoor')">+ नया मजदूर जोड़ें</button>
+            <div id="majdoorList" class="list-container">लोड हो रहा है...</div>
         </section>
+
+        <!-- वाहन पेज -->
+        <section id="page-vehicle" class="page">
+            <h2>🚗 वाहन (टैक्सी) रजिस्ट्रेशन</h2>
+            <!-- वाहन फॉर्म -->
+            <div id="vehicleFormBox" class="form-box" style="display: none;">
+                <input type="hidden" id="editVehicleId">
+                <input type="text" id="vehicleName" placeholder="ड्राइवर का नाम">
+                <input type="text" id="vehicleNumber" placeholder="गाड़ी नंबर (जैसे: UP 64 AB 1234)">
+                <input type="tel" id="vehicleMobile" placeholder="मोबाइल नंबर">
+                <label style="font-size:14px; color:#555;">फोटो चुनें:</label>
+                <input type="file" id="vehiclePhoto" accept="image/*">
+                <button class="btn-green" onclick="saveVehicle()">सेव करें</button>
+                <button class="btn-gray" onclick="closeForm('vehicle')">रद्द करें</button>
+            </div>
+            <button id="addVehicleBtn" class="btn-primary" onclick="openForm('vehicle')">+ नया वाहन जोड़ें</button>
+            <div id="vehicleList" class="list-container">लोड हो रहा है...</div>
+        </section>        <!-- किराया पेज -->
+        <section id="page-rental" class="page">
+            <h2>🏠 किराया (मकान/कमरा/होटल)</h2>
+            <!-- किराया फॉर्म -->
+            <div id="rentalFormBox" class="form-box" style="display: none;">
+                <input type="hidden" id="editRentalId">
+                <input type="text" id="rentalTitle" placeholder="शीर्षक (जैसे: 2 BHK मकान किराये पर)">
+                <input type="number" id="rentalRent" placeholder="किराया (₹ प्रति माह)">
+                <input type="tel" id="rentalMobile" placeholder="मोबाइल नंबर">
+                <label style="font-size:14px; color:#555;">फोटो चुनें:</label>
+                <input type="file" id="rentalPhoto" accept="image/*">
+                <button class="btn-green" onclick="saveRental()">सेव करें</button>
+                <button class="btn-gray" onclick="closeForm('rental')">रद्द करें</button>
+            </div>
+            <button id="addRentalBtn" class="btn-primary" onclick="openForm('rental')">+ नया किराया जोड़ें</button>
+            <div id="rentalList" class="list-container">लोड हो रहा है...</div>
+        </section>        <!-- शिकायत पेज -->
+        <section id="page-complaint" class="page">
+            <h2>📢 शिकायत दर्ज करें</h2>
+            <div id="complaintFormBox" class="form-box">
+                <input type="text" id="complaintTitle" placeholder="शिकायत का विषय (जैसे: गली में पानी भरा है)">
+                <textarea id="complaintDesc" placeholder="अपनी पूरी शिकायत विस्तार से लिखें..." rows="4"></textarea>
+                <button class="btn-green" onclick="saveComplaint()">शिकायत भेजें</button>
+            </div>
+            <div id="complaintList" class="list-container">लोड हो रहा है...</div>
+        </section>
+
+        <!-- एडमिन पेज -->
+        <section id="page-admin" class="page">
+            <h2>⚙️ एडमिन पैनल</h2>
+            <div class="form-box">
+                <p>यहाँ सिर्फ एडमिन ही सब कुछ देख और डिलीट कर सकता है।</p>
+                <button class="btn-primary" onclick="alert('एडमिन फंक्शन अगले स्टेप में जुड़ेंगे')">सभी यूजर्स देखें</button>
+            </div>
+        </section>    </main>
+
+    <!-- जावास्क्रिप्ट फाइलें लोड करें (अभी के लिए सिर्फ script.js) -->
+    <script src="script.js"></script>
+</body>
+</html>
