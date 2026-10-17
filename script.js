@@ -1,44 +1,40 @@
 // ==========================================
-// 1. Firebase कॉन्फ़िगरेशन (आपकी असली डिटेल्स)
+// 1. Firebase कॉन्फ़िगरेशन
 // ==========================================
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyDUNK2JOlJ-VzwuGnovvjsrRCJJX--UTpE",
-  authDomain: "apana-india-df3d7.firebaseapp.com",
-  projectId: "apana-india-df3d7",
-  storageBucket: "apana-india-df3d7.firebasestorage.app",
-  messagingSenderId: "881764619223",
-  appId: "1:881764619223:web:13510eec19ee1e46cd7192",
-  measurementId: "G-BXN81QCKZX"
+    apiKey: "AIzaSyDUNK2J0lJ-VzwuGnovvjsrRCJJX--UTpE",
+    authDomain: "apana-india-df3d7.firebaseapp.com",
+    projectId: "apana-india-df3d7",
+    storageBucket: "apana-india-df3d7.firebasestorage.app",
+    messagingSenderId: "881764619223",
+    appId: "1:881764619223:web:13510eec19ee1e46cd7192",
+    measurementId: "G-BXN81QCKZX"
 };
+
 // Firebase शुरू करें
 if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
 const db = firebase.firestore();
 const auth = firebase.auth();
 
-// ⚠️ ImgBB API Key (यहाँ अपनी Key डालें!)
+// ⚠️ ImgBB API Key (यहाँ अपनी असली Key डालें!)
 const IMGBB_API_KEY = "YOUR_IMGBB_API_KEY_HERE"; 
 
-let currentUser = null; // यूज़र की जानकारी स्टोर करने के लिए
+let currentUser = null; 
 
 // ==========================================
 // 2. बेसिक फंक्शन्स (लॉगिन, पेज बदलना, मेनू)
 // ==========================================
-
-// साइड मेनू खोलना/बंद करना
 function toggleSidebar() {
     const sidebar = document.getElementById("sidebar");
     sidebar.style.width = (sidebar.style.width === "250px") ? "0" : "250px";
 }
 
-// पेज बदलने का फंक्शन
 function showPage(pageId) {
     document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
     document.getElementById('page-' + pageId).classList.add('active');
-    if (window.innerWidth < 768) toggleSidebar(); // मोबाइल में मेनू बंद करें
+    if (window.innerWidth < 768) toggleSidebar(); 
 }
 
-// Google लॉगिन
 function googleLogin() {
     const provider = new firebase.auth.GoogleAuthProvider();
     auth.signInWithPopup(provider).then(result => {
@@ -48,7 +44,6 @@ function googleLogin() {
     });
 }
 
-// लॉगआउट
 function logoutUser() {
     auth.signOut().then(() => {
         alert("👋 लॉगआउट हो गया!");
@@ -56,7 +51,6 @@ function logoutUser() {
     });
 }
 
-// लॉगिन स्टेटस चेक करना (जब भी पेज खुले)
 auth.onAuthStateChanged(user => {
     currentUser = user;
     const loginBtn = document.getElementById('loginBtn');
@@ -64,20 +58,17 @@ auth.onAuthStateChanged(user => {
     const loginBox = document.getElementById('googleLoginBtn');
 
     if (user) {
-        // लॉगिन है
         if(loginBtn) loginBtn.innerText = "👤 " + user.displayName.split(' ')[0];
         if(userBox) userBox.style.display = "block";
         if(loginBox) loginBox.style.display = "none";
         if(document.getElementById('userName')) document.getElementById('userName').innerText = user.displayName;
         if(document.getElementById('userEmail')) document.getElementById('userEmail').innerText = user.email;
     } else {
-        // लॉगआउट है
         if(loginBtn) loginBtn.innerText = "🔐 लॉगिन";
         if(userBox) userBox.style.display = "none";
         if(loginBox) loginBox.style.display = "flex";
     }
 
-    // डेटा लोड करने वाले फंक्शन्स कॉल करें
     if (typeof loadMajdoors === 'function') loadMajdoors();
     if (typeof loadVehicles === 'function') loadVehicles();
     if (typeof loadRentals === 'function') loadRentals();
@@ -85,9 +76,8 @@ auth.onAuthStateChanged(user => {
 });
 
 // ==========================================
-// 3. कॉमन फंक्शन्स (फॉर्म खोलना/बंद करना, फोटो अपलोड)
+// 3. कॉमन फंक्शन्स (फॉर्म खोलना, फोटो अपलोड)
 // ==========================================
-
 function openForm(type) {
     if (!currentUser) return alert("⚠️ कृपया पहले लॉगिन करें!");
     document.getElementById('edit' + type.charAt(0).toUpperCase() + type.slice(1) + 'Id').value = "";
@@ -101,29 +91,56 @@ function closeForm(type) {
     document.getElementById('add' + type.charAt(0).toUpperCase() + type.slice(1) + 'Btn').style.display = "block";
 }
 
-// ImgBB पर फोटो अपलोड करने का फंक्शन
 async function uploadImg(file) {
-    if (!file) return ""; // अगर फोटो नहीं चुनी तो खाली लौटाएं
-    
+    if (!file) return ""; 
     const formData = new FormData();
     formData.append("image", file);
-    
     try {
         const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, { 
-            method: "POST", 
-            body: formData 
+            method: "POST", body: formData 
         });
         const data = await res.json();
         if(data.success) return data.data.url;
         else return "";
     } catch (e) { 
-        alert("फोटो अपलोड नहीं हो पाई! इंटरनेट चेक करें।");
+        alert("फोटो अपलोड नहीं हो पाई! इंटरनेट या API Key चेक करें।");
         return ""; 
     }
 }
 
 // ==========================================
-// 4. मजदूर (Majdoor) का सिस्टम
+// 4. GPS लोकेशन का सिस्टम
+// ==========================================
+function getGPS(type) {
+    if (navigator.geolocation) {
+        const btn = event.target;
+        btn.innerText = "लोकेशन ढूँढ रहे हैं...";
+        
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const lat = position.coords.latitude;
+                const lng = position.coords.longitude;
+                
+                document.getElementById(type + 'Lat').value = lat;
+                document.getElementById(type + 'Lng').value = lng;
+                
+                document.getElementById(type + 'LocStatus').style.display = "block";
+                btn.innerText = "📍 लोकेशन ली गई";
+                btn.style.background = "#4CAF50";
+                btn.style.color = "#fff";
+            },
+            (error) => {
+                alert("लोकेशन नहीं मिल पाई! कृपया GPS चालू करें और Allow दबाएँ।");
+                btn.innerText = "📍 मेरी लोकेशन लें";
+            }
+        );
+    } else {
+        alert("आपके ब्राउज़र में GPS सपोर्ट नहीं है।");
+    }
+}
+
+// ==========================================
+// 5. मजदूर (Majdoor)
 // ==========================================
 async function saveMajdoor() {
     const id = document.getElementById('editMajdoorId').value;
@@ -164,7 +181,7 @@ async function loadMajdoors() {
         if (isOwner) {
             html += `<div class="card-actions">
                 <button style="background:#2196F3" onclick="editMajdoor('${doc.id}')">✏️</button>
-                <button style="background:#f44336" onclick="deleteData('majdoor','${doc.id}','majdoorList')">🗑️</button>
+                <button style="background:#f44336" onclick="deleteData('majdoor','${doc.id}')">🗑️</button>
             </div>`;
         }
         html += `</div>`;
@@ -184,15 +201,24 @@ async function editMajdoor(id) {
 }
 
 // ==========================================
-// 5. वाहन (Vehicle) का सिस्टम
+// 6. वाहन (Vehicle) - GPS के साथ
 // ==========================================
-async function saveVehicle() {    let lat = document.getElementById('vehicleLat').value;
-    let lng = document.getElementById('vehicleLng').value;
+async function saveVehicle() {
+    const id = document.getElementById('editVehicleId').value;
+    const name = document.getElementById('vehicleName').value.trim();
+    const number = document.getElementById('vehicleNumber').value.trim();
+    const mobile = document.getElementById('vehicleMobile').value.trim();
+    const file = document.getElementById('vehiclePhoto').files[0];
     
     if (!name || !mobile) return alert("नाम और मोबाइल नंबर ज़रूरी है!");
 
     let photo = file ? await uploadImg(file) : (id ? null : "https://via.placeholder.com/100");
-    let data = { name, number, mobile, uid: currentUser.uid, date: firebase.firestore.FieldValue.serverTimestamp() };
+    
+    // GPS डेटा
+    let lat = document.getElementById('vehicleLat').value;
+    let lng = document.getElementById('vehicleLng').value;
+    
+    let data = { name, number, mobile, lat, lng, uid: currentUser.uid, date: firebase.firestore.FieldValue.serverTimestamp() };
     if (photo) data.photo = photo;
 
     if (id) await db.collection('vehicle').doc(id).update(data);
@@ -217,11 +243,12 @@ async function loadVehicles() {
                 <h3>${d.name}</h3>
                 <p>🚗 ${d.number || 'गाड़ी नंबर नहीं'}</p>
                 <a href="tel:${d.mobile}">📞 ${d.mobile}</a>
+                ${d.lat && d.lng ? `<a href="https://www.google.com/maps?q=${d.lat},${d.lng}" target="_blank" style="background:#2196F3; margin-left:5px;">🗺️ मैप देखें</a>` : ''}
             </div>`;
         if (isOwner) {
             html += `<div class="card-actions">
                 <button style="background:#2196F3" onclick="editVehicle('${doc.id}')">✏️</button>
-                <button style="background:#f44336" onclick="deleteData('vehicle','${doc.id}','vehicleList')">🗑️</button>
+                <button style="background:#f44336" onclick="deleteData('vehicle','${doc.id}')">🗑️</button>
             </div>`;
         }
         html += `</div>`;
@@ -236,12 +263,17 @@ async function editVehicle(id) {
     document.getElementById('vehicleName').value = d.name;
     document.getElementById('vehicleNumber').value = d.number || "";
     document.getElementById('vehicleMobile').value = d.mobile;
+    
+    // पुरानी लोकेशन भरें
+    if(d.lat) document.getElementById('vehicleLat').value = d.lat;
+    if(d.lng) document.getElementById('vehicleLng').value = d.lng;
+    
     openForm('vehicle');
     window.scrollTo(0,0);
 }
 
 // ==========================================
-// 6. किराया (Rental) का सिस्टम
+// 7. किराया (Rental) - GPS के साथ
 // ==========================================
 async function saveRental() {
     const id = document.getElementById('editRentalId').value;
@@ -253,7 +285,12 @@ async function saveRental() {
     if (!title || !mobile) return alert("शीर्षक और मोबाइल नंबर ज़रूरी है!");
 
     let photo = file ? await uploadImg(file) : (id ? null : "https://via.placeholder.com/100");
-    let data = { title, rent, mobile, uid: currentUser.uid, date: firebase.firestore.FieldValue.serverTimestamp() };
+    
+    // GPS डेटा
+    let lat = document.getElementById('rentalLat').value;
+    let lng = document.getElementById('rentalLng').value;
+    
+    let data = { title, rent, mobile, lat, lng, uid: currentUser.uid, date: firebase.firestore.FieldValue.serverTimestamp() };
     if (photo) data.photo = photo;
 
     if (id) await db.collection('rental').doc(id).update(data);
@@ -278,11 +315,12 @@ async function loadRentals() {
                 <h3>${d.title}</h3>
                 <p>💰 ₹${d.rent || '0'}</p>
                 <a href="tel:${d.mobile}">📞 ${d.mobile}</a>
+                ${d.lat && d.lng ? `<a href="https://www.google.com/maps?q=${d.lat},${d.lng}" target="_blank" style="background:#2196F3; margin-left:5px;">🗺️ मैप देखें</a>` : ''}
             </div>`;
         if (isOwner) {
             html += `<div class="card-actions">
                 <button style="background:#2196F3" onclick="editRental('${doc.id}')">✏️</button>
-                <button style="background:#f44336" onclick="deleteData('rental','${doc.id}','rentalList')">🗑️</button>
+                <button style="background:#f44336" onclick="deleteData('rental','${doc.id}')">🗑️</button>
             </div>`;
         }
         html += `</div>`;
@@ -297,12 +335,17 @@ async function editRental(id) {
     document.getElementById('rentalTitle').value = d.title;
     document.getElementById('rentalRent').value = d.rent || "";
     document.getElementById('rentalMobile').value = d.mobile;
+    
+    // पुरानी लोकेशन भरें
+    if(d.lat) document.getElementById('rentalLat').value = d.lat;
+    if(d.lng) document.getElementById('rentalLng').value = d.lng;
+    
     openForm('rental');
     window.scrollTo(0,0);
 }
 
 // ==========================================
-// 7. शिकायत (Complaint) का सिस्टम
+// 8. शिकायत (Complaint)
 // ==========================================
 async function saveComplaint() {
     const title = document.getElementById('complaintTitle').value.trim();
@@ -338,42 +381,13 @@ async function loadComplaints() {
 }
 
 // ==========================================
-// 8. कॉमन डिलीट फंक्शन (सबके लिए)
+// 9. कॉमन डिलीट फंक्शन
 // ==========================================
-async function deleteData(collection, id, listId) {
+async function deleteData(collection, id) {
     if (confirm("क्या आप वाकई इसे डिलीट करना चाहते हैं?")) {
         await db.collection(collection).doc(id).delete();
         if(collection === 'majdoor') loadMajdoors();
         if(collection === 'vehicle') loadVehicles();
         if(collection === 'rental') loadRentals();
-    }
-}// ==========================================
-// 9. GPS लोकेशन का सिस्टम (वाहन और किराया के लिए)
-// ==========================================
-function getGPS(type) {
-    if (navigator.geolocation) {
-        const btn = event.target;
-        btn.innerText = "लोकेशन ढूँढ रहे हैं...";
-        
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                const lat = position.coords.latitude;
-                const lng = position.coords.longitude;
-                
-                document.getElementById(type + 'Lat').value = lat;
-                document.getElementById(type + 'Lng').value = lng;
-                
-                document.getElementById(type + 'LocStatus').style.display = "block";
-                btn.innerText = "📍 लोकेशन ली गई";
-                btn.style.background = "#4CAF50";
-                btn.style.color = "#fff";
-            },
-            (error) => {
-                alert("लोकेशन नहीं मिल पाई! कृपया GPS चालू करें और Allow दबाएँ।");
-                btn.innerText = "📍 मेरी लोकेशन लें";
-            }
-        );
-    } else {
-        alert("आपके ब्राउज़र में GPS सपोर्ट नहीं है।");
     }
 }
