@@ -351,4 +351,33 @@ async function deleteData(collection, id, listId) {
         if(collection === 'vehicle') loadVehicles();
         if(collection === 'rental') loadRentals();
     }
+}// ==========================================
+// 9. GPS लोकेशन का सिस्टम (वाहन और किराया के लिए)
+// ==========================================
+function getGPS(type) {
+    if (navigator.geolocation) {
+        const btn = event.target;
+        btn.innerText = "लोकेशन ढूँढ रहे हैं...";
+        
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const lat = position.coords.latitude;
+                const lng = position.coords.longitude;
+                
+                document.getElementById(type + 'Lat').value = lat;
+                document.getElementById(type + 'Lng').value = lng;
+                
+                document.getElementById(type + 'LocStatus').style.display = "block";
+                btn.innerText = "📍 लोकेशन ली गई";
+                btn.style.background = "#4CAF50";
+                btn.style.color = "#fff";
+            },
+            (error) => {
+                alert("लोकेशन नहीं मिल पाई! कृपया GPS चालू करें और Allow दबाएँ।");
+                btn.innerText = "📍 मेरी लोकेशन लें";
+            }
+        );
+    } else {
+        alert("आपके ब्राउज़र में GPS सपोर्ट नहीं है।");
+    }
 }
