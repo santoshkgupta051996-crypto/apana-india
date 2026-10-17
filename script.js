@@ -16,8 +16,8 @@ if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
 const db = firebase.firestore();
 const auth = firebase.auth();
 
-// ⚠️ ImgBB API Key (यहाँ अपनी असली Key डालें!)
-const IMGBB_API_KEY = "YOUR_IMGBB_API_KEY_HERE"; 
+// ⚠️ ImgBB API Key
+const IMGBB_API_KEY = "b601ec4cbb5f140288fa5e5c2ac4ff0";
 
 let currentUser = null; 
 
