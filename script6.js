@@ -1,6 +1,4 @@
 // ================= ID CARD =================
-var idPhotoData='';
-
 function liveID(){
 var n=document.getElementById('idN').value||'आपका नाम';
 var p=document.getElementById('idP').value||'__________';
@@ -89,8 +87,6 @@ box.innerHTML='<div class="calc-box">'+
 '<div class="land-row"><span>वर्ग फुट</span><span>'+sqfeet.toFixed(2)+'</span></div>'+
 '<div class="land-row"><span>वर्ग मीटर</span><span>'+sqm.toFixed(2)+'</span></div>'+
 '</div>';
-}
-
 // ================= HEALTH =================
 function rHealth(){
 var b=document.getElementById('healthList');if(!b)return;
@@ -113,63 +109,4 @@ var hb=document.getElementById('healthList');
 if(hb&&hb.innerHTML=='')rHealth();
 },500);
 });
-// ================= ID CARD PHOTO =================
-var idPhotoData='';
-
-function previewIDPhoto(e){
-var file=e.target.files[0];if(!file)return;
-var reader=new FileReader();
-reader.onload=function(ev){
-idPhotoData=ev.target.result;
-document.getElementById('idPhotoPreview').innerHTML='<img src="'+idPhotoData+'" style="max-width:100px;border-radius:8px;border:2px solid #FF9933">';
-liveID();
-};
-reader.readAsDataURL(file);
 }
-
-// Override liveID to include photo
-var _oldLiveID=liveID;
-liveID=function(){
-var n=document.getElementById('idN').value||'आपका नाम';
-var p=document.getElementById('idP').value||'__________';
-var s=document.getElementById('idS').value||'________';
-var v=document.getElementById('idV').value||'___';
-var d=document.getElementById('idD').value||'___';
-var st=document.getElementById('idSt').value||'___';
-var photo=idPhotoData?'<img src="'+idPhotoData+'">':'👷';
-var box=document.getElementById('idCardPreview');
-box.innerHTML='<div class="id-card"><div class="id-card-header">🇮🇳 APANA INDIA — मजदूर ID कार्ड</div>'+
-'<div class="id-card-body"><div class="id-card-photo">'+photo+'</div><div class="id-card-info">'+
-'<h3>'+n+'</h3>'+
-'<p>🛠️ हुनर: <b>'+s+'</b></p>'+
-'<p>📱 '+p+'</p>'+
-'<p>📍 '+v+', '+d+'</p>'+
-'<p>🏠 '+st+'</p>'+
-'</div></div>'+
-'<div class="id-card-footer">Apana India — रोजगार भी, मजदूरों को न्याय भी</div></div>';
-};
-
-// Override makeIDCard to save photo
-var _oldMakeID=makeIDCard;
-makeIDCard=function(e){
-e.preventDefault();
-var idData={
-name:document.getElementById('idN').value.trim(),
-father:document.getElementById('idF').value.trim(),
-phone:document.getElementById('idP').value.trim(),
-skill:document.getElementById('idS').value.trim(),
-village:document.getElementById('idV').value.trim(),
-block:document.getElementById('idB').value.trim(),
-district:document.getElementById('idD').value.trim(),
-state:document.getElementById('idSt').value.trim(),
-photo:idPhotoData,
-date:new Date().toLocaleDateString('hi-IN'),
-user:currentUser?currentUser.uid:'guest'
-};
-db.collection('idcards').add(idData).then(function(){
-document.getElementById('sm10').style.display='block';
-liveID();
-setTimeout(function(){document.getElementById('sm10').style.display='none';},8000);
-}).catch(function(err){alert('❌ Error: '+err.message);});
-};
-
