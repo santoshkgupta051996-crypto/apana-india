@@ -1,112 +1,155 @@
-// ================= ID CARD =================
+/* ================= script6.js — ID कार्ड, जमीन, लॉगिन, Init ================= */
+
+/* ---------------- डिजिटल ID कार्ड ---------------- */
 function liveID(){
-var n=document.getElementById('idN').value||'आपका नाम';
-var p=document.getElementById('idP').value||'__________';
-var s=document.getElementById('idS').value||'________';
-var v=document.getElementById('idV').value||'___';
-var d=document.getElementById('idD').value||'___';
-var st=document.getElementById('idSt').value||'___';
-var box=document.getElementById('idCardPreview');
-box.innerHTML='<div class="id-card"><div class="id-card-header">🇮🇳 APANA INDIA — मजदूर ID कार्ड</div>'+
-'<div class="id-card-body"><div class="id-card-photo">👷</div><div class="id-card-info">'+
-'<h3>'+n+'</h3>'+
-'<p>🛠️ हुनर: <b>'+s+'</b></p>'+
-'<p>📱 '+p+'</p>'+
-'<p>📍 '+v+', '+d+'</p>'+
-'<p>🏠 '+st+'</p>'+
-'</div></div>'+
-'<div class="id-card-footer">Apana India — रोजगार भी, मजदूरों को न्याय भी</div></div>';
+  const box = document.getElementById("idCardPreview");
+  if(!box) return;
+  const n = val("idN");
+  if(!n){ box.innerHTML = ""; return; }
+
+  box.innerHTML = `
+    <div class="idcard">
+      <div class="idcard-top">🇮🇳 APANA INDIA</div>
+      <div class="idcard-body">
+        <div class="idcard-name">${esc(n)}</div>
+        <div class="idcard-row"><span>पिता/पति</span><b>${esc(val("idF") || "—")}</b></div>
+        <div class="idcard-row"><span>मोबाइल</span><b>${esc(val("idP") || "—")}</b></div>
+        <div class="idcard-row"><span>हुनर</span><b>${esc(val("idS") || "—")}</b></div>
+        <div class="idcard-row"><span>पता</span><b>${esc(val("idV") || "—")}, ${esc(val("idB") || "—")}</b></div>
+        <div class="idcard-row"><span>जिला</span><b>${esc(val("idD") || "—")}, ${esc(val("idSt") || "—")}</b></div>
+        <div class="idcard-id">ID: AI-${(n.length + (val("idP")||"").length) * 7}${(val("idP")||"0000").slice(-4)}</div>
+      </div>
+      <div class="idcard-foot">रोजगार भी, मजदूरों को न्याय भी</div>
+    </div>`;
 }
 
 function makeIDCard(e){
-e.preventDefault();
-var idData={
-name:document.getElementById('idN').value.trim(),
-father:document.getElementById('idF').value.trim(),
-phone:document.getElementById('idP').value.trim(),
-skill:document.getElementById('idS').value.trim(),
-village:document.getElementById('idV').value.trim(),
-block:document.getElementById('idB').value.trim(),
-district:document.getElementById('idD').value.trim(),
-state:document.getElementById('idSt').value.trim(),
-date:new Date().toLocaleDateString('hi-IN'),
-user:currentUser?currentUser.uid:'guest'
+  e.preventDefault();
+  liveID();
+  show("sm10");
+}
+
+/* ---------------- जमीन कन्वर्टर ---------------- */
+const LAND = {
+  bigha_up:  { m2: 2529.29, name: "बीघा (UP)" },
+  bigha_mp:  { m2: 1114.84, name: "बीघा (MP)" },
+  bigha_raj: { m2: 2529.29, name: "बीघा (राजस्थान)" },
+  bigha_guj: { m2: 1740.24, name: "बीघा (गुजरात)" },
+  bissa:     { m2: 126.46,  name: "बिस्सा" },
+  hectare:   { m2: 10000,   name: "हेक्टेयर" },
+  acre:      { m2: 4046.86, name: "एकड़" },
+  sqmeter:   { m2: 1,       name: "वर्ग मीटर" },
+  sqfeet:    { m2: 0.0929,  name: "वर्ग फुट" },
+  gaj:       { m2: 0.8361,  name: "गज" },
+  gunta:     { m2: 101.17,  name: "गुंठा" },
+  katha:     { m2: 126.46,  name: "कट्ठा" },
+  marla:     { m2: 25.29,   name: "मरला" },
+  kanal:     { m2: 505.86,  name: "कनाल" }
 };
-db.collection('idcards').add(idData).then(function(){
-document.getElementById('sm10').style.display='block';
-liveID();
-setTimeout(function(){document.getElementById('sm10').style.display='none';},8000);
-}).catch(function(err){alert('❌ Error: '+err.message);});
-}
 
-// ================= LAND CONVERTER =================
 function convertLand(){
-var v=parseFloat(document.getElementById('landInput').value)||0;
-var from=document.getElementById('landFrom').value;
-var box=document.getElementById('landResult');
-if(!v||v<=0){box.innerHTML='';return;}
+  const amt  = parseFloat(val("landInput"));
+  const from = val("landFrom");
+  const box  = document.getElementById("landResult");
+  if(!box) return;
 
-// सभी को वर्ग मीटर में बदलें
-var sqm=0;
-if(from=='bigha_up')sqm=v*2529;
-else if(from=='bigha_mp')sqm=v*2529;
-else if(from=='bigha_raj')sqm=v*1618;
-else if(from=='bigha_guj')sqm=v*1618;
-else if(from=='bissa')sqm=v*100;
-else if(from=='hectare')sqm=v*10000;
-else if(from=='acre')sqm=v*4047;
-else if(from=='sqmeter')sqm=v;
-else if(from=='sqfeet')sqm=v*0.0929;
-else if(from=='gaj')sqm=v*0.836;
-else if(from=='gunta')sqm=v*101;
-else if(from=='katha')sqm=v*80;
-else if(from=='marla')sqm=v*25.29;
-else if(from=='kanal')sqm=v*505;
+  if(!amt || amt <= 0){ box.innerHTML = ""; return; }
 
-var bighaUP=sqm/2529;
-var bighaMP=sqm/2529;
-var bighaRaj=sqm/1618;
-var hectare=sqm/10000;
-var acre=sqm/4047;
-var bissa=sqm/100;
-var sqfeet=sqm/0.0929;
-var gaj=sqm/0.836;
-var gunta=sqm/101;
-var katha=sqm/80;
+  const m2 = amt * LAND[from].m2;
 
-box.innerHTML='<div class="calc-box">'+
-'<div style="text-align:center;font-size:13px;color:#666;margin-bottom:8px">📐 जमीन का पूरा हिसाब</div>'+
-'<div class="land-row"><span>बीघा (UP/MP)</span><span>'+bighaUP.toFixed(3)+'</span></div>'+
-'<div class="land-row"><span>बीघा (राजस्थान/गुजरात)</span><span>'+bighaRaj.toFixed(3)+'</span></div>'+
-'<div class="land-row"><span>हेक्टेयर</span><span>'+hectare.toFixed(4)+'</span></div>'+
-'<div class="land-row"><span>एकड़</span><span>'+acre.toFixed(3)+'</span></div>'+
-'<div class="land-row"><span>बिस्सा</span><span>'+bissa.toFixed(2)+'</span></div>'+
-'<div class="land-row"><span>गुंठा</span><span>'+gunta.toFixed(2)+'</span></div>'+
-'<div class="land-row"><span>कट्ठा</span><span>'+katha.toFixed(2)+'</span></div>'+
-'<div class="land-row"><span>गज</span><span>'+gaj.toFixed(2)+'</span></div>'+
-'<div class="land-row"><span>वर्ग फुट</span><span>'+sqfeet.toFixed(2)+'</span></div>'+
-'<div class="land-row"><span>वर्ग मीटर</span><span>'+sqm.toFixed(2)+'</span></div>'+
-'</div>';
-// ================= HEALTH =================
-function rHealth(){
-var b=document.getElementById('healthList');if(!b)return;
-b.innerHTML='<h3 style="color:#FF9933">🚑 आपातकालीन नंबर</h3>'+
-'<div class="num-item red"><div class="info"><b>🚑 एम्बुलेंस (फ्री)</b><span>तुरंत एम्बुलेंस</span></div><a href="tel:108">📞 108</a></div>'+
-'<div class="num-item red"><div class="info"><b>👶 गर्भवती/नवजात एम्बुलेंस</b><span>महिला और बच्चे के लिए</span></div><a href="tel:102">📞 102</a></div>'+
-'<div class="num-item yellow"><div class="info"><b>👨‍⚕️ डॉक्टर से फ्री सलाह</b><span>फोन पर डॉक्टर</span></div><a href="tel:104">📞 104</a></div>'+
-'<div class="num-item yellow"><div class="info"><b>🏥 राष्ट्रीय स्वास्थ्य हेल्पलाइन</b><span>24x7 फ्री</span></div><a href="tel:18001801104">📞 1800-180-1104</a></div>'+
-'<div class="num-item red"><div class="info"><b>🚨 आपातकाल (सभी)</b><span>पुलिस/फायर/मेडिकल</span></div><a href="tel:112">📞 112</a></div>'+
-'<h3 style="color:#FF9933;margin-top:15px">💻 eSanjeevani — घर बैठे डॉक्टर</h3>'+
-'<div class="lc"><ul><li>सरकारी डॉक्टर से <b>फ्री वीडियो कॉल</b></li><li>मोबाइल पर डिजिटल पर्चा मिलेगा</li><li>वेबसाइट: <a href="https://esanjeevaniopd.in" target="_blank">esanjeevaniopd.in</a></li></ul></div>'+
-'<h3 style="color:#FF9933;margin-top:15px">🧠 मानसिक स्वास्थ्य</h3>'+
-'<div class="num-item"><div class="info"><b>Tele-MANAS</b><span>तनाव, डिप्रेशन — फ्री सलाह</span></div><a href="tel:14416">📞 14416</a></div>';
+  const rows = Object.keys(LAND).map(k => {
+    const v = m2 / LAND[k].m2;
+    return `<div class="num-item">
+      <div class="info"><b>${LAND[k].name}</b></div>
+      <span style="font-weight:800;color:#000080">${v.toFixed(v < 1 ? 4 : 3)}</span>
+    </div>`;
+  }).join("");
+
+  box.innerHTML = `
+    <h3 style="margin-bottom:8px;color:#FF9933">📐 ${amt} ${LAND[from].name} =</h3>
+    ${rows}
+    <div class="tip"><b>💡</b> यह अनुमानित हिसाब है। असली नापी के लिए लेखपाल/अमीन से संपर्क करें।</div>`;
 }
 
-// ================= ON PAGE LOAD =================
-window.addEventListener('load',function(){
-setTimeout(function(){
-var hb=document.getElementById('healthList');
-if(hb&&hb.innerHTML=='')rHealth();
-},500);
+/* ---------------- लॉगिन ---------------- */
+let currentUser = null;
+
+function googleLogin(){
+  if(auth){
+    const provider = new firebase.auth.GoogleAuthProvider();
+    auth.signInWithPopup(provider)
+      .then(() => { /* state listener handle करेगा */ })
+      .catch(err => alert("लॉगिन नहीं हुआ: " + err.message));
+  } else {
+    /* ऑफलाइन मोड — स्थानीय लॉगिन */
+    const name = prompt("आपका नाम बताएँ:");
+    if(!name) return;
+    currentUser = { displayName: name, email: "offline@apanaindia.in" };
+    localStorage.setItem("localUser", JSON.stringify(currentUser));
+    renderLoginUI();
+  }
+}
+
+function logoutUser(){
+  if(auth){
+    auth.signOut().then(renderLoginUI);
+  } else {
+    currentUser = null;
+    localStorage.removeItem("localUser");
+    renderLoginUI();
+  }
+}
+
+function renderLoginUI(){
+  const loginBox = document.getElementById("loginBox");
+  const userBox  = document.getElementById("userBox");
+  if(!loginBox || !userBox) return;
+
+  if(currentUser){
+    loginBox.classList.add("h");
+    userBox.classList.remove("h");
+    setTxt("userName", currentUser.displayName || "उपयोगकर्ता");
+    setTxt("userEmail", currentUser.email || "");
+  } else {
+    loginBox.classList.remove("h");
+    userBox.classList.add("h");
+  }
+
+  // ✅ एडमिन पैनल चेक करें (यह लाइन नई जोड़ी गई है)
+  if (typeof checkAdminAccess === "function") {
+    checkAdminAccess();
+  }
+}
+
+/* ---------------- ऐप शुरू ---------------- */
+document.addEventListener("DOMContentLoaded", function(){
+
+  /* लॉगिन UI */
+  if(auth){
+    auth.onAuthStateChanged(u => {
+      currentUser = u;
+      renderLoginUI();
+    });
+  } else {
+    try{
+      const u = JSON.parse(localStorage.getItem("localUser") || "null");
+      if(u) currentUser = u;
+    }catch(e){}
+    renderLoginUI();
+  }
+
+  /* पहला पेज + डेटा */
+  go("home");
+  if(typeof loadCache === 'function') loadCache();
+  if(typeof rnumbers === 'function') rnumbers();
+  if(typeof rAlerts === 'function') rAlerts();
+  if(typeof rCourses === 'function') rCourses();
+  if(typeof rnews === 'function') rnews();
+  if(typeof rJobs === 'function') rJobs();
+  if(typeof liveID === 'function') liveID();
+
+  /* ऑफलाइन मोड की सूचना */
+  if(typeof OFFLINE_MODE !== 'undefined' && OFFLINE_MODE){
+    console.log("⚠️ Offline mode — Firebase keys नहीं डाली गईं");
+  }
 });
-}
