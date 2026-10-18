@@ -407,7 +407,14 @@
 </form></div></div>
 
 <div id="p-admin" class="h"><div class="c"><h2>⚙️ एडमिन पैनल</h2>
-<div id="alb"><p class="note">🔒 केवल अधिकृत व्यक्ति के लिए</p><input id="apw" type="password" placeholder="पासवर्ड डालें"><button class="btn" onclick="alog()">लॉगिन</button></div>
+<div id="alb">
+  <p class="note">🔒 एडमिन लॉगिन (केवल अधिकृत व्यक्ति)</p>
+  <button class="btn" onclick="googleLogin()" style="background:#000080; display:flex; justify-content:center; align-items:center; gap:10px;">
+    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20" style="background:#fff; border-radius:50%; padding:2px;"> 
+    Google से एडमिन लॉगिन करें
+  </button>
+  <p id="adminLoginMsg" style="color:red; font-size:12px; margin-top:10px; text-align:center;"></p>
+</div>
 <div id="apn" class="h">
 <div class="stats"><div class="st"><h4 id="aa">0</h4><p>विज्ञापन</p></div><div class="st"><h4 id="as">0</h4><p>शिकायतें</p></div><div class="st"><h4 id="aw">0</h4><p>मजदूर</p></div><div class="st"><h4 id="ap2">0</h4><p>कंपनियाँ</p></div></div>
 <h3 style="color:#d40000;margin-top:10px">⏳ शिकायतें (पेंडिंग)</h3><div id="acomplPending"></div>
