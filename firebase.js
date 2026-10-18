@@ -1,6 +1,7 @@
 // ================= FIREBASE CONFIG =================
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyDUNK2J0l-J-VzwuGnovvjsrRCJJX--UTpE",
+  apiKey: "AIzaSyDUNK2JOlJ-VzwuGnovvjsrRCJJX--UTpE",
   authDomain: "apana-india-df3d7.firebaseapp.com",
   projectId: "apana-india-df3d7",
   storageBucket: "apana-india-df3d7.firebasestorage.app",
