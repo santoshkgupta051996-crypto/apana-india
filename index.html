@@ -245,22 +245,25 @@ label{font-size:13px;font-weight:700;color:#333;display:block;margin-top:6px}
       <option value="380">महाराष्ट्र (₹380)</option>
       <option value="640">दिल्ली (₹640)</option>
     </optgroup>
-  </select>
-  <label>कितने दिन काम किया? *</label>
-  <input id="calcDays" type="number" placeholder="जैसे 26" oninput="calcWage()">
-  <label>ओवरटाइम घंटे</label>
-  <input id="calcOT" type="number" placeholder="जैसे 10" oninput="calcWage()">
-  <label>ओवरटाइम दर</label>
-  <select id="calcOTRate" onchange="calcWage()">
-    <option value="1">1x (सामान्य दर)</option>
-    <option value="2" selected>2x (डबल दर)</option>
-  </select>
-  <label style="display:flex;align-items:center;gap:8px;margin-top:12px;background:#fff5ee;padding:8px;border-radius:6px">
-    <input type="checkbox" id="calcPF" checked onchange="calcWage()" style="width:auto;margin:0">
-    <span>PF (12%) और ESIC (0.75%) काटें</span>
-  </label>
-  <div id="calcResult"></div>
-  <button class="btn" onclick="downloadCalcPDF()" style="margin-top:10px;background:var(--navy)">📄 PDF डाउनलोड करें</button>
+<!-- नया Excel फॉर्मेट कैलकुलेटर -->
+<label>अपना रेट (₹/दिन) *</label>
+<input id="calcManual" type="number" placeholder="जैसे 781" oninput="calcWage()">
+
+<label>कितने दिन काम किया? *</label>
+<input id="calcDays" type="number" placeholder="जैसे 25" oninput="calcWage()">
+
+<label>ओवरटाइम (OT) रेट</label>
+<input id="calcOTRate" type="number" placeholder="जैसे 781 (अगर 0 है तो खाली छोड़ें)" oninput="calcWage()">
+
+<label>ओवरटाइम (OT) घंटे</label>
+<input id="calcOT" type="number" placeholder="जैसे 0.5 या 1.5" oninput="calcWage()">
+
+<label style="display:flex;align-items:center;gap:8px;margin-top:12px;background:#fff5ee;padding:8px;border-radius:6px">
+  <input type="checkbox" id="calcPF" checked onchange="calcWage()" style="width:auto;margin:0">
+  <span>PF (12%) और ESIC (0.75%) काटें</span>
+</label>
+<div id="calcResult"></div>
+<button class="btn" onclick="downloadCalcPDF()" style="margin-top:10px;background:var(--navy)">📄 सैलरी स्लिप (PDF) डाउनलोड करें</button>
 </div></div>
 
 <!-- ===== SHIKAYAT ===== -->
@@ -729,74 +732,118 @@ function showMgnregaRate(){
     `<div class="lc"><h3>मनरेगा दर: ₹${r}/दिन</h3></div>`:'';
 }
 
-/* ============ CALCULATOR ============ */
+/* ============ CALCULATOR (EXCEL FORMAT) ============ */
 let lastCalc=null;
+
 function calcWage(){
-  const manual=parseFloat(document.getElementById('calcManual').value);
-  const sel=parseFloat(document.getElementById('calcState').value);
-  const rate=manual||sel||0;
+  const rate=parseFloat(document.getElementById('calcManual').value)||0;
   const days=parseFloat(document.getElementById('calcDays').value)||0;
   const otH=parseFloat(document.getElementById('calcOT').value)||0;
-  const otRate=parseFloat(document.getElementById('calcOTRate').value)||2;
+  const otRate=parseFloat(document.getElementById('calcOTRate').value)||0;
   const doPF=document.getElementById('calcPF').checked;
-  
   const res=document.getElementById('calcResult');
+  
   if(!rate||!days){ res.innerHTML='<p class="note">रेट और दिन भरें।</p>'; lastCalc=null; return; }
 
-  // Excel के अनुसार बेसिक कैलकुलेशन
-  const basic=rate*days;
-  const perHour=rate/8;
-  const otAmt=perHour*otRate*otH;
-  const gross=basic+otAmt;
-  
-  let pf=0, esic=0;
+  // Basic Calculations
+  const basic = rate * days;
+  const otAmt = otRate * otH; 
+  const grossBase = basic + otAmt;
+
+  // Allowances (Excel के अनुसार)
+  const nh = grossBase * 0.0096;       // NH @ 0.96%
+  const el = grossBase * 0.05;         // EL @ 5%
+  const bonus = grossBase * 0.0833;    // Bonus @ 8.33%
+  const rb = grossBase * 0.048;        // RB @ 4.8%
+  const totalAllow = nh + el + bonus + rb;
+
+  // Total Gross Amount
+  const totalGross = grossBase + totalAllow;
+
+  // Deductions (सिर्फ Basic पर)
+  let pf = 0, esic = 0;
   if(doPF){ 
-    // Excel की तरह: PF और ESIC सिर्फ पूरे Basic पर कटेगा
-    pf = basic * 0.12;      // 12% PF
-    esic = basic * 0.0075;  // 0.75% ESIC
+    pf = basic * 0.12;      // PF 12%
+    esic = basic * 0.0075;  // ESIC 0.75%
   }
+  const totalDeduct = pf + esic;
+
+  // Net Pay
+  const net = totalGross - totalDeduct;
   
-  const net=gross-pf-esic;
   const fmt=n=>'₹'+n.toFixed(2);
 
+  // HTML Table के रूप में रिजल्ट दिखाएं
   res.innerHTML=`
-    <div class="row"><span>दैनिक रेट</span><b>${fmt(rate)}</b></div>
-    <div class="row"><span>दिन</span><b>${days}</b></div>
-    <div class="row"><span>Basic (रेट × दिन)</span><b>${fmt(basic)}</b></div>
-    <div class="row"><span>ओवरटाइम (${otH} घं × ${otRate}x)</span><b>${fmt(otAmt)}</b></div>
-    <div class="row"><span>Gross (कुल)</span><b>${fmt(gross)}</b></div>
-    ${doPF?`<div class="row"><span>PF कटौती (Basic का 12%)</span><b style="color:#c00">- ${fmt(pf)}</b></div>
-    <div class="row"><span>ESIC कटौती (Basic का 0.75%)</span><b style="color:#c00">- ${fmt(esic)}</b></div>`:''}
-    <div class="row total"><span>Net (हाथ में)</span><b>${fmt(net)}</b></div>`;
+    <div class="row"><span>Basic Wages (${rate} × ${days})</span><b>${fmt(basic)}</b></div>
+    <div class="row"><span>OT Amount (${otRate} × ${otH})</span><b>${fmt(otAmt)}</b></div>
+    
+    <div style="background:#f0f4ff;padding:5px;margin:5px 0;border-radius:5px;font-weight:bold;font-size:13px">भत्ते (Allowances)</div>
+    <div class="row"><span>NH (0.96%)</span><b>${fmt(nh)}</b></div>
+    <div class="row"><span>EL (5%)</span><b>${fmt(el)}</b></div>
+    <div class="row"><span>Bonus (8.33%)</span><b>${fmt(bonus)}</b></div>
+    <div class="row"><span>RB (4.8%)</span><b>${fmt(rb)}</b></div>
+    <div class="row" style="font-weight:bold"><span>Total Allowances</span><b>${fmt(totalAllow)}</b></div>
+    
+    <div class="row" style="background:#e6ffe6;padding:5px;margin:5px 0;border-radius:5px;font-weight:bold">
+      <span>Total Gross Amount</span><b>${fmt(totalGross)}</b>
+    </div>
 
-  lastCalc={rate,days,otH,otRate,basic,otAmt,gross,pf,esic,net,doPF};
+    <div style="background:#ffe6e6;padding:5px;margin:5px 0;border-radius:5px;font-weight:bold;font-size:13px">कटौती (Deductions)</div>
+    ${doPF?`
+    <div class="row"><span>EPF @ 12% (Basic)</span><b style="color:#c00">- ${fmt(pf)}</b></div>
+    <div class="row"><span>ESIC @ 0.75% (Basic)</span><b style="color:#c00">- ${fmt(esic)}</b></div>
+    <div class="row" style="font-weight:bold"><span>Total Deductions</span><b style="color:#c00">- ${fmt(totalDeduct)}</b></div>
+    `:''}
+    
+    <div class="row total" style="font-size:18px;border-top:2px solid #000;padding-top:10px;margin-top:10px">
+      <span>Net Amount paid (हाथ में)</span><b>${fmt(net)}</b>
+    </div>`;
+
+  lastCalc={rate,days,otH,otRate,basic,otAmt,nh,el,bonus,rb,totalAllow,totalGross,pf,esic,totalDeduct,net,doPF};
 }
 
-/* ============ PDF (print) ============ */
 function downloadCalcPDF(){
   if(!lastCalc){ alert('पहले कैलकुलेशन करें।'); return; }
   const c=lastCalc;
   const win=window.open('','_blank');
   win.document.write(`
     <html><head><title>मजदूरी पर्ची</title>
-    <style>body{font-family:sans-serif;padding:20px}table{width:100%;border-collapse:collapse}
-    td,th{border:1px solid #333;padding:8px;text-align:left}h2{color:#000080}</style></head>
-    <body><h2>🇮🇳 Apana India — मजदूरी पर्ची</h2>
+    <style>body{font-family:sans-serif;padding:20px}table{width:100%;border-collapse:collapse;margin-top:10px}
+    td,th{border:1px solid #333;padding:8px;text-align:left;font-size:14px}
+    h2{color:#000080;text-align:center}.highlight{background:#f0f0f0;font-weight:bold}</style></head>
+    <body>
+    <h2>🇮🇳 Apana India — सैलरी स्लिप</h2>
     <table>
+      <tr class="highlight"><td colspan="2">काम का हिसाब</td></tr>
       <tr><td>दैनिक रेट</td><td>₹${c.rate.toFixed(2)}</td></tr>
       <tr><td>दिन</td><td>${c.days}</td></tr>
-      <tr><td>Basic</td><td>₹${c.basic.toFixed(2)}</td></tr>
-      <tr><td>ओवरटाइम</td><td>₹${c.otAmt.toFixed(2)}</td></tr>
-      <tr><td>Gross</td><td>₹${c.gross.toFixed(2)}</td></tr>
-      ${c.doPF?`<tr><td>PF (12%)</td><td>- ₹${c.pf.toFixed(2)}</td></tr>
-      <tr><td>ESIC (0.75%)</td><td>- ₹${c.esic.toFixed(2)}</td></tr>`:''}
-      <tr><th>Net वेतन</th><th>₹${c.net.toFixed(2)}</th></tr>
+      <tr><td>Basic Wages</td><td>₹${c.basic.toFixed(2)}</td></tr>
+      <tr><td>OT Amount (${c.otRate} × ${c.otH})</td><td>₹${c.otAmt.toFixed(2)}</td></tr>
+      
+      <tr class="highlight"><td colspan="2">भत्ते (Allowances)</td></tr>
+      <tr><td>NH (0.96%)</td><td>₹${c.nh.toFixed(2)}</td></tr>
+      <tr><td>EL (5%)</td><td>₹${c.el.toFixed(2)}</td></tr>
+      <tr><td>Bonus (8.33%)</td><td>₹${c.bonus.toFixed(2)}</td></tr>
+      <tr><td>RB (4.8%)</td><td>₹${c.rb.toFixed(2)}</td></tr>
+      <tr><td><b>Total Allowances</b></td><td><b>₹${c.totalAllow.toFixed(2)}</b></td></tr>
+      
+      <tr class="highlight"><td colspan="2">Gross Total</td></tr>
+      <tr><td><b>Total Gross</b></td><td><b>₹${c.totalGross.toFixed(2)}</b></td></tr>
+      
+      ${c.doPF?`
+      <tr class="highlight"><td colspan="2">कटौती (Deductions)</td></tr>
+      <tr><td>EPF (12% of Basic)</td><td>- ₹${c.pf.toFixed(2)}</td></tr>
+      <tr><td>ESIC (0.75% of Basic)</td><td>- ₹${c.esic.toFixed(2)}</td></tr>
+      <tr><td><b>Total Deductions</b></td><td><b>- ₹${c.totalDeduct.toFixed(2)}</b></td></tr>
+      `:''}
+      
+      <tr class="highlight" style="font-size:16px"><td><b>Net Amount (हाथ में)</b></td><td><b>₹${c.net.toFixed(2)}</b></td></tr>
     </table>
-    <p style="margin-top:20px;font-size:12px">दिनांक: ${new Date().toLocaleDateString('hi-IN')}</p>
+    <p style="margin-top:20px;font-size:12px;text-align:right">दिनांक: ${new Date().toLocaleDateString('hi-IN')}</p>
     </body></html>`);
   win.print();
-}
-
+    }
 /* ============ COMPLAINTS ============ */
 const STATE_HELP = {
   up:'उत्तर प्रदेश श्रम विभाग — 1800-180-5340',
