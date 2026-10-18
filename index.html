@@ -552,6 +552,147 @@
         <button class="btn">भेजें ✅</button>
         <div class="sm" id="sm8">✅ सुझाव भेज दिया! तुरंत सार्वजनिक हो गया।</div>
       </form>
+  <!-- जरूरी नंबर -->
+  <div id="p-numbers" class="h">
+    <div class="c"><h2>☎️ जरूरी नंबर</h2>
+      <input id="numSearch" placeholder="🔍 नंबर खोजें — जैसे: पुलिस, UP, स्वास्थ्य..." oninput="rnumbers()" style="margin-bottom:10px">
+      <div id="numbersList"></div>
+    </div>
+  </div>
+
+  <!-- अलर्ट -->
+  <div id="p-alert" class="h">
+    <div class="c"><h2>⚠️ मजदूर अलर्ट</h2>
+      <div class="ab ag">🟢 सुरक्षित</div>
+      <div class="ab ay">🟡 सावधान</div>
+      <div class="ab ar">🔴 अलर्ट</div>
+      <div id="al"></div>
+    </div>
+  </div>
+
+  <!-- विज्ञापन -->
+  <div id="p-post" class="h">
+    <div class="c"><h2>➕ विज्ञापन डालें</h2>
+      <form onsubmit="suba(event)">
+        <label>शीर्षक *</label><input id="at" required>
+        <label>श्रेणी *</label>
+        <select id="ac" required>
+          <option value="">--चुनें--</option>
+          <option value="job">नौकरी</option>
+          <option value="property">जमीन/मकान</option>
+          <option value="vehicle">वाहन</option>
+        </select>
+        <label>राज्य *</label><input id="ast" required value="उत्तर प्रदेश">
+        <label>जिला *</label><input id="adi" required placeholder="सोनभद्र">
+        <label>विवरण *</label><textarea id="ad" required></textarea>
+        <label>नंबर (10 अंक) *</label>
+        <input id="ap" required maxlength="10" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+        <button class="btn">प्रकाशित करें ✅</button>
+        <div class="sm" id="sm2">✅ जमा हो गया!</div>
+      </form>
+    </div>
+  </div>
+
+  <!-- एडमिन -->
+  <div id="p-admin" class="h">
+    <div class="c"><h2>⚙️ एडमिन पैनल</h2>
+      <div id="alb">
+        <p class="note">🔒 केवल अधिकृत व्यक्ति के लिए</p>
+        <input id="apw" type="password" placeholder="पासवर्ड डालें">
+        <button class="btn" onclick="alog()">लॉगिन</button>
+      </div>
+      <div id="apn" class="h">
+        <div class="stats">
+          <div class="st"><h4 id="aa">0</h4><p>विज्ञापन</p></div>
+          <div class="st"><h4 id="as">0</h4><p>शिकायतें</p></div>
+          <div class="st"><h4 id="aw">0</h4><p>मजदूर</p></div>
+          <div class="st"><h4 id="ap2">0</h4><p>कंपनियाँ</p></div>
+        </div>
+        <h3 style="color:#d40000;margin-top:10px">⏳ शिकायतें (पेंडिंग)</h3>
+        <div id="acomplPending"></div>
+        <h3 style="color:#0a7a0a;margin-top:12px">✅ स्वीकृत</h3>
+        <div id="acomplApproved"></div>
+        <h3 style="color:#666;margin-top:12px">❌ रद्द</h3>
+        <div id="acomplRejected"></div>
+        <h3 style="color:#000080;margin-top:12px">👷 सभी मजदूर</h3>
+        <div id="adminWorkers"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- लॉगिन -->
+  <div id="p-login" class="h">
+    <div class="c"><h2>🔐 लॉगिन करें</h2>
+      <p class="note">Google से लॉगिन करें। इससे आपका डेटा सुरक्षित रहेगा।</p>
+      <div id="loginBox" style="text-align:center;padding:20px">
+        <button onclick="googleLogin()" style="background:#fff;color:#444;border:2px solid #ddd;padding:12px 24px;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:10px">
+          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20"> Google से लॉगिन करें
+        </button>
+        <p class="note" style="margin-top:15px">लॉगिन करने पर आपको रजिस्टर करने की सुविधा मिलेगी।</p>
+      </div>
+      <div id="userBox" class="h" style="text-align:center;padding:20px">
+        <p style="font-size:15px;margin-bottom:10px">✅ आप लॉगिन हैं</p>
+        <p style="font-weight:700;color:#000080;font-size:16px" id="userName"></p>
+        <p style="font-size:13px;color:#666" id="userEmail"></p>
+        <br>
+        <button onclick="logoutUser()" style="background:#d40000;color:#fff;border:none;padding:10px 20px;border-radius:6px;font-size:14px;font-weight:700;cursor:pointer">लॉगआउट</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- सहायता -->
+  <div id="p-help" class="h">
+    <div class="c"><h2>📞 सहायता</h2>
+      <p>📧 help@apanaindia.in</p>
+      <p>श्रम हेल्पलाइन: <b>14434</b></p>
+      <p>स्वास्थ्य: <b>108, 102, 104</b></p>
+      <p>आपातकाल: <b>112</b></p>
+      <h3 style="margin-top:15px;color:#FF9933">किस बीमारी में कहाँ जाएँ?</h3>
+      <div class="lc"><ul>
+        <li>हल्का बुखार, सर्दी, खांसी → PHC / आशा दीदी / 104</li>
+        <li>तेज बुखार (3 दिन से ज्यादा) → जिला अस्पताल</li>
+        <li>दस्त, उल्टी → PHC, ORS</li>
+        <li>साँस की तकलीफ → तुरंत 108</li>
+        <li>दुर्घटना / चोट → 108 → जिला अस्पताल</li>
+        <li>प्रसव → 102 / CHC</li>
+        <li>साँप काटा → तुरंत जिला अस्पताल</li>
+        <li>बिजली का झटका → 108, CPR</li>
+      </ul></div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  © 2025 APANA INDIA 🇮🇳
+  <span class="tag">रोजगार भी, मजदूरों को न्याय भी</span>
+</footer>
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-143TPLX22V"></script>
+<script>
+window.dataLayer=window.dataLayer||[];
+function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());
+gtag('config','G-143TPLX22V');
+</script>
+
+<!-- Firebase & Auth -->
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
+
+<!-- अपनी स्क्रिप्ट्स -->
+<script src="firebase.js"></script>
+<script src="script1.js"></script>
+<script src="script2.js"></script>
+<script src="script3.js"></script>
+<script src="script4.js"></script>
+<script src="script5.js"></script>
+<script src="script6.js"></script>
+<script src="script7.js"></script>
+</body>
+</html>
       <h3 style="margin-top:20px;color:#FF9933">📋 सभी सुझाव</h3>
       <div id="allSuggest"></div>
     </div>
