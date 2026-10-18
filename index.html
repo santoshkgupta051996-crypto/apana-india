@@ -574,7 +574,37 @@ function go(id){
   if(id==='idcard') { /* ID card load */ }
   updateStats();
 }
+/* ============ ID CARD FUNCTIONS ============ */
+function previewIdPhoto(event) {
+  const file = event.target.files[0];
+  if(file) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      document.getElementById('idPhotoImg').src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+}
 
+function updateIdCard() {
+  document.getElementById('outName').textContent = document.getElementById('idName').value || 'आपका नाम';
+  document.getElementById('outSkill').textContent = document.getElementById('idSkill').value || 'हुनर';
+  document.getElementById('outPhone').textContent = document.getElementById('idPhone').value || 'मोबाइल';
+  document.getElementById('outAddress').textContent = document.getElementById('idAddress').value || 'पता';
+  document.getElementById('outDistrict').textContent = document.getElementById('idDistrict').value || 'जिला';
+  document.getElementById('outState').textContent = document.getElementById('idState').value || 'राज्य';
+}
+
+function downloadIdCard() {
+  const card = document.getElementById('idCardDesign');
+  if (!card) { alert("ID कार्ड का डिज़ाइन नहीं मिला!"); return; }
+  html2canvas(card, { scale: 2, useCORS: true, backgroundColor: null }).then(canvas => {
+    const link = document.createElement('a');
+    link.download = 'Apana_India_ID_Card.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  });
+    }
 /* ============ STATS ============ */
 function updateStats(){
   document.getElementById('sa').textContent = DB.get('ads').length;
