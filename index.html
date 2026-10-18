@@ -739,26 +739,34 @@ function calcWage(){
   const otH=parseFloat(document.getElementById('calcOT').value)||0;
   const otRate=parseFloat(document.getElementById('calcOTRate').value)||2;
   const doPF=document.getElementById('calcPF').checked;
+  
   const res=document.getElementById('calcResult');
   if(!rate||!days){ res.innerHTML='<p class="note">रेट और दिन भरें।</p>'; lastCalc=null; return; }
 
+  // Excel के अनुसार बेसिक कैलकुलेशन
   const basic=rate*days;
   const perHour=rate/8;
   const otAmt=perHour*otRate*otH;
   const gross=basic+otAmt;
+  
   let pf=0, esic=0;
-  if(doPF){ pf=basic*0.12; esic=basic*0.0075; }
+  if(doPF){ 
+    // Excel की तरह: PF और ESIC सिर्फ पूरे Basic पर कटेगा
+    pf = basic * 0.12;      // 12% PF
+    esic = basic * 0.0075;  // 0.75% ESIC
+  }
+  
   const net=gross-pf-esic;
   const fmt=n=>'₹'+n.toFixed(2);
 
   res.innerHTML=`
     <div class="row"><span>दैनिक रेट</span><b>${fmt(rate)}</b></div>
     <div class="row"><span>दिन</span><b>${days}</b></div>
-    <div class="row"><span>Basic (रेट × दिन)</span><b>${fmt(basic)}</b
+    <div class="row"><span>Basic (रेट × दिन)</span><b>${fmt(basic)}</b></div>
     <div class="row"><span>ओवरटाइम (${otH} घं × ${otRate}x)</span><b>${fmt(otAmt)}</b></div>
     <div class="row"><span>Gross (कुल)</span><b>${fmt(gross)}</b></div>
-    ${doPF?`<div class="row"><span>PF कटौती (12%)</span><b style="color:#c00">- ${fmt(pf)}</b></div>
-    <div class="row"><span>ESIC कटौती (0.75%)</span><b style="color:#c00">- ${fmt(esic)}</b></div>`:''}
+    ${doPF?`<div class="row"><span>PF कटौती (Basic का 12%)</span><b style="color:#c00">- ${fmt(pf)}</b></div>
+    <div class="row"><span>ESIC कटौती (Basic का 0.75%)</span><b style="color:#c00">- ${fmt(esic)}</b></div>`:''}
     <div class="row total"><span>Net (हाथ में)</span><b>${fmt(net)}</b></div>`;
 
   lastCalc={rate,days,otH,otRate,basic,otAmt,gross,pf,esic,net,doPF};
