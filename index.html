@@ -443,7 +443,7 @@ label{font-size:13px;font-weight:700;color:#333;display:block;margin-top:6px}
 </div></div>
 
 <div id="p-admin" class="h"><div class="c"><h2>⚙️ एडमिन पैनल</h2>
-  <p class="note">सिर्फ एडमिन के लिए। पासवर्ड: <b>admin123</b></p>
+<p class="note">सिर्फ अधिकृत व्यक्ति के लिए।</p>
   <input id="adminPass" type="password" placeholder="पासवर्ड डालें">
   <button class="btn" onclick="adminLogin()">लॉगिन</button>
   <div id="adminPanel" class="h" style="margin-top:15px">
@@ -883,7 +883,7 @@ function rJobs(){
 
 /* ============ ADMIN ============ */
 function adminLogin(){
-  if(document.getElementById('adminPass').value==='admin123'){
+if(document.getElementById('adminPass').value.trim()===atob("QmhhcmF0QFNocmFtMjAyNg==")){
     document.getElementById('adminPanel').classList.remove('h');
     document.getElementById('adminStats').innerHTML=`
       मजदूर: ${DB.get('workers').length}<br>
