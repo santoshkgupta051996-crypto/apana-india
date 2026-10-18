@@ -72,8 +72,6 @@ function convertLand(){
 }
 
 /* ---------------- लॉगिन ---------------- */
-let currentUser = null;
-
 function googleLogin(){
   if(auth){
     const provider = new firebase.auth.GoogleAuthProvider();
