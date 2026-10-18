@@ -541,11 +541,25 @@ document.getElementById('servicesGrid').innerHTML = SERVICES.map(([id,ic,lb])=>
 
 /* ============ STORAGE ============ */
 const DB = {
-  get(k){ try{return JSON.parse(localStorage.getItem('ai_'+k))||[]}catch(e){return []} },
-  set(k,v){ localStorage.setItem('ai_'+k, JSON.stringify(v)) },
-  add(k,v){ const a=DB.get(k); a.unshift(v); DB.set(k,a); return a; }
+  get(k){ 
+    try{return JSON.parse(localStorage.getItem('ai_'+k))||[]}catch(e){return []} 
+  },
+  set(k,v){ 
+    localStorage.setItem('ai_'+k, JSON.stringify(v)); 
+  },
+  async add(k,v){ 
+    const a=DB.get(k); a.unshift(v); DB.set(k,a); // UI के लिए लोकल में सेव करें
+    
+    // Firebase में सेव करने का कोड
+    try {
+      await window.addDoc(window.collection(window.db, k), v);
+      console.log("✅ Data saved to Firebase!");
+    } catch (e) {
+      console.error("❌ Firebase Error: ", e);
+      alert("डेटा Firebase में सेव नहीं हो पाया। Rules चेक करें।");
+    }
+  }
 };
-
 /* ============ TICKER & TOP SUGGEST ============ */
 document.getElementById('tk').textContent =
   'नए 4 लेबर कोड लागू • NTPC रिहंद में मजदूरी दर बढ़ी • e-Shram कार्ड मुफ्त • श्रम हेल्पलाइन 14434 • आयुष्मान से ₹5 लाख तक मुफ्त इलाज';
@@ -1058,6 +1072,32 @@ function globalSearchFn(){
 go('home');
 updateStats();
 rPublicComplaints();
+</script>
+  <!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  // 1. यहाँ अपना Firebase Console से कॉपी किया हुआ कोड पेस्ट करें
+  // 1. आपका असली Firebase कोड यहाँ आ गया है
+  const firebaseConfig = {
+    apiKey: "AIzaSyDUNK2JOlJ-VzwuGnovvjsrRCJJX--UTpE",
+    authDomain: "apana-india-df3d7.firebaseapp.com",
+    projectId: "apana-india-df3d7",
+    storageBucket: "apana-india-df3d7.firebasestorage.app",
+    messagingSenderId: "881764619223",
+    appId: "1:881764619223:web:13510eec19ee1e46cd7192",
+    measurementId: "G-BXN81QCKZX"
+  };
+  // 2. Firebase शुरू करें
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // 3. इसे ग्लोबल बनाएं ताकि आपका बाकी कोड इसे इस्तेमाल कर सके
+  window.db = db;
+  window.collection = collection;
+  window.addDoc = addDoc;
+  window.getDocs = getDocs;
 </script>
 </body>
 </html>
