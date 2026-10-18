@@ -220,52 +220,31 @@ label{font-size:13px;font-weight:700;color:#333;display:block;margin-top:6px}
 
 <!-- ===== CALCULATOR ===== -->
 <div id="p-calc" class="h"><div class="c"><h2>💰 मजदूरी कैलकुलेटर</h2>
-  <p class="note">अपना रेट डालें। PF/ESIC कटौती के साथ पूरा हिसाब। PF सिर्फ Basic पर कटेगा।</p>
+  <p class="note">अपना रेट डालें। PF/ESIC सिर्फ Basic पर कटेगा। अन्य भत्ते ऑटोमैटिक जुड़ेंगे।</p>
+  
   <label>अपना रेट (₹/दिन) *</label>
-  <input id="calcManual" type="number" placeholder="जैसे 600" oninput="calcWage()">
-  <p class="note" style="text-align:center;margin:6px 0">— या नीचे से चुनें —</p>
-  <label>स्थान/कंपनी</label>
-  <select id="calcState" onchange="calcWage()">
-    <option value="">--चुनें--</option>
-    <optgroup label="🏢 NTPC रिहंद">
-      <option value="556">USW अकुशल (₹556)</option>
-      <option value="650">SSW अर्ध-कुशल (₹650)</option>
-      <option value="781">SW कुशल (₹781)</option>
-      <option value="918">HSW अति कुशल (₹918)</option>
-    </optgroup>
-    <optgroup label="🌾 मनरेगा">
-      <option value="300">उत्तर प्रदेश (₹300)</option>
-      <option value="317">महाराष्ट्र (₹317)</option>
-    </optgroup>
-    <optgroup label="🏛️ राज्य मजदूरी">
-      <option value="230">उत्तर प्रदेश (₹230)</option>
-      <option value="250">बिहार (₹250)</option>
-      <option value="290">मध्य प्रदेश (₹290)</option>
-      <option value="350">गुजरात (₹350)</option>
-      <option value="380">महाराष्ट्र (₹380)</option>
-      <option value="640">दिल्ली (₹640)</option>
-    </optgroup>
-<!-- नया Excel फॉर्मेट कैलकुलेटर -->
-<label>अपना रेट (₹/दिन) *</label>
-<input id="calcManual" type="number" placeholder="जैसे 781" oninput="calcWage()">
+  <input id="calcManual" type="number" placeholder="जैसे 781" oninput="calcWage()">
+  
+  <label>कितने दिन काम किया? *</label>
+  <input id="calcDays" type="number" placeholder="जैसे 25" oninput="calcWage()">
+  
+  <label>ओवरटाइम (OT) घंटे</label>
+  <input id="calcOT" type="number" placeholder="जैसे 0 या 2.5" oninput="calcWage()">
+  
+  <label>ओवरटाइम दर</label>
+  <select id="calcOTRate" onchange="calcWage()">
+    <option value="1">1x (सामान्य दर)</option>
+    <option value="2" selected>2x (डबल दर)</option>
+  </select>
 
-<label>कितने दिन काम किया? *</label>
-<input id="calcDays" type="number" placeholder="जैसे 25" oninput="calcWage()">
-
-<label>ओवरटाइम (OT) रेट</label>
-<input id="calcOTRate" type="number" placeholder="जैसे 781 (अगर 0 है तो खाली छोड़ें)" oninput="calcWage()">
-
-<label>ओवरटाइम (OT) घंटे</label>
-<input id="calcOT" type="number" placeholder="जैसे 0.5 या 1.5" oninput="calcWage()">
-
-<label style="display:flex;align-items:center;gap:8px;margin-top:12px;background:#fff5ee;padding:8px;border-radius:6px">
-  <input type="checkbox" id="calcPF" checked onchange="calcWage()" style="width:auto;margin:0">
-  <span>PF (12%) और ESIC (0.75%) काटें</span>
-</label>
-<div id="calcResult"></div>
-<button class="btn" onclick="downloadCalcPDF()" style="margin-top:10px;background:var(--navy)">📄 सैलरी स्लिप (PDF) डाउनलोड करें</button>
+  <label style="display:flex;align-items:center;gap:8px;margin-top:12px;background:#fff5ee;padding:8px;border-radius:6px">
+    <input type="checkbox" id="calcPF" checked onchange="calcWage()" style="width:auto;margin:0">
+    <span>PF (12%) और ESIC (0.75%) काटें</span>
+  </label>
+  
+  <div id="calcResult"></div>
+  <button class="btn" onclick="downloadCalcPDF()" style="margin-top:10px;background:var(--navy)">📄 सैलरी स्लिप (PDF) डाउनलोड करें</button>
 </div></div>
-
 <!-- ===== SHIKAYAT ===== -->
 <div id="p-shikayat" class="h"><div class="c"><h2>📢 शिकायत दर्ज करें</h2>
   <form onsubmit="subc(event)">
@@ -734,20 +713,26 @@ function showMgnregaRate(){
 
 /* ============ CALCULATOR (EXCEL FORMAT) ============ */
 let lastCalc=null;
-
 function calcWage(){
   const rate=parseFloat(document.getElementById('calcManual').value)||0;
   const days=parseFloat(document.getElementById('calcDays').value)||0;
   const otH=parseFloat(document.getElementById('calcOT').value)||0;
-  const otRate=parseFloat(document.getElementById('calcOTRate').value)||0;
+  
+  // OT दर (1x या 2x) वैल्यू पकड़ें
+  const otMultiplier=parseFloat(document.getElementById('calcOTRate').value)||1; 
+  
   const doPF=document.getElementById('calcPF').checked;
   const res=document.getElementById('calcResult');
   
   if(!rate||!days){ res.innerHTML='<p class="note">रेट और दिन भरें।</p>'; lastCalc=null; return; }
 
-  // Basic Calculations
+  // Basic Wages
   const basic = rate * days;
-  const otAmt = otRate * otH; 
+  
+  // OT Calculation: प्रति घंटा रेट = (दैनिक रेट / 8) * 1x या 2x
+  const perHourRate = (rate / 8) * otMultiplier;
+  const otAmt = perHourRate * otH; 
+  
   const grossBase = basic + otAmt;
 
   // Allowances (Excel के अनुसार)
@@ -773,10 +758,10 @@ function calcWage(){
   
   const fmt=n=>'₹'+n.toFixed(2);
 
-  // HTML Table के रूप में रिजल्ट दिखाएं
+  // रिजल्ट दिखाएं
   res.innerHTML=`
     <div class="row"><span>Basic Wages (${rate} × ${days})</span><b>${fmt(basic)}</b></div>
-    <div class="row"><span>OT Amount (${otRate} × ${otH})</span><b>${fmt(otAmt)}</b></div>
+    <div class="row"><span>OT Amount (${otH} घंटे × ${otMultiplier}x)</span><b>${fmt(otAmt)}</b></div>
     
     <div style="background:#f0f4ff;padding:5px;margin:5px 0;border-radius:5px;font-weight:bold;font-size:13px">भत्ते (Allowances)</div>
     <div class="row"><span>NH (0.96%)</span><b>${fmt(nh)}</b></div>
@@ -800,7 +785,7 @@ function calcWage(){
       <span>Net Amount paid (हाथ में)</span><b>${fmt(net)}</b>
     </div>`;
 
-  lastCalc={rate,days,otH,otRate,basic,otAmt,nh,el,bonus,rb,totalAllow,totalGross,pf,esic,totalDeduct,net,doPF};
+  lastCalc={rate,days,otH,otMultiplier,basic,otAmt,nh,el,bonus,rb,totalAllow,totalGross,pf,esic,totalDeduct,net,doPF};
 }
 
 function downloadCalcPDF(){
@@ -819,7 +804,7 @@ function downloadCalcPDF(){
       <tr><td>दैनिक रेट</td><td>₹${c.rate.toFixed(2)}</td></tr>
       <tr><td>दिन</td><td>${c.days}</td></tr>
       <tr><td>Basic Wages</td><td>₹${c.basic.toFixed(2)}</td></tr>
-      <tr><td>OT Amount (${c.otRate} × ${c.otH})</td><td>₹${c.otAmt.toFixed(2)}</td></tr>
+      <tr><td>OT Amount (${c.otH} घंटे × ${c.otMultiplier}x)</td><td>₹${c.otAmt.toFixed(2)}</td></tr>
       
       <tr class="highlight"><td colspan="2">भत्ते (Allowances)</td></tr>
       <tr><td>NH (0.96%)</td><td>₹${c.nh.toFixed(2)}</td></tr>
@@ -843,7 +828,7 @@ function downloadCalcPDF(){
     <p style="margin-top:20px;font-size:12px;text-align:right">दिनांक: ${new Date().toLocaleDateString('hi-IN')}</p>
     </body></html>`);
   win.print();
-    }
+}
 /* ============ COMPLAINTS ============ */
 const STATE_HELP = {
   up:'उत्तर प्रदेश श्रम विभाग — 1800-180-5340',
