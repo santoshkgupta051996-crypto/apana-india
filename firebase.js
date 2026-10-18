@@ -1,6 +1,6 @@
 // ================= FIREBASE CONFIG =================
-var firebaseConfig = {
-  apiKey: "AIzaSyDUNK2J0lJ-VzwuGnovvjsrRCJJX--UTpE",
+const firebaseConfig = {
+  apiKey: "AIzaSyDUNK2J0l-J-VzwuGnovvjsrRCJJX--UTpE",
   authDomain: "apana-india-df3d7.firebaseapp.com",
   projectId: "apana-india-df3d7",
   storageBucket: "apana-india-df3d7.firebasestorage.app",
