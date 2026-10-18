@@ -755,3 +755,186 @@ function calcWage(){
     <div class="row"><span>दैनिक रेट</span><b>${fmt(rate)}</b></div>
     <div class="row"><span>दिन</span><b>${days}</b></div>
     <div class="row"><span>Basic (रेट × दिन)</span><b>${fmt(basic)}</b
+    <div class="row"><span>ओवरटाइम (${otH} घं × ${otRate}x)</span><b>${fmt(otAmt)}</b></div>
+    <div class="row"><span>Gross (कुल)</span><b>${fmt(gross)}</b></div>
+    ${doPF?`<div class="row"><span>PF कटौती (12%)</span><b style="color:#c00">- ${fmt(pf)}</b></div>
+    <div class="row"><span>ESIC कटौती (0.75%)</span><b style="color:#c00">- ${fmt(esic)}</b></div>`:''}
+    <div class="row total"><span>Net (हाथ में)</span><b>${fmt(net)}</b></div>`;
+
+  lastCalc={rate,days,otH,otRate,basic,otAmt,gross,pf,esic,net,doPF};
+}
+
+/* ============ PDF (print) ============ */
+function downloadCalcPDF(){
+  if(!lastCalc){ alert('पहले कैलकुलेशन करें।'); return; }
+  const c=lastCalc;
+  const win=window.open('','_blank');
+  win.document.write(`
+    <html><head><title>मजदूरी पर्ची</title>
+    <style>body{font-family:sans-serif;padding:20px}table{width:100%;border-collapse:collapse}
+    td,th{border:1px solid #333;padding:8px;text-align:left}h2{color:#000080}</style></head>
+    <body><h2>🇮🇳 Apana India — मजदूरी पर्ची</h2>
+    <table>
+      <tr><td>दैनिक रेट</td><td>₹${c.rate.toFixed(2)}</td></tr>
+      <tr><td>दिन</td><td>${c.days}</td></tr>
+      <tr><td>Basic</td><td>₹${c.basic.toFixed(2)}</td></tr>
+      <tr><td>ओवरटाइम</td><td>₹${c.otAmt.toFixed(2)}</td></tr>
+      <tr><td>Gross</td><td>₹${c.gross.toFixed(2)}</td></tr>
+      ${c.doPF?`<tr><td>PF (12%)</td><td>- ₹${c.pf.toFixed(2)}</td></tr>
+      <tr><td>ESIC (0.75%)</td><td>- ₹${c.esic.toFixed(2)}</td></tr>`:''}
+      <tr><th>Net वेतन</th><th>₹${c.net.toFixed(2)}</th></tr>
+    </table>
+    <p style="margin-top:20px;font-size:12px">दिनांक: ${new Date().toLocaleDateString('hi-IN')}</p>
+    </body></html>`);
+  win.print();
+}
+
+/* ============ COMPLAINTS ============ */
+const STATE_HELP = {
+  up:'उत्तर प्रदेश श्रम विभाग — 1800-180-5340',
+  mp:'मध्य प्रदेश श्रम विभाग — 181',
+  bihar:'बिहार श्रम विभाग — 1800-345-6188',
+  cg:'छत्तीसगढ़ श्रम विभाग — 1800-233-3666',
+  jharkhand:'झारखंड श्रम विभाग — 1800-345-0657',
+  haryana:'हरियाणा श्रम विभाग — 1800-180-2113',
+  karnataka:'कर्नाटक श्रम विभाग — 1800-425-9333',
+  odisha:'ओडिशा श्रम विभाग — 1800-345-6776',
+  maharashtra:'महाराष्ट्र श्रम विभाग — 1800-233-1122',
+  rajasthan:'राजस्थान श्रम विभाग — 1800-180-6127',
+  delhi:'दिल्ली श्रम विभाग — 1555',
+  wb:'पश्चिम बंगाल श्रम विभाग — 1800-345-5356',
+  tamilnadu:'तमिलनाडु श्रम विभाग — 1555',
+  gujarat:'गुजरात श्रम विभाग — 1800-233-2533',
+  other:'केंद्रीय श्रम हेल्पलाइन — 14434'
+};
+function subc(e){
+  e.preventDefault();
+  const c={company:cn.value,companyAddr:ca.value,name:wn.value,phone:wp.value,
+    state:cState.value,type:ct.value,detail:cd.value,proof:cp.value,time:Date.now()};
+  DB.add('complaints',c);
+  document.getElementById('sm1').classList.add('show');
+  const help=document.getElementById('stateHelp');
+  help.innerHTML=`<div class="helpbox"><b>📞 ${STATE_HELP[c.state]||'14434'}</b><br>
+    शिकायत दर्ज हो गई। ऊपर दिए नंबर पर भी संपर्क करें।</div>`;
+  e.target.reset();
+  setTimeout(()=>document.getElementById('sm1').classList.remove('show'),3000);
+  updateStats(); rPublicComplaints();
+}
+function rPublicComplaints(){
+  const list=DB.get('complaints').slice(0,5);
+  document.getElementById('publicComplaints').innerHTML = list.length? list.map(c=>`
+    <div class="item"><h4>${c.company} — ${c.type}</h4>
+    <p>${c.detail.slice(0,80)}...</p>
+    <p class="meta">${c.name} | ${new Date(c.time).toLocaleDateString('hi-IN')}</p></div>`).join('')
+    : '<p class="note">अभी कोई शिकायत नहीं।</p>';
+}
+function rMyComp(){
+  const list=DB.get('complaints');
+  document.getElementById('mcl').innerHTML = list.length? list.map(c=>`
+    <div class="item"><h4>${c.company} — ${c.type}</h4>
+    <p>${c.detail}</p>
+    <p class="meta">${new Date(c.time).toLocaleString('hi-IN')}</p></div>`).join('')
+    : '<p class="note">आपने कोई शिकायत दर्ज नहीं की।</p>';
+}
+
+/* ============ SUGGESTIONS ============ */
+function addSuggest(e){
+  e.preventDefault();
+  DB.add('suggestions',{name:sgN.value,text:sgT.value,time:Date.now()});
+  document.getElementById('smS').classList.add('show');
+  e.target.reset();
+  setTimeout(()=>document.getElementById('smS').classList.remove('show'),2500);
+  rSuggest();
+}
+function rSuggest(){
+  const list=DB.get('suggestions');
+  document.getElementById('suggestList').innerHTML = list.length? list.map(s=>`
+    <div class="item"><h4>${s.name}</h4><p>${s.text}</p></div>`).join('')
+    : '<p class="note">अभी कोई सुझाव नहीं।</p>';
+}
+
+/* ============ ADS ============ */
+function addAd(e){
+  e.preventDefault();
+  DB.add('ads',{title:adT.value,detail:adD.value,phone:adP.value,cat:adC.value,time:Date.now()});
+  document.getElementById('smAd').classList.add('show');
+  e.target.reset();
+  setTimeout(()=>document.getElementById('smAd').classList.remove('show'),2500);
+  updateStats(); rAds();
+}
+function rAds(){
+  const list=DB.get('ads');
+  document.getElementById('adList').innerHTML = list.length? list.map(a=>`
+    <div class="item"><h4>${a.title} — ${a.cat}</h4>
+    <p>${a.detail}</p><p class="meta">📞 ${a.phone}</p></div>`).join('')
+    : '<p class="note">अभी कोई विज्ञापन नहीं।</p>';
+}
+
+/* ============ JOBS ============ */
+function rJobs(){
+  const jobs=[
+    ['NTPC रिहंद','वेल्डर — 10 पद','₹781/दिन'],
+    ['Reliance','इलेक्ट्रिशियन — 5 पद','₹850/दिन'],
+    ['स्थानीय ठेकेदार','मजदूर — 20 पद','₹556/दिन']
+  ];
+  document.getElementById('jl').innerHTML = jobs.map(j=>`
+    <div class="item"><h4>${j[0]}</h4><p>${j[1]}</p><p class="meta">${j[2]}</p></div>`).join('');
+}
+
+/* ============ ADMIN ============ */
+function adminLogin(){
+  if(document.getElementById('adminPass').value==='admin123'){
+    document.getElementById('adminPanel').classList.remove('h');
+    document.getElementById('adminStats').innerHTML=`
+      मजदूर: ${DB.get('workers').length}<br>
+      कंपनियाँ: ${DB.get('comps').length}<br>
+      ठेकेदार: ${DB.get('contractors').length}<br>
+      किराया: ${DB.get('rentals').length}<br>
+      शिकायतें: ${DB.get('complaints').length}<br>
+      विज्ञापन: ${DB.get('ads').length}<br>
+      सुझाव: ${DB.get('suggestions').length}`;
+  } else alert('गलत पासवर्ड');
+}
+function clearAll(){
+  if(confirm('सारा डेटा मिट जाएगा। पक्का?')){
+    Object.keys(localStorage).filter(k=>k.startsWith('ai_')).forEach(k=>localStorage.removeItem(k));
+    location.reload();
+  }
+}
+
+/* ============ LOGIN ============ */
+function doLogin(e){
+  e.preventDefault();
+  const u={phone:loginP.value,name:loginN.value};
+  localStorage.setItem('ai_user',JSON.stringify(u));
+  document.getElementById('smLogin').classList.add('show');
+  document.getElementById('loginInfo').innerHTML=`<div class="lc"><b>नमस्ते ${u.name}!</b><br>मोबाइल: ${u.phone}</div>`;
+  setTimeout(()=>document.getElementById('smLogin').classList.remove('show'),2500);
+}
+
+/* ============ GLOBAL SEARCH ============ */
+function globalSearchFn(){
+  const q=(document.getElementById('globalSearch').value||'').toLowerCase().trim();
+  const box=document.getElementById('searchResults');
+  if(!q){ box.innerHTML=''; return; }
+  const pools=[
+    ['मजदूर',DB.get('workers')],['कंपनी',DB.get('comps')],
+    ['ठेकेदार',DB.get('contractors')],['किराया',DB.get('rentals')],
+    ['विज्ञापन',DB.get('ads')]
+  ];
+  let out='';
+  pools.forEach(([label,arr])=>{
+    arr.filter(x=>JSON.stringify(x).toLowerCase().includes(q)).slice(0,3)
+      .forEach(x=>{ out+=`<div class="item"><h4>${label}: ${x.name||x.title||x.company||''}</h4>
+        <p>${x.skill||x.type||x.work||x.detail||x.addr||''}</p></div>`; });
+  });
+  box.innerHTML = out || '<p class="note">कुछ नहीं मिला।</p>';
+}
+
+/* ============ START ============ */
+go('home');
+updateStats();
+rPublicComplaints();
+</script>
+</body>
+</html>
