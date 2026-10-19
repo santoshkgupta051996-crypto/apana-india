@@ -747,16 +747,31 @@ function regContractor(e){
   setTimeout(()=>document.getElementById('sm5').classList.remove('show'),2500);
   rCont();
 }
-function rCont(){
+async function rCont(){
   const q=(document.getElementById('ctSearch').value||'').toLowerCase();
-  let list=DB.get('contractors');
-  if(q) list=list.filter(c=>JSON.stringify(c).toLowerCase().includes(q));
-  document.getElementById('ctList').innerHTML = list.length? list.map(c=>`
-    <div class="item"><h4>${c.name} — ${c.work}</h4>
-    <p>रेट: ${c.rate} | रहना-खाना: ${c.food} | मजदूर चाहिए: ${c.qty}</p>
-    <p>📍 ${c.addr} | 📞 ${c.phone}</p>
-    ${c.other?`<p class="meta">${c.other}</p>`:''}</div>`).join('')
-    : '<p class="note">कोई पोस्ट नहीं।</p>';
+  const listEl = document.getElementById('ctList');
+  
+  listEl.innerHTML = '<p class="note">डेटा लोड हो रहा है...</p>';
+  
+  try {
+    const querySnapshot = await window.getDocs(window.collection(window.db, 'contractors'));
+    let list = [];
+    querySnapshot.forEach((doc) => {
+      list.push(doc.data());
+    });
+
+    if(q) list = list.filter(c => JSON.stringify(c).toLowerCase().includes(q));
+
+    listEl.innerHTML = list.length ? list.map(c => `
+      <div class="item"><h4>${c.name} — ${c.work}</h4>
+      <p>रेट: ${c.rate} | रहना-खाना: ${c.food} | मजदूर चाहिए: ${c.qty}</p>
+      <p>📍 ${c.addr} | 📞 ${c.phone}</p>
+      ${c.other?`<p class="meta">${c.other}</p>`:''}</div>`).join('')
+      : '<p class="note">कोई पोस्ट नहीं।</p>';
+  } catch (e) {
+    console.error(e);
+    listEl.innerHTML = '<p class="note">डेटा लोड करने में समस्या आई।</p>';
+  }
 }
 
 /* ============ RENTALS ============ */
@@ -770,19 +785,34 @@ function regRental(e){
   setTimeout(()=>document.getElementById('sm9').classList.remove('show'),2500);
   rRentals();
 }
-function rRentals(){
+async function rRentals(){
   const q=(document.getElementById('rnSearch').value||'').toLowerCase();
-  let list=DB.get('rentals');
-  if(q) list=list.filter(r=>JSON.stringify(r).toLowerCase().includes(q));
-  document.getElementById('rnList').innerHTML = list.length? list.map(r=>`
-    <div class="item"><h4>${r.type} — ${r.rooms} — ₹${r.price}/माह</h4>
-    <p>📍 ${r.addr}, ${r.dist}</p>
-    <p>सुविधाएँ: ${r.fac}</p>
-    <p>📞 ${r.name} — ${r.phone}</p>
-    ${r.gps?`<p class="meta"><a href="${r.gps}" target="_blank">📍 मैप देखें</a></p>`:''}
-    <div class="preview">${(r.photos||[]).map(p=>`<img src="${p}">`).join('')}</div>
-    </div>`).join('')
-    : '<p class="note">कोई किराया नहीं मिला।</p>';
+  const listEl = document.getElementById('rnList');
+  
+  listEl.innerHTML = '<p class="note">डेटा लोड हो रहा है...</p>';
+  
+  try {
+    const querySnapshot = await window.getDocs(window.collection(window.db, 'rentals'));
+    let list = [];
+    querySnapshot.forEach((doc) => {
+      list.push(doc.data());
+    });
+
+    if(q) list = list.filter(r => JSON.stringify(r).toLowerCase().includes(q));
+
+    listEl.innerHTML = list.length ? list.map(r => `
+      <div class="item"><h4>${r.type} — ${r.rooms} — ₹${r.price}/माह</h4>
+      <p>📍 ${r.addr}, ${r.dist}</p>
+      <p>सुविधाएँ: ${r.fac}</p>
+      <p>📞 ${r.name} — ${r.phone}</p>
+      ${r.gps?`<p class="meta"><a href="${r.gps}" target="_blank">📍 मैप देखें</a></p>`:''}
+      <div class="preview">${(r.photos||[]).map(p=>`<img src="${p}">`).join('')}</div>
+      </div>`).join('')
+      : '<p class="note">कोई किराया नहीं मिला।</p>';
+  } catch (e) {
+    console.error(e);
+    listEl.innerHTML = '<p class="note">डेटा लोड करने में समस्या आई।</p>';
+  }
 }
 
 /* ============ NEWS ============ */
@@ -988,13 +1018,24 @@ function subc(e){
   setTimeout(()=>document.getElementById('sm1').classList.remove('show'),3000);
   updateStats(); rPublicComplaints();
 }
-function rPublicComplaints(){
-  const list=DB.get('complaints').slice(0,5);
-  document.getElementById('publicComplaints').innerHTML = list.length? list.map(c=>`
-    <div class="item"><h4>${c.company} — ${c.type}</h4>
-    <p>${c.detail.slice(0,80)}...</p>
-    <p class="meta">${c.name} | ${new Date(c.time).toLocaleDateString('hi-IN')}</p></div>`).join('')
-    : '<p class="note">अभी कोई शिकायत नहीं।</p>';
+async function rPublicComplaints(){
+  const listEl = document.getElementById('publicComplaints');
+  try {
+    const querySnapshot = await window.getDocs(window.collection(window.db, 'complaints'));
+    let list = [];
+    querySnapshot.forEach((doc) => { list.push(doc.data()); });
+    
+    // सिर्फ 5 ताज़ा शिकायतें दिखाएँ
+    list = list.slice(0, 5);
+
+    listEl.innerHTML = list.length ? list.map(c => `
+      <div class="item"><h4>${c.company} — ${c.type}</h4>
+      <p>${c.detail ? c.detail.slice(0,80) : ''}...</p>
+      <p class="meta">${c.name} | ${new Date(c.time).toLocaleDateString('hi-IN')}</p></div>`).join('')
+      : '<p class="note">अभी कोई शिकायत नहीं।</p>';
+  } catch (e) {
+    console.error(e);
+  }
 }
 function rMyComp(){
   const list=DB.get('complaints');
