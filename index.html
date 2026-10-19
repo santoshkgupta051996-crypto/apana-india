@@ -673,16 +673,32 @@ function regWorker(e){
   setTimeout(()=>document.getElementById('sm3').classList.remove('show'),2500);
   updateStats(); rWorkers();
 }
-function rWorkers(){
+async function rWorkers(){
   const q=(document.getElementById('wSearch').value||'').toLowerCase();
-  let list=DB.get('workers');
-  if(q) list=list.filter(w=>JSON.stringify(w).toLowerCase().includes(q));
-  document.getElementById('wCount').textContent='कुल: '+list.length;
-  document.getElementById('wList').innerHTML = list.length? list.map(w=>`
-    <div class="item"><h4>${w.name} — ${w.skill}</h4>
-    <p>📞 ${w.phone} | अनुभव: ${w.exp} साल</p>
-    <p>${w.village}, ${w.block}, ${w.dist}, ${w.state}</p></div>`).join('')
-    : '<p class="note">कोई मजदूर नहीं मिला।</p>';
+  const listEl = document.getElementById('wList');
+  const countEl = document.getElementById('wCount');
+  
+  listEl.innerHTML = '<p class="note">डेटा लोड हो रहा है...</p>';
+  
+  try {
+    const querySnapshot = await window.getDocs(window.collection(window.db, 'workers'));
+    let list = [];
+    querySnapshot.forEach((doc) => {
+      list.push(doc.data());
+    });
+
+    if(q) list = list.filter(w => JSON.stringify(w).toLowerCase().includes(q));
+
+    countEl.textContent = 'कुल: ' + list.length;
+    listEl.innerHTML = list.length ? list.map(w => `
+      <div class="item"><h4>${w.name} — ${w.skill}</h4>
+      <p>📞 ${w.phone} | अनुभव: ${w.exp} साल</p>
+      <p>${w.village}, ${w.block}, ${w.dist}, ${w.state}</p></div>`).join('')
+      : '<p class="note">कोई मजदूर नहीं मिला।</p>';
+  } catch (e) {
+    console.error(e);
+    listEl.innerHTML = '<p class="note">डेटा लोड करने में समस्या आई।</p>';
+  }
 }
 
 /* ============ COMPANIES ============ */
@@ -695,15 +711,30 @@ function regComp(e){
   setTimeout(()=>document.getElementById('sm4').classList.remove('show'),2500);
   updateStats(); rcomp();
 }
-function rcomp(){
+async function rcomp(){
   const q=(document.getElementById('cs').value||'').toLowerCase();
-  let list=DB.get('comps');
-  if(q) list=list.filter(c=>JSON.stringify(c).toLowerCase().includes(q));
-  document.getElementById('cl').innerHTML = list.length? list.map(c=>`
-    <div class="item"><h4>${c.name} — ${c.type}</h4>
-    <p>मालिक: ${c.owner} | 📞 ${c.phone}</p>
-    <p>${c.addr}, ${c.dist}, ${c.state}</p></div>`).join('')
-    : '<p class="note">कोई कंपनी नहीं मिली।</p>';
+  const listEl = document.getElementById('cl');
+  
+  listEl.innerHTML = '<p class="note">डेटा लोड हो रहा है...</p>';
+  
+  try {
+    const querySnapshot = await window.getDocs(window.collection(window.db, 'comps'));
+    let list = [];
+    querySnapshot.forEach((doc) => {
+      list.push(doc.data());
+    });
+
+    if(q) list = list.filter(c => JSON.stringify(c).toLowerCase().includes(q));
+
+    listEl.innerHTML = list.length ? list.map(c => `
+      <div class="item"><h4>${c.name} — ${c.type}</h4>
+      <p>मालिक: ${c.owner} | 📞 ${c.phone}</p>
+      <p>${c.addr}, ${c.dist}, ${c.state}</p></div>`).join('')
+      : '<p class="note">कोई कंपनी नहीं मिली।</p>';
+  } catch (e) {
+    console.error(e);
+    listEl.innerHTML = '<p class="note">डेटा लोड करने में समस्या आई।</p>';
+  }
 }
 
 /* ============ CONTRACTORS ============ */
